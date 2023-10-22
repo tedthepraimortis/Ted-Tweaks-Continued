@@ -1,0 +1,85 @@
+// I'm gonna likely clean this up soon once I remember what I've actually changed and make cvars for stuff that can be cvars. This all should be LANGUAGE'd also. - [Ted]
+OptionMenu TedTweaks
+{
+    Title "------ Ted Tweaks ------"
+    StaticText ""
+    StaticText " Keepers Options ", "Gold"
+    StaticText ""
+    StaticText "All of these options are percents!", "white"
+    StaticText "The higher the percent, the more you keep.", "White"
+    StaticText "This is intended for Power of Friendship multiplayer!", "White"
+    StaticText ""
+    Option " Kept Wounds Amount: ", "keeper_percent_tissuedamage", "KeeperPercent"
+    Option " Kept Burns Amount: ", "keeper_percent_burns", "KeeperPercent"
+    Option " Kept Bloodloss Amount: ", "keeper_percent_blood", "KeeperPercent"
+    Option " Kept Blues Amount: ", "keeper_percent_blues", "KeeperPercent"
+    Option " Kept Aggro Amount: ", "keeper_percent_aggro", "KeeperPercent"
+    Option " Kept Disease Amount: ", "keeper_percent_diseases", "KeeperPercent"
+    StaticText ""
+    SafeCommand "Reset Keepers Options?", "keepers_rest_cvars", "This will reset all of Keeper's options to their default!"
+    StaticText ""
+    StaticText " Misc. Options ", "Green"
+    StaticText ""
+    StaticText "Controls if Invulnerability Spheres can be broken to spawn friendly Necromancers.", "white"
+    Option "No Invuln Breaking: ", "hd_nonecroghost", "OnOff"
+    SafeCommand "Reset Invuln Breaking Option", "resetcvar hd_nonecroghost"
+    StaticText ""
+    StaticText "Controls if going to then next map removes any actors inheriting from HDDrug or not.", "white"
+    Option "Map Drug Removal: ", "hd_mapdrugremoval", "OnOff"
+    SafeCommand "Reset Map Drug Removal", "resetcvar hd_mapdrugremoval"
+    StaticText ""
+    StaticText "Controls if you get slowed down whilst in the air.", "white"
+    Option "Slowed Air Movement: ", "hd_slowairmovement", "OnOff"
+    SafeCommand "Reset Slowed Air Movement", "resetcvar hd_slowairmovement"
+    StaticText ""
+    StaticText "Controls if you can repair a vulcanette by tossing it on a soulsphere/megasphere.", "white"
+    StaticText "Note: Requires map reload to change!", "red"
+    Option "Vulc Repairer: ", "hd_vulcfixer", "OnOff"
+    SafeCommand "Reset Vulc Repairer Option", "resetcvar hd_vulcfixer"/*
+    StaticText ""
+    StaticText "Controls if Health Bonuses and Armor Bonuses spawn debris or not.", "white"
+    Option "Cleaner Bonus Rate: ", "bonus_clean_bias", "CleanBias"
+    SafeCommand "Reset Cleaner spawn options", "resetcvar bonus_clean_bias"
+    StaticText ""
+    StaticText "Control weather cleaner happens after a mapload.", "white"
+    Option "Persistent Spawns: ", "bonus_persistent_spawning", "OnOff"
+    SafeCommand "Reset Persistence Options", "resetcvar bonus_persistent_spawning"
+    StaticText ""
+    StaticText " Spicy Air Options ", "Red"
+    StaticText ""
+    Option "Spicy Air", "spicy_enabled", "OnOff"
+	StaticText "This allows you to disable the mod mid-game without having to take it off the load order.", "White"
+	StaticText " "
+	Slider "Breathing volume", "spicy_breathingvolume", 0.0, 1.0, 0.05, 2*/
+}
+
+AddOptionMenu "OptionsMenu"
+{
+    SubMenu "$MENU_TTOPTIONS", "TedTweaks"
+}
+
+AddOptionMenu "HDAddonMenu"
+{
+    SubMenu "$MENU_TTOPTIONS", "TedTweaks"
+}
+
+OptionValue "KeeperPercent"
+{
+    0, "Disabled"
+    0.1, "10%"
+    0.2, "20%"
+    0.3, "30%"
+    0.4, "40%"
+    0.5, "50%"
+    0.6, "60%"
+    0.7, "70%"
+    0.8, "80%"
+    0.9, "90%"
+    1, "100%"
+}
+
+OptionValue "CleanBias"
+{
+    -1, "Disabled"
+    0, "Clean All"
+}

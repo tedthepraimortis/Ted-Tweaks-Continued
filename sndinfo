@@ -1,0 +1,16 @@
+$volume jetpack/fwoosh 0.15
+$volume misc/arczap 0.4
+$volume misc/zap 0.4
+$volume misc/zap2 0.4
+$volume misc/zap3 0.4
+$volume misc/arccrackle 0.4
+
+SpicyAir/Mask/BreatheIn1 "Sounds/BreatheIn1.ogg"
+SpicyAir/Mask/BreatheIn2 "Sounds/BreatheIn2.ogg"
+SpicyAir/Mask/BreatheIn3 "Sounds/BreatheIn3.ogg"
+
+SpicyAir/Mask/BreatheOut1 "Sounds/BreatheOut1.ogg"
+SpicyAir/Mask/BreatheOut2 "Sounds/BreatheOut2.ogg"
+SpicyAir/Mask/BreatheOut3 "Sounds/BreatheOut3.ogg"
+
+$alias weapons/unsuppressedsmg weapons/pistol

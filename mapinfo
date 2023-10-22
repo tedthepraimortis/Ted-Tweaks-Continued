@@ -1,0 +1,10 @@
+GameInfo
+{
+	AddEventHandlers = "KeeperHandler", "HDBlueVulcFixHandler"
+//	AddEventHandlers = "SpicyAirHandler", "BonusCleaner"
+}
+
+adddefaultmap
+{
+	airsupply=90
+}

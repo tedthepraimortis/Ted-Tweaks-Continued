@@ -1,0 +1,39 @@
+[enu default]
+
+// Ted Tweaks Specific
+MENU_TTOPTIONS = "\c[Cyan]Ⓣ\c- Ted Tweaks";
+
+MENU_TTM_TITLE = "\c[Cyan]----- Ted Tweaks -----\c-";
+
+MENU_TTM_KEEPER = "Keeper Options";
+MENU_TTM_KEEPERTEXT1 = "All of these options are in percents!";
+MENU_TTM_KEEPERTEXT2 = "The higher the percent, the more you keep.";
+MENU_TTM_KEEPERTEXT3 = "This is intended for Power of Friendship multiplayer!";
+
+MENU_TTM_KEEPERWOUNDS = "Kept Wounds Amount:";
+MENU_TTM_KEEPERBURNS = "Kept Burns Amount:";
+MENU_TTM_KEEPERBLOODLOSS = "Kept Bloodloss Amount:";
+MENU_TTM_KEEPERBLUES = "Kept Blues Amount:";
+MENU_TTM_KEEPERAGGRO = "Kept Aggro Amount:";
+MENU_TTM_KEEPERDISEASE = "Kept Disease Amount:";
+
+MENU_TTM_KEEPERRESET = "Reset Keepers Options?";
+MENU_TTM_KEEPERRESETCONFIRM = "This will reset all of Keeper's options to their default!";
+
+MENU_TTM_MISC = "Misc. Options";
+
+MENU_TTM_MISC_INVUL = "Controls if Invulnerability Spheres can be broken to spawn friendly Necromancers";
+MENU_TTM_MISC_INVULBREAK = "No Invuln. Breaking:";
+MENU_TTM_MISC_RESETINVUL = "Reset Invuln. Breaking Option";
+
+MENU_TTM_MISC_VULCREP = "Controls if you can repair a vulcanette by tossing it on a soulsphere/megasphere.";
+MENU_TTM_MISC_VULCREP_TEXT = "Vulc Repairer:";
+MENU_TTM_MISC_VULCREP_RESET = "Reset Vulc Repairer Options";
+
+COMPASS_UP="^";
+
+STARTUP1="        \cq~ \cr* \cq~";
+STARTUP2=" \cyHideous Destructor \cx4.11.1a \cypre \c[Cyan]Ted\'s Tweaks\c-";
+STARTUP3=" Please read the manual.";
+STARTUP4="       Have fun!";
+STARTUP5="        \cq~ \cr* \cq~";
