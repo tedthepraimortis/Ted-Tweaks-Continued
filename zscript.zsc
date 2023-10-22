@@ -1,0 +1,10 @@
+version "4.11.1"
+
+// This does not seem to work at all and it pisses me off. - [Ted]
+//#include "zscript/additions/spicy_air.zsc"
+// This holds anything relating to keeper. - [Ted]
+#include "zscript/additions/keeper.zsc"
+// This holds anything relating to barrel purger. - [Ted]
+#include "zscript/additions/barrelpurger.zsc"
+// This holds anything relating to VulcFixer. - [Ted]
+#include "zscript/additions/VulcFixer.zsc"

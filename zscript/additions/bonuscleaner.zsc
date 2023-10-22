@@ -1,0 +1,110 @@
+class CleanHelmFrag:HDInvRandomSpawner{
+	default{
+		dropitem "ShellBoxPickup",96,2;
+		dropitem "ShieldCore",100,2;
+		dropitem "HDFragGrenades",72,1;
+		dropitem "HD7mMag",48,1;
+		dropitem "HD4mMag",48,1;
+		dropitem "BFGNecroShard",96,1;
+		dropitem "HDBattery",48,1;
+		dropitem "PortableStimpack",48,1;
+		dropitem "ClipBox",48,1;
+		dropitem "HDAB",48,1;
+	}
+}
+class CleanBlueFrag:HDInvRandomSpawner{
+	default{
+		dropitem "HD4mMag",96,2;
+		dropitem "HDHealingPotion",96,2;
+		dropitem "HDFragGrenades",72,1;
+		dropitem "BFGNecroShard",96,1;
+		dropitem "HD9mMag15",48,1;
+		dropitem "HDBattery",72,1;
+		dropitem "PortableMedikit",48,1;
+		dropitem "PortableStimpack",48,1;
+		dropitem "HDAB",48,1;
+	}
+}
+
+// Bonus Cleanifier
+class BonusCleaner : EventHandler
+{
+	private bool cvarsAvailable;
+	private int spawnBiasActual;
+	private bool isPersistent;
+	void init()
+	{
+		cvarsAvailable = true;
+		spawnBiasActual = bonus_clean_bias;
+		isPersistent = bonus_persistent_spawning;
+	}
+
+	override void WorldLoaded(WorldEvent e)
+	{
+		init();
+		super.WorldLoaded(e);
+	}
+
+	bool giverandom(int chance)
+	{
+		bool result = false;
+		int iii = random(0, chance);
+		if(iii < 0)
+			iii = 0;
+		if (iii == 0)
+		{
+			if(chance > -1)
+				result = true;
+		}
+		
+		return result;
+	}
+
+	void trycleanhelmfrag(worldevent e, int chance)
+	{
+		if(giverandom(chance))
+		{
+			let sss = CleanHelmFrag(e.thing.Spawn("CleanHelmFrag", e.thing.pos, SXF_TRANSFERSPECIAL | SXF_NOCHECKPOSITION));
+			if(sss)
+			{
+				
+				e.thing.destroy();
+			}
+
+		}
+	}
+	void trycleanbluefrag(worldevent e, int chance)
+	{
+		if(giverandom(chance))
+		{
+			let sss = CleanBlueFrag(e.thing.Spawn("CleanBlueFrag", e.thing.pos, SXF_TRANSFERSPECIAL | SXF_NOCHECKPOSITION));
+			if(sss)
+			{
+				
+				e.thing.destroy();
+			}
+
+		}
+	}
+override void worldthingspawned(worldevent e)
+  {
+	if(!cvarsAvailable)
+		init();
+	if(!e.Thing)
+	{
+		return;
+	}
+	if (!(level.maptime > 1) || isPersistent)
+	{
+		switch(e.Thing.GetClassName())
+		{
+			case 'BlueFrag':
+				trycleanbluefrag(e, spawnBiasActual);
+				break;
+			case 'HelmFrag':
+				trycleanhelmfrag(e, spawnBiasActual);
+				break;
+		}
+	}
+	}
+}

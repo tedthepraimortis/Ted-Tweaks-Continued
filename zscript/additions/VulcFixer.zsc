@@ -1,0 +1,53 @@
+class HDBlueVulcFixHandler : EventHandler {
+	Array<vulcanette> vulcs;
+	Array<HDSoulSphere> balls; 
+	bool enabled;
+
+	void init()
+	{
+		enabled = hd_vulcfixer;
+	}
+
+	override void WorldLoaded(WorldEvent e)
+	{
+		init();
+		super.WorldLoaded(e);
+	}
+	
+	override void WorldTick(){
+		for (int i = balls.Size(); i > 0; i--)
+			if (!balls[i-1])
+				balls.Delete(i-1);
+
+		for (int i = vulcs.Size(); i > 0; i--) {
+			if (!vulcs[i-1]) {
+				vulcs.Delete(i-1);
+				continue;
+			}
+			if (vulcs[i-1].bmissile) {
+				for (int ii = balls.Size(); ii > 0; ii--) {
+					if (vulcs[i-1].Distance3D(balls[ii-1]) < 32.0 && enabled == true) {
+						if (balls[ii-1].bnointeraction) 
+							continue;
+						
+						balls[ii-1].bnointeraction=true;
+						PlantBit.SpawnPlants(balls[ii-1],70,144);
+						balls[ii-1].setstatelabel("fadeout");
+						vulcs[i-1].weaponstatus[14]=0;
+						vulcs[i-1].weaponstatus[15]=0;
+						break;
+					}
+				}
+			}
+		}
+	}
+	
+	override void WorldThingSpawned(WorldEvent e){
+		if (e.Thing) {
+			if (e.Thing.GetClassName() == "vulcanette")
+				vulcs.push(vulcanette(e.Thing));
+			else if (e.Thing.GetClassName() == "HDSoulSphere" || e.Thing.GetClassName() == "HDMegasphere")
+				balls.push(HDSoulSphere(e.Thing));
+		}
+	}
+}
