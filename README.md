@@ -1,4 +1,4 @@
-# Ted Tweaks
+# Ted Tweaks Continued
 
 A large collection of changes and 'tweaks' I've wanted to do to Hideous Destructor.
 This always targets the latest unstable build of Hideous Destructor from <https://codeberg.org/mc776/HideousDestructor>! It will likely not work with any other version, and is not actively supported for any previous version.
