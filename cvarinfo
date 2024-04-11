@@ -11,6 +11,7 @@ server bool hd_nonecroghost = false;
 server bool hd_mapdrugremoval = true;
 server bool hd_slowairmovement = true;
 server bool hd_allowshieldstacking = false;
+server bool hd_disableliteamponexit = true;
 
 server int bonus_clean_bias = -1;
 server bool bonus_persistent_spawning = false;

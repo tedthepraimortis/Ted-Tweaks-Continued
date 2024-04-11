@@ -759,7 +759,7 @@ class BFGBalle:HDFireball{
 				pitch+=frandom(-3,3);
 				angle+=frandom(-1,1);
 			}
-			freedoom=(Wads.CheckNumForName("FREEDOOM",0)!=-1);
+			freedoom=(Wads.CheckNumForName("ID",0)==-1);
 		}
 		BFS1 AB 2 A_SpawnItemEx("BFGBallTail",0,0,0,vel.x*0.2,vel.y*0.2,vel.z*0.2,0,168,0);
 		BFS1 A 0{
@@ -799,7 +799,7 @@ class BFGBallRemains:IdleDummy{
 	states{
 	spawn:
 		TNT1 A 0 nodelay{
-			pcol=(Wads.CheckNumForName("FREEDOOM",0)!=-1)?"55 88 ff":"55 ff 88";
+			pcol=(Wads.CheckNumForName("ID",0)==-1)?"55 88 ff":"55 ff 88";
 			stamina=0;
 		}
 	spawn2:
@@ -848,7 +848,7 @@ class BFGPuff:IdleDummy{
 	states{
 	spawn:
 		BFE2 A 1 bright nodelay{
-			pcol=(Wads.CheckNumForName("FREEDOOM",0)!=-1)?"55 88 ff":"55 ff 88";
+			pcol=(Wads.CheckNumForName("ID",0)==-1)?"55 88 ff":"55 ff 88";
 			if(target)target=target.target;
 			A_StartSound("misc/bfgrail",9005);
 		}

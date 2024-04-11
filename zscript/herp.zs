@@ -162,7 +162,7 @@ class HERPBot:HDUPK{
 		){
 			target=source;
 			setz(target.pos.z+target.height*0.7);
-			setstatelabel("give");
+			if(!instatesequence(curstate,resolvestate("give")))setstatelabel("give");
 			return -1;
 		}
 		return super.damagemobj(inflictor,source,damage,mod,flags,angle);
@@ -555,6 +555,7 @@ class HERPUsable:HDWeapon{
 		//$Title "H.E.R.P. Robot (Pickup)"
 		//$Sprite "HERPA1"
 		+weapon.wimpy_weapon
+		+weapon.no_auto_switch
 		+inventory.invbar
 		+hdweapon.droptranslation
 		+hdweapon.fitsinbackpack
@@ -899,7 +900,7 @@ class HERPUsable:HDWeapon{
 		A_GiveInventory("HERPController");
 		HERPController(findinventory("HERPController")).UpdateHerps(false);
 		dropinventory(invoker);
-		invoker.destroy();
+		invoker.GoAwayAndDie();
 		return;
 	}
 	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
@@ -1262,7 +1263,7 @@ class HERPController:HDWeapon{
 				owner.A_Log(Stringtable.Localize("$HERP_NODEPLOYED"),true);
 				owner.A_SelectWeapon("HDFist");
 			}
-			destroy();
+			GoAwayAndDie();
 			return null;
 		}
 		herpbot ddd=herps[0];

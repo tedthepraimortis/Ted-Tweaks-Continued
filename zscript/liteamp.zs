@@ -22,13 +22,22 @@ class PortableLiteAmp:HDMagAmmo replaces Infrared{
 	bool worn;
 	PointLight nozerolight;
 	override void DetachFromOwner(){
+		worn=false;
 		if(owner&&owner.player){
 			UndoFullbright();
 			SetShader("NiteVis",false);
 			if(worn)owner.A_SetBlend("01 00 00",0.8,16);
 		}
-		worn=false;
 		super.DetachFromOwner();
+	}
+	override void PreTravelled(){
+		if(hd_disableliteamponexit == true){
+		worn=false;
+		if(owner&&owner.player){
+			UndoFullbright();
+			SetShader("NiteVis",false);
+			}
+		}
 	}
 	override string PickupMessage() {String pickupmessage = Stringtable.Localize("$PICKUP_LITEAMP"); return pickupmessage;}
 	double amplitude;

@@ -455,11 +455,15 @@ class HDBulletActor:HDActor{
 		if(hd_debug>1)console.printf(getclassname().." penetration:  "..pen.."   "..realpos.x..","..realpos.y);
 		return pen;
 	}
-	double DecelerationFactor(){return clamp(1.-pushfactor*0.001,0.001,1.);}
 	void ApplyDeceleration(){
-		double fac=DecelerationFactor();
-		vel.xy*=fac;
-		if(vel.z>0)vel.z*=fac;
+		double tumble=(speed*pushfactor*pushfactor*0.001);
+		vector3 tumblev=(
+			frandom(-tumble,0),
+			frandom(-tumble,tumble),
+			frandom(-tumble,tumble)
+		);
+		rotatevector(tumblev.xy,angle);
+		vel+=tumblev;
 	}
 	void ApplyGravity(){
 		if(vel.z>BULLET_TERMINALVELOCITY)vel.z-=max(0.001,getgravity());

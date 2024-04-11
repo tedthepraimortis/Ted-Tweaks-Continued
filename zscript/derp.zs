@@ -235,7 +235,7 @@ class DERPBot:HDUPK{
 		){
 			target=source;
 			setz(target.pos.z+target.height*0.7);
-			setstatelabel("give");
+			if(!instatesequence(curstate,resolvestate("give")))setstatelabel("give");
 			return -1;
 		}
 		return super.damagemobj(inflictor,source,damage,mod,flags,angle);
@@ -400,6 +400,7 @@ class DERPUsable:HDWeapon{
 		//$Title "D.E.R.P. Robot (Pickup)"
 		//$Sprite "DERPA1"
 		+weapon.wimpy_weapon
+		+weapon.no_auto_switch
 		+inventory.invbar
 		+hdweapon.droptranslation
 		+hdweapon.fitsinbackpack
@@ -988,7 +989,7 @@ class DERPController:HDWeapon{
 		}
 		if(resetindex)weaponstatus[DRPCS_INDEX]=0;
 		if(!derps.size()){
-			destroy();
+			GoAwayAndDie();
 			return null;
 		}
 		derpbot ddd=derps[0];
@@ -1107,7 +1108,7 @@ class DERPController:HDWeapon{
 				invoker.derps.delete(invoker.weaponstatus[DRPCS_INDEX]);
 				if(!invoker.derps.size()){
 					A_SelectWeapon("HDFist");
-					invoker.destroy();
+					invoker.GoAwayAndDie();
 				}
 				return;
 			}

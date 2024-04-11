@@ -286,7 +286,10 @@ class HDStatusBar:DoomStatusBar{
 			);
 		}
 		//health
-		if(hd_debug)drawstring(
+		if(
+			hd_debug
+			||hd_nobleed
+		)drawstring(
 			pnewsmallfont,formatnumber(hpl.health),
 			(34,-24),DI_BOTTOMLEFT|DI_TEXT_ALIGN_CENTER,
 			hpl.health>70?Font.CR_OLIVE:(hpl.health>33?Font.CR_GOLD:Font.CR_RED),scale:(0.5,0.5)
@@ -495,7 +498,10 @@ class HDStatusBar:DoomStatusBar{
 
 
 		//health
-		if(hd_debug)drawstring(
+		if(
+			hd_debug
+			||hd_nobleed
+		)drawstring(
 			pnewsmallfont,FormatNumber(hpl.health),
 			(0,mxht),DI_TEXT_ALIGN_CENTER|DI_SCREEN_CENTER_BOTTOM,
 			hpl.health>70?Font.CR_OLIVE:(hpl.health>33?Font.CR_GOLD:Font.CR_RED),scale:(0.5,0.5)
@@ -595,7 +601,7 @@ class HDStatusBar:DoomStatusBar{
 				string postxt=string.format("%i",compangle);
 				screen.DrawText(confont,
 					font.CR_WHITE,
-					320-(NewSmallFont.StringWidth(postxt)>>1),
+					320-(NewSmallFont.StringWidth(postxt)),
 					whh-80,//was 6
 					postxt,
 					DTA_VirtualWidth,640,DTA_VirtualHeight,480

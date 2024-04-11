@@ -427,7 +427,8 @@ class SpentShield:HDDebris{
 	}
 	states{
 	spawn:
-		BON2 E 0;
+		BON2 E 0 nodelay A_JumpIf(Wads.CheckNumForName("id",0)==-1,"spawn2");
+		BON2 A 0;
 	spawn2:
 		---- A 1{
 			A_SetRoll(roll+60,SPF_INTERPOLATE);

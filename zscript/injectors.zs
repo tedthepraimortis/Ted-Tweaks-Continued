@@ -43,6 +43,7 @@ class HDDrug:HDDamageHandler{
 }
 enum InjectorWeapon{
 	INJECTF_SPENT=1,
+	INJECTF_HOLDINGFIRE=2,
 	INJECTS_AMOUNT=1,
 }
 class PortableStimpack:HDWeapon{
@@ -78,6 +79,7 @@ class PortableStimpack:HDWeapon{
 		+inventory.ishealth
 		+inventory.invbar
 		+weapon.wimpy_weapon
+		+weapon.no_auto_switch
 		+hdweapon.fitsinbackpack
 		inventory.pickupSound "weapons/pocket";
 
@@ -107,7 +109,8 @@ class PortableStimpack:HDWeapon{
 
 	action void A_InjectorReachDown(){
 		if(hdplayerpawn(self))hdplayerpawn(self).gunbraced=false;
-		if(invoker.weaponstatus[0]&INJECTF_SPENT){
+		if(invoker.weaponstatus[0]&INJECTF_SPENT||invoker.weaponstatus[0]&INJECTF_HOLDINGFIRE){
+			invoker.weaponstatus[0]&=~INJECTF_HOLDINGFIRE;
 			setweaponstate("nope");
 			return;
 		}
@@ -153,6 +156,12 @@ class PortableStimpack:HDWeapon{
 		TNT1 A 8{
 			if(DoHelpText())A_WeaponMessage(Stringtable.Localize(invoker.mainhelptext));
 			A_StartSound("weapons/pocket",8,CHANF_OVERLAP,volume:0.5);
+
+			if(
+				!!player
+				&&(player.cmd.buttons&(BT_ATTACK|BT_ALTFIRE))
+			)invoker.weaponstatus[0]|=INJECTF_HOLDINGFIRE;
+			else invoker.weaponstatus[0]&=~INJECTF_HOLDINGFIRE;
 		}
 		goto super::select;
 	deselect:

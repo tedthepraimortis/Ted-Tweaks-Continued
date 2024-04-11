@@ -835,6 +835,7 @@ class HDUPKAlwaysGive:HDActor{
 	default{
 		hdupkalwaysgive.toallplayers "";
 		hdupkalwaysgive.msgtoall "";
+		radius 8; height 10;
 	}
 	override void Tick(){
 		super.Tick();
@@ -1071,5 +1072,57 @@ class HDMap:HDUPKAlwaysGive replaces Allmap{
 	spawn:
 		PMAP # 1 nodelay A_RandomFrame();
 		loop;
+	}
+}
+
+//-------------------------------------------------
+// Those little candles/floor lights are free, you can just take one
+//-------------------------------------------------
+
+class HDCandle:HDPickup replaces Candlestick{
+	default{
+		tag "$TAG_CANDLE";
+		hdpickup.refid HDLD_CANDLE;
+		inventory.pickupmessage "$PICKUP_Candle";
+		hdpickup.bulk ENC_DERP;
+		scale 0.5;
+	}
+	states{
+	spawn:
+		CAND A -1 nodelay A_SpawnItemEx("HDCandleLight",SXF_SETTARGET);
+		stop;
+	use:
+		TNT1 A 0{
+			flinetracedata candlespot;
+			LineTrace(
+				angle,42,pitch,
+				offsetz:height*0.8-2,
+				data:candlespot
+			);
+			let ccc=spawn("HDCandle",
+				!!candlespot.hitline?(
+					candlespot.hitlocation.xy-candlespot.hitdir.xy*invoker.default.radius,
+					candlespot.hitlocation.z
+				):candlespot.hitlocation
+			);
+			ccc.vel=vel;ccc.angle=angle;ccc.pitch=pitch;
+		}
+		stop;
+	}
+}
+
+class HDCandleLight:PointLight{
+	override void postbeginplay(){
+		super.postbeginplay();
+		if(!target){destroy();return;}
+		args[0]=140;
+		args[1]=100;
+		args[2]=80;
+		args[3]=40;
+		args[4]=0;
+	}
+	override void Tick(){
+		if(!target||inventory(target).owner){destroy();return;}
+		setorigin((target.pos.xy,target.pos.z+6),true);
 	}
 }

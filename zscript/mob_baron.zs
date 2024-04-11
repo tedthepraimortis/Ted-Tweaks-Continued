@@ -16,7 +16,7 @@ class PainBlooder:Actor{
 		stop;
 	}
 }
-class PainMonster:HDMobBase{
+class PainMonster:HDMobBase abstract{
 	default{
 		meleesound "baron/melee";
 		+hdmobbase.biped
@@ -29,7 +29,8 @@ class PainMonster:HDMobBase{
 	override void postbeginplay(){
 		super.postbeginplay();
 		bsmallhead=bplayingid;
-			if(bplayingid){
+
+		if(bplayingid){
 			actor aaa=null;
 			actoriterator it=level.createactoriterator(449922,"PainBlooder");
 			while(aaa=it.Next()){
@@ -48,7 +49,7 @@ class PainMonster:HDMobBase{
 // ------------------------------------------------------------
 // Pain Lord
 // ------------------------------------------------------------
-class PainLord:PainMonster replaces BaronofHell{
+class Baron:PainMonster replaces BaronofHell{
 	default{
 		height 64;
 		radius 17;
@@ -58,9 +59,10 @@ class PainLord:PainMonster replaces BaronofHell{
 		painsound "baron/pain";
 		deathsound "baron/death";
 		activesound "baron/active";
-		obituary "$ob_baron";
-		hitobituary "$ob_baronhit";
+		obituary "$OB_BARON";
+		hitobituary "$OB_BARONHIT";
 		tag "$CC_BARON";
+
 		+e1m8boss
 		+missilemore +dontharmspecies
 		maxtargetrange 65536;
@@ -115,7 +117,7 @@ class PainLord:PainMonster replaces BaronofHell{
 	roam:
 		BOSS #### 4 A_JumpIfTargetInLOS("missile");
 		BOSS A 0 A_ShoutAlert(0.3,SAF_SILENT);
-		roam2:
+	roam2:
 		BOSS A 0 A_JumpIfTargetInLOS("missile");
 		BOSS ABCD 8 A_HDWander(CHF_LOOK);
 		BOSS A 0 A_Jump(16,"roam","roam","see");
@@ -186,9 +188,9 @@ class PainLord:PainMonster replaces BaronofHell{
 		BOSS H 6 A_Pain();
 		BOSS H 3 A_Jump(116,"see","MissileSkull");
 	melee:
-		BOSS E 6 A_FaceTarget();
+		BOSS E 6 A_FaceLastTargetPos();
 		BOSS F 2;
-		BOSS G 6 A_CustomMeleeAttack(random(40,120),"baron/melee","","claws",true);
+		BOSS G 6 A_FireballerScratch("BaleBall",random(40,90),ballchance:0.1);
 		BOSS F 5 A_JumpIf(target&&distance3d(target)>84,"missilesweep");
 		---- A 0 setstatelabel("see");
 	death.telefrag:

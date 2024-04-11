@@ -143,10 +143,8 @@ class HDLadderProxy:HDActor{
 	}
 }
 
-const LADDER_CLIMBRANGE = 16;
-const LADDER_WALKRANGE  = 40;
-
-const LADDER_WALKRANGESQR = LADDER_WALKRANGE ** 2;
+const LADDER_CLIMBRANGE = 16/HDCONST_PLAYERRADIUS;
+const LADDER_WALKRANGE  = 40/HDCONST_PLAYERRADIUS;
 
 class hdladderbottom:hdactor{
 	default{
@@ -164,11 +162,11 @@ class hdladderbottom:hdactor{
 		bool grounded = user.pos.z <= user.floorz;
 		if (user.player) grounded = user.player.onground;
 
+		double userradmult=radius/12.;
+
 		//check if user can reach
 		if(
-			grounded
-			? distance2DSquared(user) > LADDER_WALKRANGESQR
-			: !HDMath.InXYRange(Vec2To(user), LADDER_CLIMBRANGE)
+			!HDMath.InXYRange(Vec2To(user), LADDER_CLIMBRANGE*user.radius)
 		)return false;
 
 		let thinker = HDLadderThinker(user.FindInventory('HDLadderThinker'));
@@ -249,20 +247,25 @@ class HDLadderThinker : Inventory {
 		let grounded = owner.pos.z <= owner.floorz;
 		if(owner.player) grounded = owner.player.onground;
 
-		let inClimbRange = HDMath.InXYRange(userOffset, LADDER_CLIMBRANGE);
+		double climbrange=LADDER_CLIMBRANGE*owner.radius;
+
+		let inClimbRange = HDMath.InXYRange(userOffset, climbrange);
 
 		if(
-			inClimbRange
-			&&!above
-			&&!grounded
+			!above
 		){
-			owner.vel = (0, 0, 0);
+
+			if(!grounded){
+				owner.vel *= 0.3;
+				owner.vel.z=min(owner.vel.z+getgravity(),0);
+			}
+			if(!inClimbRange)owner.vel.xy-=userOffset*0.1;
 		}
 
 		vector3 move = (0, 0, 0);
 		if(owner.player){
 			if(
-				(grounded && distSqr > LADDER_WALKRANGESQR) ||
+				(grounded && distSqr > (LADDER_WALKRANGE*owner.radius)**2) ||
 				(!grounded && !above && !inClimbRange)
 			){
 				DisengageLadder();
@@ -364,8 +367,8 @@ class HDLadderThinker : Inventory {
 		if(move.x || move.y){
 			//clamp movement
 			let dest = userOffset + move.xy;
-			move.x -= dest.x - clamp(dest.x, -LADDER_CLIMBRANGE, LADDER_CLIMBRANGE);
-			move.y -= dest.y - clamp(dest.y, -LADDER_CLIMBRANGE, LADDER_CLIMBRANGE);
+			move.x -= dest.x - clamp(dest.x, -climbrange, climbrange);
+			move.y -= dest.y - clamp(dest.y, -climbrange, climbrange);
 			owner.trymove(owner.pos.xy + move.xy, true);
 		}
 	}

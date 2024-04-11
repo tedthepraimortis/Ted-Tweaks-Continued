@@ -361,51 +361,6 @@ extend class HDPlayerPawn{
 			));
 		}
 
-
-
-		//disintegrator mode keeps things simple
-		if(
-			hd_disintegrator
-		)return super.DamageMobj(
-			inflictor,
-			source,
-			damage,
-			mod,
-			flags|DMG_NO_ARMOR,
-			angle
-		);
-
-
-		//player survives at cost
-		if(
-			damage>=health
-		){
-			if(
-				mod!="internal"
-				&&mod!="bleedout"
-				&&damage<random(10,100)
-				&&random(0,5)
-			){
-				int wnddmg=random(0,max(0,damage>>2));
-				if(mod=="bashing")wnddmg>>=1;
-				damage=health-random(1,3);
-				if(
-					mod=="hot"
-					||mod=="cold"
-				){
-					burncount+=wnddmg;
-				}else if(
-					mod=="slime"
-					||mod=="balefire"
-				){
-					aggravateddamage+=wnddmg;
-				}else{
-					oldwoundcount+=wnddmg;
-				}
-			}
-		}
-
-
 		//flinch
 		if(
 			!(flags&DMG_NO_PAIN)
@@ -473,6 +428,52 @@ extend class HDPlayerPawn{
 			AddBlackout(128,damage+(bash?32:16),16);
 		}
 
+		//brute force a reset in nobleed mode
+		//there are multiple sources of bloodloss
+		if(hd_nobleed)bloodloss=0;
+
+		//disintegrator mode keeps things simple
+		if(
+			hd_disintegrator
+			||hd_nobleed
+		)return super.DamageMobj(
+			inflictor,
+			source,
+			damage,
+			mod,
+			flags|DMG_NO_ARMOR,
+			angle
+		);
+
+
+		//player survives at cost
+		if(
+			damage>=health
+		){
+			if(
+				mod!="internal"
+				&&mod!="bleedout"
+				&&damage<random(10,100)
+				&&random(0,5)
+			){
+				int wnddmg=random(0,max(0,damage>>2));
+				if(mod=="bashing")wnddmg>>=1;
+				damage=health-random(1,3);
+				if(
+					mod=="hot"
+					||mod=="cold"
+				){
+					burncount+=wnddmg;
+				}else if(
+					mod=="slime"
+					||mod=="balefire"
+				){
+					aggravateddamage+=wnddmg;
+				}else{
+					oldwoundcount+=wnddmg;
+				}
+			}
+		}
 
 		//finally call the real one but ignore all armour
 		int finaldmg=super.DamageMobj(

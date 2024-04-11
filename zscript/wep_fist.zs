@@ -279,6 +279,20 @@ class HDFist:HDWeaponGrabber replaces Fist{
 			data:punchline
 		);
 		if(!punchy)return;
+
+		//the player has fallen into a textureless pit hack. Send them away!
+		if(
+			!!punchline.hitline
+			&&punchline.LinePart!=1
+			&&!punchline.hitline.sidedef[punchline.LineSide].gettexture(punchline.LinePart)
+		){
+			A_Log("PIT DETECTED. FOURTH WALL ALREADY BROKEN. INITIAING EMERGENCY TRANSFER.",true);
+			spawn("Telefog",pos);
+			setz(ceilingz-height-5);
+			A_ChangeVelocity(2,0,2,CVF_RELATIVE);
+			spawn("Telefog",pos);
+		}
+
 		//actual puff effect if the shot connects
 		LineAttack(
 			angle,
