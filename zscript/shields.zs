@@ -292,6 +292,9 @@ class HDMagicShield:HDDamageHandler{
 		return pen,penshell;
 	}
 	states{
+	spawn:
+		TNT1 A 0;
+		stop;
 	use:
 		TNT1 A 0{
 			if(invoker.accuracy>70){

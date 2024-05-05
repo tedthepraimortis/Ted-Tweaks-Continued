@@ -440,7 +440,7 @@ class DERPUsable:HDWeapon{
 	}
 	override string pickupmessage(){
 		string msg=super.pickupmessage();
-		if(weaponstatus[0]&DERPF_BROKEN)return msg..Stringtable.Localize("PICKUP_DERP_BROKEN");
+		if(weaponstatus[0]&DERPF_BROKEN)return msg..Stringtable.Localize("$PICKUP_DERP_BROKEN");
 		return msg;
 	}
 	override void detachfromowner(){

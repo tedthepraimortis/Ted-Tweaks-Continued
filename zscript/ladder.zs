@@ -389,7 +389,7 @@ class HDViewbobSetter : Thinker {
 class PortableLadder:HDPickup{
 	default{
 		inventory.icon "LADDD0";
-		inventory.pickupmessage "$PICKUP_LADER";
+		inventory.pickupmessage "$PICKUP_LADDER";
 		height 20;radius 8;
 		hdpickup.bulk 35; //was fucking 70???
 		hdpickup.refid HDLD_LADDER;

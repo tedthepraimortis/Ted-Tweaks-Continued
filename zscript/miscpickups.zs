@@ -1027,7 +1027,7 @@ class MapLoadoutGiver:HDPickup{
 class HDMap:HDUPKAlwaysGive replaces Allmap{
 	default{
 		scale 0.3;
-		hdupkalwaysgive.msgtoall "\c-Local area map downloaded.";
+		hdupkalwaysgive.msgtoall "$HDMAP_DOWNLOADED";
 	}
 	override bool isrepeating(actor other){
 		return

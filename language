@@ -32,8 +32,9 @@ MENU_TTM_MISC_VULCREP_RESET = "Reset Vulc Repairer Options";
 
 COMPASS_UP="^";
 
+// Here to show what version it's intended for and that you are, in fact, using Ted-Tweaks. - [Ted]
 STARTUP1="        \cq~ \cr* \cq~";
-STARTUP2=" \cyHideous Destructor \cx4.11.1a \cypre \c[Cyan]Ted\'s Tweaks\c-";
+STARTUP2=" \cyHideous Destructor \cx4.12.2a \cypre \c[Cyan]Ted\'s Tweaks\c-";
 STARTUP3=" Please read the manual.";
 STARTUP4="       Have fun!";
 STARTUP5="        \cq~ \cr* \cq~";
