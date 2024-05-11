@@ -8,7 +8,7 @@ class HDSMG:HDWeapon{
 		//$Sprite "SMGNA0"
 
 		+hdweapon.fitsinbackpack
-		obituary "%o was soaked by %k's pea stream.";
+		obituary "$OB_SMG";
 		weapon.selectionorder 24;
 		weapon.slotnumber 2;
 		weapon.slotpriority 1;

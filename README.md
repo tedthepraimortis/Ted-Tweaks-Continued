@@ -8,7 +8,6 @@ Changes:
 - Made *ERP repair require holding a button instead of spamming it.
 - Removed Light Amplification Goggles forced FOV.
 - Quieted down the jetpack and decreased its bulk.
-- Decreased ladder weight.
 - Added the compass changes from Cozi's Hideous Helmet fork.
 - Improved Player Climbing.
 - Cacodemon Corpse volume decreased.

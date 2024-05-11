@@ -8,7 +8,7 @@
 	0=random (default), see DerpConst below for the others
 */
 
-const DERP_CONTROLRANGE=HDCONST_ONEMETRE*250.;
+const DERP_CONTROLRANGE=HDCONST_ONEMETRE*200.;
 enum DerpConst{
 	DERP_IDLE=1,
 	DERP_WATCH=2,
@@ -408,7 +408,7 @@ class DERPUsable:HDWeapon{
 		weapon.selectionorder 1014;
 		scale 0.6;
 		inventory.icon "DERPEX";
-		inventory.pickupmessage "$PICKUP_DERP.";
+		inventory.pickupmessage "$PICKUP_DERP";
 		inventory.pickupsound "derp/crawl";
 		translation 0;
 		tag "$TAG_DERP";
@@ -959,7 +959,7 @@ extend class HDHandlers{
 		}
 		if(badcommand){
 			let dpu=DERPUsable(ppp.findinventory("DERPUsable"));
-			ppp.A_Log(string.format(Stringtable.Localize("$DERP_BADCOMMAND"),dpu?dpu.weaponstatus[DERPS_BOTID]:1),9);
+			ppp.A_Log(string.format(Stringtable.Localize("$DERP_BADCOMMAND"),dpu?dpu.weaponstatus[DERPS_BOTID]:1),true);
 		}
 	}
 }
@@ -1026,6 +1026,7 @@ class DERPController:HDWeapon{
 		return weapon.createtossable(amt);
 	}
 	override string gethelptext(){
+		LocalizeHelp();
 		return
 		LWPHELP_FIREMODE..StringTable.Localize("$DERPCWH_FMODE")
 		..LWPHELP_FIRESHOOT

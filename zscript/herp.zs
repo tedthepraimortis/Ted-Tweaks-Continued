@@ -563,7 +563,7 @@ class HERPUsable:HDWeapon{
 		inventory.maxamount 1;
 		inventory.icon "HERPEX";
 		inventory.pickupsound "misc/w_pkup";
-		inventory.pickupmessage "$PICKUP_DERP";
+		inventory.pickupmessage "$PICKUP_HERP";
 		tag "$TAG_HERP";
 		hdweapon.refid HDLD_HERPBOT;
 		weapon.selectionorder 1015;
@@ -582,7 +582,6 @@ class HERPUsable:HDWeapon{
 		if(weaponstatus[1]>=0)amt+=3.6;
 		if(weaponstatus[2]>=0)amt+=3.6;
 		if(weaponstatus[3]>=0)amt+=3.6;
-		if(owner&&owner.player.cmd.buttons&BT_ZOOM)amt*=frandom(3,4);
 		return amt;
 	}
 	override double weaponbulk(){
@@ -894,9 +893,9 @@ class HERPUsable:HDWeapon{
 		hhhh.ammo[2]=invoker.weaponstatus[3];
 		hhhh.battery=invoker.weaponstatus[4];
 		hhhh.botid=invoker.weaponstatus[HERP_BOTID];
-		hhhh.bmissilemore=(!invoker.weaponstatus[0]&HERPF_STARTOFF);
+		hhhh.bmissilemore=!(invoker.weaponstatus[0]&HERPF_STARTOFF);
 		hhhh.bdontfacetalker=invoker.weaponstatus[0]&HERPF_STATIC;
-		Message("Deployed.");
+		Message(StringTable.Localize("$HERP_DEPLOYED"));
 		A_GiveInventory("HERPController");
 		HERPController(findinventory("HERPController")).UpdateHerps(false);
 		dropinventory(invoker);
@@ -921,6 +920,24 @@ class HERPUsable:HDWeapon{
 			sb.DI_TEXT_ALIGN_RIGHT|sb.DI_TRANSLATABLE|sb.DI_SCREEN_CENTER_BOTTOM,
 			Font.CR_DARKGRAY
 		);else if(batt>0)sb.drawwepnum(batt,20);
+
+		if(sb.hudlevel==1){
+			int nextmagloaded=sb.GetNextLoadMag(hdmagammo(hpl.findinventory("HD4mMag")));
+			if(nextmagloaded>50){
+				sb.drawimage("ZMAGA0",(-46,-3),sb.DI_SCREEN_CENTER_BOTTOM,scale:(2,2));
+			}else if(nextmagloaded<1){
+				sb.drawimage("ZMAGC0",(-46,-3),sb.DI_SCREEN_CENTER_BOTTOM,alpha:nextmagloaded?0.6:1.,scale:(2,2));
+			}else sb.drawbar(
+				"ZMAGNORM","ZMAGGREY",
+				nextmagloaded,50,
+				(-46,-3),-1,
+				sb.SHADER_VERT,sb.DI_SCREEN_CENTER_BOTTOM
+			);
+			sb.drawbattery(-64,-4,sb.DI_SCREEN_CENTER_BOTTOM,reloadorder:true);
+			sb.drawnum(hpl.countinv("HD4mMag"),-43,-8,sb.DI_SCREEN_CENTER_BOTTOM);
+			sb.drawnum(hpl.countinv("HDBattery"),-56,-8,sb.DI_SCREEN_CENTER_BOTTOM);
+		}
+
 		if(barrellength>0)return;
 		int yofs=weaponstatus[HERP_YOFS];
 		if(yofs<70){
@@ -954,17 +971,18 @@ class HERPUsable:HDWeapon{
 		}
 	}
 	override string gethelptext(){
+		LocalizeHelp();
 		return
 		((weaponstatus[0]&HERPF_BROKEN)?
-		(LWPHELP_FIRE.."+"..LWPHELP_RELOAD.." (hold)  Repair\n"):(LWPHELP_FIRE.."  Deploy\n"))
-		..LWPHELP_ALTFIRE.."  Cycle modes\n"
-		..LWPHELP_FIREMODE.."+"..LWPHELP_UPDOWN.."  Set BotID\n"
-		..LWPHELP_RELOAD.."  Reload mag\n"
-		..LWPHELP_ALTRELOAD.."  Reload battery\n"
-		..LWPHELP_UNLOAD.."  Unload mag\n"
-		..LWPHELP_USE.."+"..LWPHELP_ALTRELOAD.."  Unload battery\n"
-		..LWPHELP_USE.."+"..LWPHELP_UNLOAD.."  Unload partial mag\n"
-		..LWPHELP_ZOOM.."  Manual firing"
+		(LWPHELP_FIRE.."+"..LWPHELP_RELOAD..StringTable.Localize("$DERPWH_REPAIR")):(LWPHELP_FIRE..StringTable.Localize("$DERPWH_FIRE")))
+		..LWPHELP_ALTFIRE..StringTable.Localize("$DERPWH_ALTFIRE")
+		..LWPHELP_FIREMODE.."+"..LWPHELP_UPDOWN..StringTable.Localize("$DERPWH_FMODPUD")
+		..LWPHELP_RELOAD..StringTable.Localize("$HERPWH_RELOAD")
+		..LWPHELP_ALTRELOAD..StringTable.Localize("$HERPWH_ALTRELOAD")
+		..LWPHELP_UNLOAD..StringTable.Localize("$HERPWH_UNLOAD")
+		..LWPHELP_USE.."+"..LWPHELP_ALTRELOAD..StringTable.Localize("$HERPWH_USEPALTRELOAD")
+		..LWPHELP_USE.."+"..LWPHELP_UNLOAD..StringTable.Localize("$HERPWH_USEPUNLOAD")
+		..LWPHELP_ZOOM..StringTable.Localize("$HERPWH_ZOOM")
 		;
 	}
 	static int backpackrepairs(actor owner,hdbackpack bp){
@@ -1097,10 +1115,8 @@ class HERPUsable:HDWeapon{
 	}
 	override void ForceBasicAmmo(){
 		owner.A_TakeInventory("FourMilAmmo");
-		owner.A_TakeInventory("HD4mMag");
-		owner.A_GiveInventory("HD4mMag",3);
-		owner.A_TakeInventory("HDBattery");
-		owner.A_GiveInventory("HDBattery");
+		ForceOneBasicAmmo("HDBattery");
+		ForceOneBasicAmmo("HD4mMag");
 	}
 }
 enum HERPNum{
@@ -1239,7 +1255,7 @@ class HERPController:HDWeapon{
 		+hdweapon.droptranslation
 		inventory.icon "HERPA5";
 		weapon.selectionorder 1013;
-		tag "H.E.R.P. interface";
+		tag "$TAG_HERPINTERFACE";
 	}
 	array<herpbot> herps;
 	herpbot UpdateHerps(bool resetindex=true){
@@ -1294,31 +1310,32 @@ class HERPController:HDWeapon{
 		return null;
 	}
 	override string gethelptext(){
-		if(!herps.size())return "ERROR";
+		LocalizeHelp();
+		if(!herps.size())return "$HERP_ERROR";
 		weaponstatus[HERPS_INDEX]=clamp(weaponstatus[HERPS_INDEX],0,herps.size()-1);
 		let herpcam=herps[weaponstatus[HERPS_INDEX]];
-		if(!herpcam)return "ERROR";
+		if(!herpcam)return "$HERP_ERROR";
 		if(
 			herpcam.health<1
 			||herpcam.battery<1
-		)return LWPHELP_DROP.."  Next H.E.R.P.";
+		)return LWPHELP_DROP..StringTable.Localize("$HERPCWH_DROP");
 		bool connected=(herpcam.bmissileevenmore);
 		bool turnedon=(herpcam.bmissilemore);
 		bool staystill=(herpcam.bdontfacetalker);
 		if(connected)return
-		LWPHELP_FIREMODE.."  Hold to pilot and:\n"
+		LWPHELP_FIREMODE..StringTable.Localize("$HERPCWH_FMODE")
 		.."  "..LWPHELP_FIRESHOOT
-		..LWPHELP_ALTRELOAD.."  Set home angle\n"
-		..LWPHELP_ALTFIRE.."  Turn "..(turnedon?"Off":"On").."\n"
-		..LWPHELP_ZOOM.."  "..(staystill?"Enable":"Disable").." Horizontal Scan\n"
-		..LWPHELP_RELOAD.."  Disconnect manual mode\n"
-		..LWPHELP_DROP.."  Next H.E.R.P."
+		..LWPHELP_ALTRELOAD..StringTable.Localize("$HERPCWH_ALTRELOAD")
+		..LWPHELP_ALTFIRE..StringTable.Localize("$HERPCWH_ALTFIRE1")..(turnedon?StringTable.Localize("$HERPCWH_ALTFIRE2"):StringTable.Localize("$HERPCWH_ALTFIRE3")).."\n"
+		..LWPHELP_ZOOM.."  "..(staystill?StringTable.Localize("$HERPCWH_ZOOM1"):StringTable.Localize("$HERPCWH_ZOOM2"))..StringTable.Localize("$HERPCWH_ZOOM3")
+		..LWPHELP_RELOAD..StringTable.Localize("$HERPCWH_RELOAD")
+		..LWPHELP_DROP..StringTable.Localize("$HERPCWH_DROP")
 		;
 		return
-		LWPHELP_RELOAD.."  Connect manual mode\n"
-		..LWPHELP_ALTFIRE.."  Turn "..(turnedon?"Off":"On").."\n"
-		..LWPHELP_ZOOM.."  "..(staystill?"Enable":"Disable").." Horizontal Scan\n"
-		..LWPHELP_DROP.."  Next H.E.R.P."
+		LWPHELP_RELOAD..StringTable.Localize("$HERPCWH_RELOAD2")
+		..LWPHELP_ALTFIRE..StringTable.Localize("$HERPCWH_ALTFIRE1")..(turnedon?StringTable.Localize("$HERPCWH_ALTFIRE2"):StringTable.Localize("$HERPCWH_ALTFIRE3")).."\n"
+		..LWPHELP_ZOOM.."  "..(staystill?StringTable.Localize("$HERPCWH_ZOOM1"):StringTable.Localize("$HERPCWH_ZOOM2"))..StringTable.Localize("$HERPCWH_ZOOM3")
+		..LWPHELP_DROP..StringTable.Localize("$HERPCWH_DROP")
 		;
 	}
 	override void DrawSightPicture(
@@ -1358,13 +1375,13 @@ class HERPController:HDWeapon{
 			sb.psmallfont,"<>",
 			(bob.x-24,64+bob.y),sb.DI_SCREEN_CENTER|sb.DI_TEXT_ALIGN_CENTER,Font.CR_DARKGRAY,alpha:0.4
 		);
-		string hpst1="\cxAUTO",hpst2="press \cdreload\cu for manual";
+		string hpst1=StringTable.Localize("$HERP_AUTO"),hpst2=StringTable.Localize("$HERP_RELOAD");
 		if(nobat){
-			hpst1="\cuOFF";
-			hpst2="press \cdaltfire\cu to turn on";
+			hpst1=StringTable.Localize("$HERP_OFF");
+			hpst2=StringTable.Localize("$HERP_ALTFIRE");
 		}else if(herpcam.bmissileevenmore){
-			hpst1="\cyMANUAL";
-			hpst2=(owner.player.cmd.buttons&BT_FIREMODE)?"":"hold \cdfiremode\cu to steer";
+			hpst1=StringTable.Localize("$HERP_MANUAL");
+			hpst2=(owner.player.cmd.buttons&BT_FIREMODE)?"":StringTable.Localize("$HERP_FMODE");
 		}
 		sb.drawstring(
 			sb.psmallfont,hpst1,
@@ -1394,7 +1411,7 @@ class HERPController:HDWeapon{
 			A_WeaponReady(WRF_NOFIRE|WRF_ALLOWUSER3);
 			herpbot ddd=invoker.herps[invoker.weaponstatus[HERPS_INDEX]];
 			if(!ddd){
-				if(ddd=invoker.updateherps())A_Log("H.E.R.P. not found. Resetting list.",true);
+				if(ddd=invoker.updateherps())A_Log(StringTable.Localize("$HERP_NOTFOUND"),true);
 				return;
 			}
 			int bt=player.cmd.buttons;
@@ -1440,7 +1457,7 @@ class HERPController:HDWeapon{
 				if(justpressed(BT_USER1)){
 					ddd.startangle=ddd.angle;
 					ddd.herpbeep();
-					A_Log("Home angle set.",true);
+					A_Log(StringTable.Localize("$HERP_HOMEANGLE"),true);
 				}
 			}else if(justpressed(BT_RELOAD)){
 				ddd.setstatelabel("inputwaiting");
@@ -1452,7 +1469,7 @@ class HERPController:HDWeapon{
 		---- A 0 A_MagManager("HD4mMag");
 		goto ready;
 	hack:
-		---- A 5 A_Log("Fetching nearby devices...",true);
+		---- A 5 A_Log(StringTable.Localize("$HERP_FETCHINNG"),true);
 		---- AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 A_WeaponReady(WRF_NOFIRE|WRF_ALLOWUSER3);
 		---- AAAAAAAAAAAAAAAAAAA 1 A_WeaponMessage("\cj"..random(1000,9999).." "..random(1000,9999),10);
 		---- A 0{
@@ -1487,25 +1504,25 @@ class HERPController:HDWeapon{
 					if(opponent){
 						let opcon=HERPController(opponent.findinventory("HERPController"));
 						if(opcon)opcon.updateherps(false);
-						mo.message("Operational fault. Please check your manual for proper maintenance. (ERR-4fd92-00B) Power low.");
+						mo.message(StringTable.Localize("$HERP_NOBATTERY"));
 					}
-					owner.A_Log("H.E.R.P. connected.",true);
+					owner.A_Log(StringTable.Localize("$HERP_CONNECT"),true);
 					mo.bmissilemore=false;
 					if(owner.player)mo.bfriendly=true;else mo.bfriendly=owner.bfriendly;
 					mo.A_StartSound("herp/hacked",69420);
 					updateherps();
 					return true;
 				}else{
-					owner.A_Log("Connection error. H.E.R.P. not found or credentials expired. Please email vendor technical support for assistance.",true);
+					owner.A_Log(StringTable.Localize("$HERP_CONNERROR"),true);
 					mo.target=owner;
-					mo.message("IFF system alert: enemy pattern recognized.");
+					mo.message(StringTable.Localize("$HERP_ENEMY"));
 					mo.startangle=mo.angleto(owner);
 					mo.bmissilemore=true;
 					return false;
 				}
 			}
 		}
-		owner.A_Log("H.E.R.P. remote login attempt failed.",true);
+		owner.A_Log(StringTable.Localize("$HERP_REMOTEFAILED"),true);
 		return false;
 	}
 }

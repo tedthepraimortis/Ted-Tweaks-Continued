@@ -466,3 +466,6 @@ class BaronBallLight:PointLight{
 		}
 	}
 }
+
+//[2024-02] delete eventually :) - [ted]
+class PainLord:Baron{mixin ClassRenamed;}

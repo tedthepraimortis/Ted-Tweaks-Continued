@@ -8,7 +8,7 @@ class PortableLiteAmp:HDMagAmmo replaces Infrared{
 		//$Sprite "PVISB0"
 
 		+inventory.invbar
-//		inventory.pickupmessage "Light amplification visor.";
+		inventory.pickupmessage "$PICKUP_LITEAMP";
 		inventory.icon "PVISA0";
 		scale 0.5;
 		hdpickup.bulk ENC_LITEAMP;
@@ -39,7 +39,6 @@ class PortableLiteAmp:HDMagAmmo replaces Infrared{
 			}
 		}
 	}
-	override string PickupMessage() {String pickupmessage = Stringtable.Localize("$PICKUP_LITEAMP"); return pickupmessage;}
 	double amplitude;
 	double lastcvaramplitude;
 	override bool isused(){return true;}
@@ -73,7 +72,7 @@ class PortableLiteAmp:HDMagAmmo replaces Infrared{
 		if(!owner||!owner.player)return;
 		if(owner.player.fixedcolormap!=NITEVIS_INVULNCOLORMAP)owner.player.fixedcolormap=playerinfo.NUMCOLORMAPS+1;
 		owner.player.fixedlightlevel=1;
-		PPShader.SetEnabled("NiteVis",false);
+		SetShader("NiteVis",false);
 	}
 	void UndoFullbright(){
 		if(!owner||!owner.player)return;
@@ -95,7 +94,10 @@ class PortableLiteAmp:HDMagAmmo replaces Infrared{
 
 		//charge
 		let bbb=HDBattery(owner.findinventory("HDBattery"));
-		if(bbb){
+		if(
+			!!bbb
+			&&bbb.mags.size()>0
+		){
 			//get the lowest non-empty
 			int bbbindex=bbb.mags.size()-1;
 			int bbblowest=20;
@@ -120,9 +122,21 @@ class PortableLiteAmp:HDMagAmmo replaces Infrared{
 		int chargedamount=mags[0];
 
 //console.printf(chargedamount.."   "..NITEVIS_MAXINTEGRITY-(chargedamount%NITEVIS_CYCLEUNIT));
+		let hpl=hdplayerpawn(owner);
+		bool blurred=false;
+		if (hpl.binvisible && hd_noblurwithliteamp == true) {blurred = true;}
+		else if (hpl.bshadow) {
+			switch(hpl.GetRenderStyle()) {
+				case STYLE_Fuzzy:
+				case STYLE_None:
+					blurred=true;
+				default: break;
+			}
+		}
 
 		if(
 			worn
+			&&!blurred
 		){
 
 			//check if totally drained
@@ -142,6 +156,7 @@ class PortableLiteAmp:HDMagAmmo replaces Infrared{
 			}
 
 			//actual goggle effect
+			if(hd_liteampgogglefoveffect == true)owner.player.fov=max(30,min(owner.player.fov,90));
 			double nv=min(chargedamount*(NITEVIS_MAX/20.),NITEVIS_MAX);
 			if(!nv){
 				if(thiscvaramplitude<0)amplitude=-0.00001;
@@ -169,9 +184,9 @@ class PortableLiteAmp:HDMagAmmo replaces Infrared{
 				SetShaderU1f("NiteVis","u_desat",desat);
 			}
 
-/*			//flicker
+			//flicker
 			int integrity=(mags[0]%NITEVIS_CYCLEUNIT);
-			if(integrity<NITEVIS_MAXINTEGRITY){
+			if(integrity<NITEVIS_MAXINTEGRITY && hd_liteampflicker == true){
 				int bkn=integrity+(chargedamount>>17)-abs(int(nv));
 //				A_LogInt(bkn);
 				if(!random[rand1](0,max(0,random[rand1](1,bkn)))){
@@ -179,7 +194,7 @@ class PortableLiteAmp:HDMagAmmo replaces Infrared{
 					SetShader("NiteVis",false);
 				}
 			}
-*/
+
 			//drain
 			if(!(level.time&(1|2|4|8|16|32)))mags[0]-=NITEVIS_CYCLEUNIT*spent;
 
@@ -204,7 +219,8 @@ class PortableLiteAmp:HDMagAmmo replaces Infrared{
 		)return;
 		sb.SetSize(0,320,200);
 		sb.BeginHUD(forcescaled:true);
-		int gogheight=int(screen.getheight()*(1.6*90.)/max(30,min(sb.cplayer.fov,90)));
+//		int gogheight=int(screen.getheight()*(1.6*90.)/max(30,min(sb.cplayer.fov,90)));
+		int gogheight=int(screen.getheight()*(1.6*90.)/sb.cplayer.fov);
 		int gogwidth=screen.getwidth()*gogheight/screen.getheight();
 		int gogoffsx=-((gogwidth-screen.getwidth())>>1);
 		int gogoffsy=-((gogheight-screen.getheight())>>1);
@@ -294,8 +310,10 @@ extend class PortableLiteAmp {
 			case 6: // Modern green
 				resfactor=2;hscan=1;vscan=0;scanfactor=2;scanstrength=0.1;posterize=256;posfilter=(0.1,1.0,0.1);whiteclip=0.8;desat=0.0;break;
 			default:
-			case 7: // Truecolor
+			case 8: // Truecolor
 				resfactor=1;hscan=1;vscan=0;scanfactor=2;scanstrength=0.1;posterize=256;posfilter=(0.5,1.0,0.5);whiteclip=1.0;desat=0.5;break;
+			case 9: // Old Modern Green
+				resfactor=2;hscan=1;vscan=0;scanfactor=2;scanstrength=0.1;posterize=256;posfilter=(0.0,1.0,0.75);whiteclip=0.8;desat=0.0;break;
 		}
 	}
 }

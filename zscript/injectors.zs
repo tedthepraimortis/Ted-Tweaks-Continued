@@ -8,10 +8,9 @@ class HDDrug:HDDamageHandler{
 		HDDamageHandler.priority -1000;
 		HDPickup.overlaypriority -1;
 	}
-    // This is the thing that makes it so you lose all of anything that counts as HDDrug on map change. It's cringe. I'll make it a CVAR. - [Ted]
-//	override void PreTravelled(){amount=0;}
+	// The part that removes the drugs. - [Ted]
     override void PreTravelled(){
-        if (hd_mapdrugremoval)
+        if (hd_mapdrugremoval == true)
         {
             amount=0;
         }

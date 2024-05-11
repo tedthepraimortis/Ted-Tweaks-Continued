@@ -34,16 +34,19 @@ class WornRadsuit:HDDamageHandler{
 	}
 	override void DisplayOverlay(hdstatusbar sb,hdplayerpawn hpl){
 		sb.SetSize(0,320,200);
-		sb.BeginHUD(forcescaled:true);	
+		sb.BeginHUD(forcescaled:true);
+		if (hd_radsuitoverlay == true){	
         int MaskHeight = int(Screen.GetHeight() * 2.2);
         int MaskWidth = int(Screen.GetWidth() * MaskHeight * 1.2) / Screen.GetHeight();
         int MaskOffX = -((MaskWidth - Screen.GetWidth()) >> 1);
 		int MaskOffY = -((MaskHeight - Screen.GetHeight()) >> 1);
-        Screen.DrawTexture(TexMan.CheckForTexture("DESPMASK"), true, MaskOffX - (int(hpl.wepbob.x * 0.5)), MaskOffY - (int(hpl.wepbob.y * 0.5)), DTA_DestWidth, MaskWidth, DTA_DestHeight, MaskHeight);
-		/*sb.fill(
+        Screen.DrawTexture(TexMan.CheckForTexture("DESPMASK"), true, MaskOffX - (int(hpl.wepbob.x * 0.5)), MaskOffY - (int(hpl.wepbob.y * 0.5)), DTA_DestWidth, MaskWidth, DTA_DestHeight, MaskHeight);}
+		else{
+		sb.fill(
 			color(sb.blurred?(level.time&(1|2|4))<<2:160,10,40,14),
 			0,0,screen.getwidth(),screen.getheight()
-		);*/
+		);
+		}
 	}
 	override void DrawHudStuff(
 		hdstatusbar sb,

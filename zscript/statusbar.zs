@@ -421,7 +421,7 @@ class HDStatusBar:DoomStatusBar{
 		if(
 			!blurred
 			&&hpl.health>0
-		)DrawHDXHair(hpl, ticfrac);
+		)DrawHDXHair(hpl,ticfrac);
 
 
 
@@ -544,9 +544,11 @@ class HDStatusBar:DoomStatusBar{
 			||!cvar.getcvar("r_drawplayersprites",cplayer).getbool()
 		)
 		drawselectedweapon(58,-6,DI_SCREEN_CENTER_BOTTOM|DI_ITEM_LEFT_BOTTOM);
+		
+		int wephelpheight=NewSmallFont.GetHeight()*5;
 
-			int wephelpheight=NewSmallFont.GetHeight()*5;
-
+		if (hd_newcompass == true)
+		{
 			//compass
 			int STB_COMPRAD=12;vector2 compos=(-STB_COMPRAD,STB_COMPRAD)*2;
 				//double compangle=hpl.angle; This is Matt's Version [Cozi]
@@ -606,6 +608,7 @@ class HDStatusBar:DoomStatusBar{
 					postxt,
 					DTA_VirtualWidth,640,DTA_VirtualHeight,480
 				);
+		}
 
 		//full hud consequences
 		if(hudlevel==2){
@@ -649,7 +652,47 @@ class HDStatusBar:DoomStatusBar{
 					DI_SCREEN_LEFT_BOTTOM|DI_ITEM_LEFT
 				);
 			}
-				
+
+			if (hd_newcompass == false)
+			{
+				//compass
+				int STB_COMPRAD=12;vector2 compos=(-STB_COMPRAD,STB_COMPRAD)*2;
+				double compangle=hpl.angle;
+	
+				double compangle2=hpl.deltaangle(0,compangle);
+				if(abs(compangle2)<120)screen.DrawText(NewSmallFont,
+					font.CR_GOLD,
+					600+compangle2*32/cplayer.fov,
+					wephelpheight,
+					"$EAST",
+					DTA_VirtualWidth,640,DTA_VirtualHeight,480
+				);
+				compangle2=hpl.deltaangle(-90,compangle);
+				if(abs(compangle2)<120)screen.DrawText(NewSmallFont,
+					font.CR_BLACK,
+					600+compangle2*32/cplayer.fov,
+					wephelpheight,
+					"$SOUTH",
+					DTA_VirtualWidth,640,DTA_VirtualHeight,480
+				);
+				compangle2=hpl.deltaangle(180,compangle);
+				if(abs(compangle2)<120)screen.DrawText(NewSmallFont,
+					font.CR_RED,
+					600+compangle2*32/cplayer.fov,
+					wephelpheight,
+					"$WEST",
+					DTA_VirtualWidth,640,DTA_VirtualHeight,480
+				);
+				compangle2=hpl.deltaangle(90,compangle);
+				if(abs(compangle2)<120)screen.DrawText(NewSmallFont,
+					font.CR_WHITE,
+					600+compangle2*32/cplayer.fov,
+					wephelpheight,
+					"$NORTH",
+					DTA_VirtualWidth,640,DTA_VirtualHeight,480
+				);
+			}
+	
 			string s=hpl.wephelptext;
 			if(s!="")screen.DrawText(NewSmallFont,OptionMenuSettings.mFontColorValue,
 				8,
@@ -660,23 +703,25 @@ class HDStatusBar:DoomStatusBar{
 				DTA_Alpha,0.8
 			);
 
-// 			wephelpheight+=NewSmallFont.GetHeight();
-// 			screen.DrawText(NewSmallFont,
-// 				font.CR_OLIVE,
-// 				600,
-// 				wephelpheight,
-// 				"^",
-// 				DTA_VirtualWidth,640,DTA_VirtualHeight,480
-// 			);
-			/*string postxt=string.format("%i,%i,%i",hpl.pos.x,hpl.pos.y,hpl.pos.z);
+		if (hd_newcompass == false)
+		{
+ 			wephelpheight+=NewSmallFont.GetHeight();
+ 			screen.DrawText(NewSmallFont,
+ 				font.CR_OLIVE,
+ 				600,
+ 				wephelpheight,
+ 				"^",
+ 				DTA_VirtualWidth,640,DTA_VirtualHeight,480
+ 			);
+			string postxt=string.format("%i,%i,%i",hpl.pos.x,hpl.pos.y,hpl.pos.z);
 			screen.DrawText(NewSmallFont,
 				font.CR_OLIVE,
 				600-(NewSmallFont.StringWidth(postxt)>>1),
 				wephelpheight+6,
 				postxt,
 				DTA_VirtualWidth,640,DTA_VirtualHeight,480
-			);*/
-
+			);
+		}
 		}
 
 		if(hd_debug>=3){

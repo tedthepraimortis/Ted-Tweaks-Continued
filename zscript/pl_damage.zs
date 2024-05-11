@@ -382,7 +382,7 @@ extend class HDPlayerPawn{
 						source==inflictor
 						||!inflictor
 					)
-				)?min(damage*(2.-strength)*1.5,20.)
+				)?min(damage*(2.-strength)*3.,30.*hd_flinchmultiplier)
 				:(
 					mod=="electrical"
 					||(
@@ -399,7 +399,7 @@ extend class HDPlayerPawn{
 					mod=="claws"
 					||mod=="teeth"
 					||mod=="slashing"
-				)?1.+damage*0.3
+				)?1.+damage*0.3*hd_flinchmultiplier
 				:1.5
 			;
 			if(jerkamt<10)jerkamt/=max(1,bloodpressure>>2);

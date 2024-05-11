@@ -17,6 +17,7 @@ class HDBlurSphere:HDDamageHandler{
 		hdpickup.bulk ENC_DERP;
 		scale 0.3;
 		speed 10;
+		tag "$TAG_BLURSPHERE";
 	}
 	int intensity;
 	bool worn;
@@ -44,7 +45,7 @@ class HDBlurSphere:HDDamageHandler{
 					&&invoker.intensity<99
 				)||lite>random(200,256)
 			){
-				if(lite>200)
+				if(lite>200 && hd_blurspheretextlump == true)
 				{
 
 				array<string>msgs;msgs.clear();
@@ -54,7 +55,11 @@ class HDBlurSphere:HDDamageHandler{
             		msg=msgs[int(clamp(frandom(0.,1.)*msgs.size(),0,msgs.size()-1))];
 					A_Log(msg, true);
 				}
-				else A_Log("noise",true);
+				else if (lite>200 && hd_blurspheretextlump == false)
+				{
+					A_Log(Stringtable.Localize("$BLURSPHERE_ITHURTS"),true);
+				}
+				else A_Log(Stringtable.Localize("$BLURSPHERE_NOISE"),true);
 				if(lite>random(230,300))invoker.amount--;
 				return;
 			}
@@ -125,12 +130,30 @@ class HDBlurSphere:HDDamageHandler{
 				)
 			)
 		){
+			if (hd_blurspheretextlump == true)
+			{
             array<string>msgs;msgs.clear();
 			string msg=Wads.ReadLump(Wads.CheckNumForName("blurspheretexts",0));
             msg.replace("\r", "");
             msg.split(msgs,"\n");
             msg=msgs[int(clamp(frandom(0.,1.)*msgs.size(),0,msgs.size()-1))];
 			hdp.UseInventory(self);
+			}
+			else
+			{
+			string msg="";
+				switch(random(0,10)){
+				case 0:msg=Stringtable.Localize("$BLURSPHERE_ITHURTS");break;
+				case 1:msg=Stringtable.Localize("$BLURSPHERE_ANGRY1");break;
+				case 2:msg=Stringtable.Localize("$BLURSPHERE_ANGRY2");break;
+				case 3:msg=Stringtable.Localize("$BLURSPHERE_ANGRY3");break;
+				case 4:msg=Stringtable.Localize("$BLURSPHERE_ANGRY4");break;
+				case 5:msg=Stringtable.Localize("$BLURSPHERE_ANGRY5");break;
+				case 6:msg=Stringtable.Localize("$BLURSPHERE_HELLO");break;
+			}
+			if(msg!="")hdp.A_Log(msg,true);
+			hdp.UseInventory(self);
+			}
 		}
 		return damage,mod,flags,towound,toburn,tostun,tobreak,toaggravate;
 	}
@@ -173,7 +196,7 @@ class HDBlurSphere:HDDamageHandler{
 					attacking
 					&&random(0,amount>>2+1)
 				){
-					if(!random(0,7))
+					if(!random(0,7) && hd_blurspheretextlump == true)
 					{
 					array<string>msgs;msgs.clear();
 					string msg=Wads.ReadLump(Wads.CheckNumForName("blurspheretexts",0));
@@ -181,6 +204,10 @@ class HDBlurSphere:HDDamageHandler{
             		msg.split(msgs,"\n");
             		msg=msgs[int(clamp(frandom(0.,1.)*msgs.size(),0,msgs.size()-1))];
 					owner.A_Log(msg, true);
+					}
+					else
+					{
+						owner.A_Log(Stringtable.Localize("$BLURSPHERE_ITHURTS"),true);
 					};
 					amount--;
 					if(amount<1)return;
@@ -199,7 +226,7 @@ class HDBlurSphere:HDDamageHandler{
 					||vel dot vel > 50-(amount<<2)
 				)
 			){
-				if(random(0,3))owner.A_Log("no",true);
+				if(random(0,3))owner.A_Log(Stringtable.Localize("$BLURSPHERE_NO"),true);
 				owner.A_DropInventory(getclassname(),random(1,random(1,amount)));
 				return;
 			}
@@ -241,12 +268,26 @@ class HDBlurSphere:HDDamageHandler{
 			&&!(level.time&(1|2|4|8|16))
 			&&!random(0,max(7,(invi?0:1000)-lite))
 		){
+			if (hd_blurspheretextlump == true)
+			{
             array<string>msgs;msgs.clear();
 			string msg=Wads.ReadLump(Wads.CheckNumForName("blurspheretexts",0));
             msg.replace("\r", "");
             msg.split(msgs,"\n");
             msg=msgs[int(clamp(frandom(0.,1.)*msgs.size(),0,msgs.size()-1))];
 			owner.A_Log(msg,true);
+			}
+			else
+			{
+				string msg=Stringtable.Localize("$BLURSPHERE_ITHURTS");
+			switch(random(0,10)){
+				case 0:msg=Stringtable.Localize("$BLURSPHERE_NOISE");break;
+				case 1:msg=Stringtable.Localize("$BLURSPHERE_ANGRY3");break;
+				case 2:msg=Stringtable.Localize("$BLURSPHERE_ANGRY5");break;
+				case 3:msg=Stringtable.Localize("$BLURSPHERE_ANGRY6");break;
+				case 4:msg=Stringtable.Localize("$BLURSPHERE_ANGRY7");break;
+			}
+			}
 			if(random(128,1023)<lite){
 				owner.damagemobj(self,owner,1,"hot");
 				return;
@@ -327,7 +368,7 @@ class ShellShade:Jackboot{
 		//$Category "Monsters/Hideous Destructor"
 		//$Title "Shellshade"
 		//$Sprite "SPOSA1"
-		tag "blursphere zombie";
+		tag "$TAG_BLURSPHEREZOMBIE";
 	}
 	override void postbeginplay(){
 		super.postbeginplay();

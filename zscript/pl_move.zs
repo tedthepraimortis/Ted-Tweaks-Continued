@@ -187,6 +187,8 @@ extend class HDPlayerPawn{
 		// anomalies. The thrust applied to bobbing is always the same strength on
 		// ice, because the player still "works just as hard" to move, while the
 		// thrust applied to the movement varies with 'movefactor'.
+
+		
 		if(
 			movehijacked
 		){

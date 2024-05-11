@@ -10,13 +10,21 @@ server float keeper_percent_blues = 0.6;
 server bool hd_nonecroghost = false;
 server bool hd_mapdrugremoval = true;
 server bool hd_slowairmovement = true;
-server bool hd_allowshieldstacking = false;
 server bool hd_disableliteamponexit = true;
-
-server int bonus_clean_bias = -1;
-server bool bonus_persistent_spawning = false;
+server bool hd_blurspheretextlump = true;
+server bool hd_noblurwithliteamp = false;
+server bool hd_liteampgogglefoveffect = false;
+server bool hd_liteampflicker = false;
+server float hd_flinchmultiplier = 0.5;
+server bool hd_easierclimbing = true;
+server bool hd_radsuitoverlay = true;
+server bool hd_incapgrabs = false;
+server bool hd_newcompass = true;
 
 server bool hd_vulcfixer = false;
 
+// Couldn't get these to work before wanting to do something else. - [Ted]
 server bool spicy_enabled = false;
 user float spicy_breathingvolume = 0.5;
+server bool hd_revolverkeepcocked = true;
+server bool hd_ttspawntables = true;

@@ -116,8 +116,14 @@ extend class HDPlayerPawn{
 					itt.angle+=frandom(-10,10);
 					muzzleclimb1.x+=frandom(-3,3);
 					muzzleclimb1.y+=frandom(-1,1);
+					if(hd_easierclimbing == true){
 					itt.vel.xy+=(frandom(-0.3,0.3),frandom(-0.3,0.3))
 						+angletovector(angle,frandom(0,0.3));
+					}
+					else
+					itt.vel.xy+=(frandom(-1,1),frandom(-1,1))
+						+angletovector(angle,frandom(0,1));
+
 					bool friendly=itt.isfriend(self);
 					if(
 						!friendly
@@ -395,7 +401,8 @@ extend class HDPlayerPawn{
 		if(oldinput&BT_ATTACK)hasgrabbed=true;
 		else if(!(oldinput&BT_USE))hasgrabbed=false;
 
-		PickupGrabber(incapacitated?2:-1);
+		if(hd_incapgrabs==true){PickupGrabber(incapacitated?2:-1);}
+		else{if(incapacitated)return;}
 
 		//door kicking
 		if(
@@ -437,6 +444,7 @@ extend class HDPlayerPawn{
 		}
 
 		bpickup=!hasgrabbed;
+		PickupGrabber();
 		//corpse kicking
 		if(
 			!jumptimer

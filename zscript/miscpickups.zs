@@ -192,7 +192,7 @@ class HDAmBox:HDUPK{
 		meleerange 42;
 		radiusdamagefactor 0.5;
 		hdambox.maxcapacity 200.;
-		obituary "%o paid no attention to Admiral Ackbar.";
+		obituary "$OB_AMMOBOX";
 		tag "$TAG_AMMOBOX";
 	}
 	bool tapped;
@@ -587,7 +587,7 @@ class BlueFrag:HDInvRandomSpawner replaces HealthBonus{
 //-------------------------------------------------
 // BIG BALLS
 //-------------------------------------------------
-class RedSphere:HDInvRandomSpawner replaces BlurSphere{
+class BlurSphereReplacer:HDInvRandomSpawner replaces BlurSphere{
 	default{
 		dropitem "SquadSummoner",256,14;
 		dropitem "HDFragGrenades",256,6;
@@ -974,7 +974,7 @@ class HDRedSkull:HDUPK replaces RedSkull{
 		picktarget.A_GiveInventory(missilename);
 		picktarget.damagemobj(self,self,1,"balefire");
 		picktarget.A_Log(pickupmessage,true);
-		picktarget.A_GiveInventory("IsMoving",99);
+		IsMoving.Give(picktarget,99);
 		setstatelabel("effect");
 	}
 	states{
@@ -1096,7 +1096,7 @@ class HDCandle:HDPickup replaces Candlestick{
 			flinetracedata candlespot;
 			LineTrace(
 				angle,42,pitch,
-				offsetz:height*0.8-2,
+				offsetz:height*0.8,
 				data:candlespot
 			);
 			let ccc=spawn("HDCandle",

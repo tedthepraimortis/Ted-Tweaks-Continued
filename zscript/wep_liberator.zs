@@ -646,7 +646,7 @@ class LiberatorRifle:AutoReloadingThingy{
 		BRFG A 0{
 			A_CheckDefaultReflexReticle(LIBS_DOT);
 			A_Overlay(776,"brasstube");
-			invoker.weaponstatus[0]&=~LIBF_GRENADEMODE;
+			if(!countinv("NulledWeapon"))invoker.weaponstatus[0]&=~LIBF_GRENADEMODE;
 		}goto select0big;
 	deselect0:
 		BRFG A 0{
