@@ -1,7 +1,7 @@
 // I'm gonna likely clean this up soon once I remember to actually do that. This all should be LANGUAGE'd also. - [Ted]
 OptionMenu TedTweaks
 {
-    Title "------ Ted Tweaks ------"
+    Title "$MENU_TTM_TITLE"
     StaticText ""
     StaticText " Keepers Options ", "Gold"
     StaticText ""
@@ -104,4 +104,49 @@ OptionValue "KeeperPercent"
     0.8, "80%"
     0.9, "90%"
     1, "100%"
+}
+
+// Main Menu changes because the PatchItem sprites are ugly and inconvenient for my sadistic tendencies. - [Ted]
+ListMenu "MainMenu"{
+	IfGame(Doom,Chex){
+		StaticPatch 94,2,"M_DOOM"
+		Position 97, 72
+	}
+	IfGame(Strife){
+		StaticPatch 84,2,"M_STRIFE"
+		Position 97, 45
+	}
+	IfGame(Heretic){
+		StaticPatch 88,0,"M_HTIC"
+		StaticPatch 40,10,"M_SKL01"
+		StaticPatch 232,10,"M_SKL00"
+		Position 110, 56
+	}
+	IfGame(Hexen){
+		StaticPatch 88,0,"M_HTIC"
+		StaticPatch 37,80,"FBULB0"
+		StaticPatch 278,80,"FBULA0"
+		Position 110,56
+	}
+	IfGame(Doom,Strife,Chex){
+		TextItem "$MNU_NEWGAME","n","HDNewGameLoadoutMenu"
+			TextItem "$MNU_HDOPTIONS","o","HDOptionsMenu"
+		ifOption(SwapMenu){
+			TextItem "$MNU_LOADG","l","LoadGameMenu"
+			TextItem "$MNU_SAVEG","s","SaveGameMenu"
+			TextItem "$MNU_OPTION","o","OptionsMenu"
+		}else{
+			TextItem "$MNU_OPTION","o","OptionsMenu"
+			TextItem "$MNU_LOADG","l","LoadGameMenu"
+			TextItem "$MNU_SAVEG","s","SaveGameMenu"
+		}
+		TextItem "$MNU_QUITG","q","QuitMenu"
+	}
+	IfGame(Heretic,Hexen){
+		TextItem "$MNU_NEWGAME","n","PlayerclassMenu"
+		TextItem "$MNU_OPTIONS","o","OptionsMenu"
+		TextItem "$MNU_GAMEFILES","g","GameFilesMenu"
+		TextItem "$MNU_INFO","i","ReadThisMenu"
+		TextItem "$MNU_QUITGAME","q","QuitMenu"
+	}
 }

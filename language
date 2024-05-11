@@ -38,3 +38,9 @@ STARTUP2=" \cyHideous Destructor \cx4.12.2a \cypre \c[Cyan]Ted\'s Tweaks\c-";
 STARTUP3=" Please read the manual.";
 STARTUP4="       Have fun!";
 STARTUP5="        \cq~ \cr* \cq~";
+
+// Main menu stuff. - [Ted]
+MNU_OPTION = "Options";
+MNU_LOADG = "Load Game";
+MNU_SAVEG = "Save Game";
+MNU_QUITG = "Quit Game";
