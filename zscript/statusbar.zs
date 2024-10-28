@@ -759,7 +759,7 @@ class HDStatusBar:DoomStatusBar{
 
 	}
 	void drawtip(){
-		double spectipalpha=hpl.specialtipalpha;
+		double spectipalpha=hpl.helptipalpha;
 		if(spectipalpha>0.){
 			if(spectipalpha>1000)spectipalpha=1.-(spectipalpha-1000);
 			string s=hpl.specialtip;
