@@ -829,7 +829,7 @@ class KeyLoadoutGiver:HDPickup{
 		}fail;
 	}
 }
-class HDUPKAlwaysGive:HDActor{
+class HDUPKAlwaysGive:HDActor abstract{
 	class<inventory> toallplayers;property toallplayers:toallplayers;
 	string msgtoall;property msgtoall:msgtoall;
 	default{
@@ -926,6 +926,7 @@ class HDRedKey:HDUPKAlwaysGive replaces RedCard{
 		#### ABABABAB 2;
 		#### ABABABABABABABAB 3;
 		#### ABABAB 6;
+		---- A 0 A_Jump(256, "spawn2");
 	spawn2:
 		---- A 1 A_SetTics(random(1,1000));
 	spawn3:

@@ -229,6 +229,9 @@ class HDSMG:HDWeapon{
 				invoker.weaponstatus[SMGS_CHAMBER]=2;
 			}
 			if(invoker.weaponstatus[SMGS_AUTO]==2)A_SetTics(1);
+
+			//don't allow firing if supposed to be lowered
+			A_WeaponReady(WRF_NOFIRE);
 		}
 		#### A 0 A_ReFire();
 		goto ready;

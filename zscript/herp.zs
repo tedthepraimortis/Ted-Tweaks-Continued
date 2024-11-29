@@ -66,7 +66,7 @@ class HERPBot:HDUPK{
 		//$Sprite "HERPA1"
 		+ismonster +noblockmonst +friendly +standstill +nofear
 		+shootable +ghost +noblood +dontgib
-		+missilemore //on/off
+		+nobouncesound //on/off
 		+nobouncesound
 		height 9;radius 7;mass 400;health 200;
 		damagefactor "hot",0.7;
@@ -88,7 +88,7 @@ class HERPBot:HDUPK{
 	override bool cancollidewith(actor other,bool passive){return other.bmissile||HDPickerUpper(other);}
 	override bool ongrab(actor other){
 		if(ishostile(other)){
-			bmissilemore=false;
+			bnobouncesound=false;
 			setstatelabel("off");
 		}
 		return true;
@@ -198,11 +198,11 @@ class HERPBot:HDUPK{
 			setstatelabel("death");
 			return;
 		}
-		if(!bmissilemore){
+		if(!bnobouncesound){
 			setstatelabel("off");
 			return;
 		}
-		if(bmissileevenmore){
+		if(bnowallbouncesnd){
 			setstatelabel("inputready");
 			return;
 		}
@@ -319,7 +319,7 @@ class HERPBot:HDUPK{
 		}
 		HERP A 20{
 			if(master){
-				bmissileevenmore=true;
+				bnowallbouncesnd=true;
 				herpbeep("herp/beepready");
 				message(Stringtable.Localize("$HERP_CONNECTED"));
 			}else{
@@ -335,7 +335,7 @@ class HERPBot:HDUPK{
 		,"inputabort");
 		wait;
 	inputabort:
-		HERP A 4{bmissileevenmore=false;}
+		HERP A 4{bnowallbouncesnd=false;}
 		HERP A 2 herpbeep("herp/beepready");
 		HERP A 20 message(Stringtable.Localize("$HERP_DISCONNECTED"));
 		goto spawn;
@@ -368,7 +368,7 @@ class HERPBot:HDUPK{
 			){
 				message(Stringtable.Localize("$HERP_NOMAG"));
 				if(currammoraw>100&&!random(0,3))ammo[0]--;
-				bmissilemore=random(0,15);
+				bnobouncesound=random(0,15);
 				setstatelabel("off");
 				return;
 			}
@@ -440,7 +440,7 @@ class HERPBot:HDUPK{
 		HERP A 10;
 		HERP A 0{
 			if(
-				!bmissilemore
+				!bnobouncesound
 				||(
 					ammo[0]%100<1
 					&&ammo[1]%100<1
@@ -743,7 +743,7 @@ class HERPUsable:HDWeapon{
 			invoker.weaponstatus[1]=currammo;
 			A_Overlay(PSP_FLASH,"directflash");
 		}
-		HERG B 2;
+		HERG BB 1 A_WeaponReady(WRF_NOFIRE);
 		HERG A 0 A_JumpIf(!pressingzoom(),"lowerfromfire");
 		HERG A 0 A_Refire("directfire");
 		goto readytofire;
@@ -766,7 +766,7 @@ class HERPUsable:HDWeapon{
 			);
 		}stop;
 	directfail:
-		HERG # 1 A_WeaponReady(WRF_NONE);
+		HERG # 1 A_WeaponReady(WRF_NOFIRE);
 		HERG # 0 A_JumpIf(pressingfire(),"directfail");
 		goto readytofire;
 	lowerfromfire:
@@ -893,7 +893,7 @@ class HERPUsable:HDWeapon{
 		hhhh.ammo[2]=invoker.weaponstatus[3];
 		hhhh.battery=invoker.weaponstatus[4];
 		hhhh.botid=invoker.weaponstatus[HERP_BOTID];
-		hhhh.bmissilemore=!(invoker.weaponstatus[0]&HERPF_STARTOFF);
+		hhhh.bnobouncesound=!(invoker.weaponstatus[0]&HERPF_STARTOFF);
 		hhhh.bdontfacetalker=invoker.weaponstatus[0]&HERPF_STATIC;
 		Message(StringTable.Localize("$HERP_DEPLOYED"));
 		A_GiveInventory("HERPController");
@@ -1144,7 +1144,7 @@ extend class HDHandlers{
 			&&hpu.weaponstatus[HERPS_INDEX]<hpu.herps.size()
 			&&hpu.herps[hpu.weaponstatus[HERPS_INDEX]]
 			&&hpu.herps[hpu.weaponstatus[HERPS_INDEX]].battery>0
-			&&!hpu.herps[hpu.weaponstatus[HERPS_INDEX]].bmissilemore
+			&&!hpu.herps[hpu.weaponstatus[HERPS_INDEX]].bnobouncesound
 		)hpu.setownerweaponstate("hack");
 		else ppp.A_Log(Stringtable.Localize("$HERP_NOCONTROLLER"),true);
 	}
@@ -1189,13 +1189,13 @@ extend class HDHandlers{
 						ppp.A_Log(string.format(Stringtable.Localize("$HERP_EMPTY"),herp.pos.x,herp.pos.y),true);
 					}else{
 						affected++;
-						herp.bmissilemore=true;
+						herp.bnobouncesound=true;
 					}
 				}
 				else if(botcmd==2){
 					affected++;
 					badcommand=false;
-					herp.bmissilemore=false;
+					herp.bnobouncesound=false;
 				}
 				else if(botcmd==3){
 					if(!achange){
@@ -1221,7 +1221,7 @@ extend class HDHandlers{
 						herp.pos.x,herp.pos.y,
 						hdmath.cardinaldirection(herp.startangle),
 						herp.botid,
-						herp.bmissilemore?Stringtable.Localize("$HERP_ACTIVE"):Stringtable.Localize("$HERP_INACTIVE")
+						herp.bnobouncesound?Stringtable.Localize("$HERP_ACTIVE"):Stringtable.Localize("$HERP_INACTIVE")
 					),true);
 				}
 				else{
@@ -1320,7 +1320,7 @@ class HERPController:HDWeapon{
 			||herpcam.battery<1
 		)return LWPHELP_DROP..StringTable.Localize("$HERPCWH_DROP");
 		bool connected=(herpcam.bmissileevenmore);
-		bool turnedon=(herpcam.bmissilemore);
+		bool turnedon=(herpcam.bnobouncesound);
 		bool staystill=(herpcam.bdontfacetalker);
 		if(connected)return
 		LWPHELP_FIREMODE..StringTable.Localize("$HERPCWH_FMODE")
@@ -1420,7 +1420,7 @@ class HERPController:HDWeapon{
 				||ddd.distance3d(self)>frandom(0.9,1.1)*HERP_CONTROLRANGE
 			)return;
 			if(justpressed(BT_ALTATTACK)){
-				ddd.bmissilemore=!ddd.bmissilemore;
+				ddd.bnobouncesound=!ddd.bnobouncesound;
 				ddd.herpbeep();
 			}
 
@@ -1430,7 +1430,7 @@ class HERPController:HDWeapon{
 			}
 			if(
 				ddd.bmissileevenmore
-				&&ddd.bmissilemore
+				&&ddd.bnobouncesound
 			){
 				if(justpressed(BT_RELOAD)){
 					ddd.setstatelabel("inputabort");
@@ -1517,7 +1517,7 @@ class HERPController:HDWeapon{
 					mo.target=owner;
 					mo.message(StringTable.Localize("$HERP_ENEMY"));
 					mo.startangle=mo.angleto(owner);
-					mo.bmissilemore=true;
+					mo.bnobouncesound=true;
 					return false;
 				}
 			}

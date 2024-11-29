@@ -47,9 +47,12 @@ class PortableLiteAmp:HDMagAmmo replaces Infrared{
 		super.AttachToOwner(other);
 		if(owner&&owner.player){
 			let cvv=cvar.getcvar("hd_nv",owner.player);
-			double cvf=clamp(cvv.getfloat(),0,NITEVIS_MAX);
-			amplitude=cvf;
-			if(cvf!=cvv.getfloat())cvv.setfloat(cvf);
+			double cvf=cvv.getfloat();
+			amplitude=clamp(cvv.getfloat(),0,NITEVIS_MAX);
+			if(
+				cvf!=amplitude
+				&&cvf!=999
+			)cvv.setfloat(cvf);
 		}
 		else amplitude=frandom(0,NITEVIS_MAX);
 		lastcvaramplitude=amplitude;
@@ -89,7 +92,7 @@ class PortableLiteAmp:HDMagAmmo replaces Infrared{
 		if(!self||!owner||!owner.player)return;
 		bool oldliteamp=(
 			(sv_cheats||!multiplayer)
-			&&cvar.getcvar("hd_nv",owner.player).getfloat()==999.
+			&&cvar.getcvar("hd_nv",owner.player).getint()==999
 		);
 
 		//charge

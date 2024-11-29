@@ -45,6 +45,16 @@ class PainMonster:HDMobBase abstract{
 	override double bulletresistance(double hitangle){
 		return super.bulletresistance(hitangle);
 	}
+	states{
+	gib:
+		GIBS A 0 A_IdGoreTranslate("BaronBlood");
+		goto super::gib;
+	death.maxhpdrain:
+		#### H 5 A_StartSound("misc/gibbed",CHAN_BODY);
+		#### IJKLMN 5;
+		#### O -1;
+		stop;
+	}
 }
 // ------------------------------------------------------------
 // Pain Lord
@@ -64,7 +74,8 @@ class Baron:PainMonster replaces BaronofHell{
 		tag "$CC_BARON";
 
 		+e1m8boss
-		+missilemore +dontharmspecies
+		+nobouncesound +dontharmspecies
+		+hdmobbase.onlyscreamondeath
 		maxtargetrange 65536;
 		damagefactor "hot",0.8;
 		damagefactor "cold",0.7;
@@ -74,6 +85,7 @@ class Baron:PainMonster replaces BaronofHell{
 		meleedamage 12;
 		meleerange 58;
 		health BE_HPMAX;
+		gibhealth BE_HPMAX*3/2;
 		speed 6;
 		painchance 4;
 		hdmobbase.shields 2000;
@@ -96,6 +108,13 @@ class Baron:PainMonster replaces BaronofHell{
 	override void tick(){
 		super.tick();
 		if(!isfrozen()&&firefatigue>0)firefatigue-=2;
+	}
+	override void deathdrop(){
+		bodydamage=clamp(bodydamage,spawnhealth()+HDMOB_RAISEBODYDMG*5,GetGibBodyDamage());
+		A_QuakeEx(1,1,2,64,0,512,flags:QF_SCALEDOWN,falloff:32);
+		for(int i=0;i<5;i++){
+			A_SpawnItemEx("BFGNecroShard",0,0,20,10,0,8,45*i,SXF_NOCHECKPOSITION|SXF_TRANSFERPOINTERS);
+		}
 	}
 	states{
 	spawn:
@@ -194,8 +213,11 @@ class Baron:PainMonster replaces BaronofHell{
 		BOSS F 5 A_JumpIf(target&&distance3d(target)>84,"missilesweep");
 		---- A 0 setstatelabel("see");
 	death.telefrag:
-		TNT1 A 0 spawn("Telefog",pos,ALLOW_REPLACE);
-		TNT1 A 0 A_NoBlocking();
+	TNT1 A 0{
+		bnoextremedeath=true;
+		spawn("Telefog",pos,ALLOW_REPLACE);
+		A_NoBlocking();
+	}
 		TNT1 AAAAA 0 A_SpawnItemEx("BFGNecroShard",
 			frandom(-4,4),frandom(-4,4),frandom(6,24),
 			frandom(1,6),0,frandom(1,3),
@@ -205,23 +227,11 @@ class Baron:PainMonster replaces BaronofHell{
 		TNT1 A 0 A_BossDeath();
 		stop;
 	death:
-		---- A 0{
-			bodydamage+=666*5;
-			A_QuakeEx(1,1,2,64,0,512,flags:QF_SCALEDOWN,falloff:32);
-		}
-		BOSS I 2 A_SpawnItemEx("BFGNecroShard",0,0,20,10,0,8,45,SXF_NOCHECKPOSITION|SXF_TRANSFERPOINTERS);
-		BOSS I 2 A_SpawnItemEx("BFGNecroShard",0,0,35,10,0,8,135,SXF_NOCHECKPOSITION|SXF_TRANSFERPOINTERS);
-		BOSS I 2 A_SpawnItemEx("BFGNecroShard",0,0,50,10,0,8,225,SXF_NOCHECKPOSITION|SXF_TRANSFERPOINTERS);
-		BOSS I 2 A_SpawnItemEx("BFGNecroShard",0,0,65,10,0,8,315,SXF_NOCHECKPOSITION|SXF_TRANSFERPOINTERS);
-		BOSS J 8 A_Vocalize(default.deathsound);
+		BOSS I 8;
+		BOSS J 8 A_Vocalize(deathsound);
 		BOSS KLMN 8;
-		BOSS OOOOO 6;
-		BOSS O -1 A_BossDeath();
-		stop;
-	death.maxhpdrain:
-		BOSS J 5 A_StartSound("misc/gibbed",CHAN_BODY);
-		BOSS KLMN 5;
 		BOSS O -1;
+		stop;
 	raise:
 		BOSS ONMLKJI 5;
 		BOSS H 8;
