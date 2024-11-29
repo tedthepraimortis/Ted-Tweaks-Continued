@@ -22,9 +22,3 @@ server bool hd_incapgrabs = false;
 server bool hd_newcompass = true;
 
 server bool hd_vulcfixer = false;
-
-// Couldn't get these to work before wanting to do something else. - [Ted]
-server bool spicy_enabled = false;
-user float spicy_breathingvolume = 0.5;
-server bool hd_revolverkeepcocked = true;
-server bool hd_ttspawntables = true;
