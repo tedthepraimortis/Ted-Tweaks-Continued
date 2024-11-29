@@ -466,7 +466,7 @@ extend class HDPlayerPawn{
 						||kbmolowerby<-16
 					)continue;
 					if(
-						kbmo.bcorpse
+						HDMath.IsDead(kbmo)
 						||kbmo is "HDFragGrenade"
 						||kbmo is "HDFragGrenadeRoller"
 					){

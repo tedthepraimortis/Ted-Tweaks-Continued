@@ -854,47 +854,91 @@ class HDStatusBar:DoomStatusBar{
 		}
 	}
 	color savedcolour;
+	inventory lastinvsel;
+	int invselinterpx,invselinterpy;
 	void DrawInvSel(int posx,int posy,int numposx,int numposy,int flags){
-		if(CPlayer.mo.InvSel){
-			inventory ivs=cplayer.mo.invsel;
-			let ivsh=hdpickup(ivs);
-			let ivsw=hdweapon(ivs);
-			drawinventoryicon(ivs,(posx,posy),
-				flags|DI_ITEM_CENTER
-				|((
-					(ivsh&&ivsh.bdroptranslation)
-					||(ivsw&&ivsw.bdroptranslation)
-				)?DI_TRANSLATABLE:0)
-			);
+		if(!CPlayer.mo.InvSel)return;
 
-			let pivs=HDPickup(ivs);
-			let piws=HDWeapon(ivs);
-			savedcolour=Font.CR_SAPPHIRE;
-			if(pivs){
-				int pivsi=pivs.getsbarnum();
-				if(pivsi!=-1000000)drawstring(
-					pnewsmallfont,FormatNumber(pivsi),
-					(numposx,numposy-7),flags|DI_TEXT_ALIGN_RIGHT,savedcolour,scale:(0.5,0.5)
-				);
-			}else if(piws){
-				int piwsi=piws.getsbarnum();
-				if(piwsi!=-1000000)drawstring(
-					pnewsmallfont,FormatNumber(piwsi),
-					(numposx,numposy-7),flags|DI_TEXT_ALIGN_RIGHT,savedcolour,scale:(0.5,0.5)
-				);
-			}
+		inventory ivs=cplayer.mo.invsel;
+		let ivsh=hdpickup(ivs);
+		let ivsw=hdweapon(ivs);
 
-			savedcolour=Font.CR_OLIVE;
-			int invamt=
-				hdweapon(ivs)?hdweapon(ivs).displayamount():
-				hdpickup(ivs)?hdpickup(ivs).displayamount():
-				ivs.amount
-			;
-			drawstring(pnewsmallfont,FormatNumber(invamt),
-				(numposx,numposy),flags|DI_TEXT_ALIGN_RIGHT,savedcolour,scale:(0.5,0.5)
-			);
+		let pivs=HDPickup(ivs);
+		let piws=HDWeapon(ivs);
+
+	//calculate offset for interpolation
+	if(
+		!!lastinvsel
+		&&lastinvsel!=ivs
+	){
+		int lastinvselindex=-999;
+		int ivsindex=-999;
+		int i=0;
+		inventory item;
+		for(item=cplayer.mo.inv;item!=NULL;item=item.inv){
+			if(!item.binvbar)continue;
+
+			if(item==lastinvsel)lastinvselindex=i;
+			else if(item==ivs)ivsindex=i;
+
+			i++;
 		}
+
+		//when there are only 2 items, the unselected one is always to the right
+		bool ivsisgreater=i==2||ivsindex>lastinvselindex;
+
+		if(i!=2){
+			//we can't tell which direction we're going so the wrap-around conditions have to be checked individually
+			if(ivsindex==0){
+				ivsisgreater=(lastinvselindex>1);
+			}
+			else if(lastinvselindex==0){
+				ivsisgreater=(ivsindex==1);
+			}
+		}
+
+		invselinterpx=ivsisgreater?7:-7;
+		invselinterpy=-7;
 	}
+	lastinvsel=ivs;
+
+	drawinventoryicon(ivs,(posx+invselinterpx,posy+invselinterpy),
+		flags|DI_ITEM_CENTER
+		|((
+			(ivsh&&ivsh.bdroptranslation)
+			||(ivsw&&ivsw.bdroptranslation)
+		)?DI_TRANSLATABLE:0)
+	);
+
+	invselinterpx>>=1;
+	invselinterpy>>=1;
+
+
+	savedcolour=Font.CR_SAPPHIRE;
+	if(pivs){
+		int pivsi=pivs.getsbarnum();
+		if(pivsi!=-1000000)drawstring(
+			pnewsmallfont,FormatNumber(pivsi),
+			(numposx,numposy-7),flags|DI_TEXT_ALIGN_RIGHT,savedcolour,scale:(0.5,0.5)
+		);
+	}else if(piws){
+		int piwsi=piws.getsbarnum();
+		if(piwsi!=-1000000)drawstring(
+			pnewsmallfont,FormatNumber(piwsi),
+			(numposx,numposy-7),flags|DI_TEXT_ALIGN_RIGHT,savedcolour,scale:(0.5,0.5)
+		);
+	}
+
+	savedcolour=Font.CR_OLIVE;
+	int invamt=
+		hdweapon(ivs)?hdweapon(ivs).displayamount():
+		hdpickup(ivs)?hdpickup(ivs).displayamount():
+		ivs.amount
+	;
+	drawstring(pnewsmallfont,FormatNumber(invamt),
+		(numposx,numposy),flags|DI_TEXT_ALIGN_RIGHT,savedcolour,scale:(0.5,0.5)
+	);
+}
 	void DrawSurroundingInv(int posx,int posy,int numposx,int numposy,int flags,int drawfull=true){
 		int i=0;
 		int thisindex=-1;
@@ -953,7 +997,7 @@ class HDStatusBar:DoomStatusBar{
 						(ivsh&&ivsh.bdroptranslation)
 						||(ivsw&&ivsw.bdroptranslation)
 					)?DI_TRANSLATABLE:0),
-				alpha:0.6,scale:applyscale*0.6
+				alpha:0.6+(invselinterpy*0.08),scale:applyscale*(0.6-(invselinterpy*0.05))
 			);
 		}
 	}

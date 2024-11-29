@@ -670,7 +670,7 @@ class LiberatorRifle:AutoReloadingThingy{
 					A_ZoomAdjust(LIBS_DROPADJUST,0,1200,BT_USE);
 				}else if(invoker.weaponstatus[0]&LIBF_FRONTRETICLE)A_ZoomAdjust(LIBS_ZOOM,20,40);
 				else A_ZoomAdjust(LIBS_ZOOM,6,70);
-				A_WeaponReady(WRF_NONE);
+				A_WeaponReady(WRF_NOFIRE);
 			}else A_WeaponReady(WRF_ALL);
 		}goto readyend;
 	user3:
@@ -707,7 +707,7 @@ class LiberatorRifle:AutoReloadingThingy{
 		BRFG A 1{
 			if(invoker.weaponstatus[LIBS_CHAMBER]==2)A_Gunflash();
 			else setweaponstate("chamber_manual");
-			A_WeaponReady(WRF_NONE);
+			A_WeaponReady(WRF_NOFIRE); //don't allow firing if supposed to be lowered
 		}
 		BRFG B 1 A_Chamber();
 		BRFG A 0 A_Refire();
