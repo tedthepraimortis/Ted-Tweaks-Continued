@@ -913,7 +913,7 @@ class LiberatorRifle:AutoReloadingThingy{
 	pocketmag:
 		BRFG B 7 offset(12,52)A_MuzzleClimb(frandom(-0.2,0.8),frandom(-0.2,0.4),wepdot:false);
 		BRFG B 0 A_StartSound("weapons/pocket",9);
-		BRFG BB 7 offset(14,54)A_MuzzleClimb(frandom(-0.2,0.8),frandom(-0.2,0.4).wepdot:false);
+		BRFG BB 7 offset(14,54)A_MuzzleClimb(frandom(-0.2,0.8),frandom(-0.2,0.4),wepdot:false);
 		BRFG B 0{
 		}goto magout;
 	magout:
@@ -926,7 +926,7 @@ class LiberatorRifle:AutoReloadingThingy{
 
 	loadmag:
 		BRFG B 0 A_StartSound("weapons/pocket",9);
-		BRFG BB 7 offset(14,54)A_MuzzleClimb(frandom(-0.2,0.4),frandom(-0.2,0.8,wepdot:false));
+		BRFG BB 7 offset(14,54)A_MuzzleClimb(frandom(-0.2,0.4),frandom(-0.2,0.8),wepdot:false);
 		BRFG B 6 offset(12,52){
 			let mmm=hdmagammo(findinventory("HD7mMag"));
 			if(mmm){
@@ -1037,7 +1037,7 @@ firegrenade:
 				){
 					A_GiveInventory("HDRocketAmmo");
 					A_StartSound("weapons/pocket",9);
-					A_MuzzleClimb(frandom(-0.2,0.8),frandom(-0.2,0.4,wepdot:false));
+					A_MuzzleClimb(frandom(-0.2,0.8),frandom(-0.2,0.4),wepdot:false);
 					A_SetTics(6);
 				}else A_SpawnItemEx("HDRocketAmmo",
 					cos(pitch)*12,0,gunheight()-2-12*sin(pitch),

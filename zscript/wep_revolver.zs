@@ -150,7 +150,7 @@ class HDRevolver:HDHandgun{
 	}
 
 	action bool HoldingRightHanded(){
-		return invoker.wronghand
+		return invoker.wronghand;
 	}
 	action void A_CheckRevolverHand(){
 		bool righthanded=HoldingRightHanded();
