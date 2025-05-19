@@ -882,11 +882,11 @@ class LiberatorRifle:AutoReloadingThingy{
 		BRFG B 1 offset(4,40);
 		BRFG B 2 offset(8,42){
 			A_MuzzleClimb(-frandom(0.4,0.8),frandom(0.4,1.4),wepdot:false);
-			A_StartSound("weapons/rifleclick2",8);
+			A_StartSound("weapons/libclick2",8);
 		}
 		BRFG B 4 offset(14,46){
 			A_MuzzleClimb(-frandom(0.4,0.8),frandom(0.4,1.4),wepdot:false);
-			A_StartSound ("weapons/rifleunload",8,CHANF_OVERLAP);
+			A_StartSound ("weapons/libunload",8,CHANF_OVERLAP);
 		}
 		BRFG B 0{
 			int magamt=invoker.weaponstatus[LIBS_MAG];
@@ -935,11 +935,11 @@ class LiberatorRifle:AutoReloadingThingy{
 				invoker.weaponstatus[LIBS_MAG]=rndcnt;
 				invoker.weaponstatus[LIBS_RECASTS]=clamp(rndcnt-(minput/100),0,rndcnt);
 
-				A_StartSound("weapons/rifleclick",8);
-				A_StartSound("weapons/rifleload",8,CHANF_OVERLAP);
+				A_StartSound("weapons/libclick",8);
+				A_StartSound("weapons/libload",8,CHANF_OVERLAP);
 			}
 		}
-		BRFG B 2 offset(8,46) A_StartSound("weapons/rifleclick2",8,CHANF_OVERLAP);
+		BRFG B 2 offset(8,46) A_StartSound("weapons/libclick2",8,CHANF_OVERLAP);
 		goto reloaddone;
 
 	reloaddone:
@@ -1165,7 +1165,7 @@ firegrenade:
 			lefty>0
 			||(
 				lefty<0
-				&&(Wads.CheckNumForName("id",0)!=-1)
+				&&(HDMath.PlayingID())
 			)
 		)weaponstatus[0]|=LIBF_LEFTY;
 		else weaponstatus[0]&=~LIBF_LEFTY;

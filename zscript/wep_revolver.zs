@@ -150,16 +150,7 @@ class HDRevolver:HDHandgun{
 	}
 
 	action bool HoldingRightHanded(){
-		bool righthanded=invoker.wronghand;
-		righthanded=
-		(
-			righthanded
-			&&Wads.CheckNumForName("id",0)!=-1
-		)||(
-			!righthanded
-			&&Wads.CheckNumForName("id",0)==-1
-		);
-		return righthanded;
+		return invoker.wronghand
 	}
 	action void A_CheckRevolverHand(){
 		bool righthanded=HoldingRightHanded();
@@ -524,7 +515,7 @@ class HDRevolver:HDHandgun{
 		REVG E 2;
 		REVG A 0{
 			A_CloseCylinder();
-			invoker.wronghand=(Wads.CheckNumForName("id",0)!=-1);
+			invoker.wronghand=true;
 			A_CheckRevolverHand();
 		}goto nope;
 	open_dumpcylinder:

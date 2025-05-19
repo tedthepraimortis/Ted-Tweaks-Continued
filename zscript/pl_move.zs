@@ -125,12 +125,6 @@ extend class HDPlayerPawn{
 		UserCmd cmd = player.cmd;
 		bool notpredicting = !(player.cheats & CF_PREDICTING);
 
-		//update lastpitch and lastangle if teleported
-		if(teleported){
-			lastpitch=pitch;
-			lastangle=angle;
-		}
-
 		//cache cvars as necessary
 		if(!hd_nozoomlean)cachecvars();
 
@@ -218,9 +212,29 @@ extend class HDPlayerPawn{
 			}
 
 			if(!player.onground && !bNoGravity && !waterlevel && hd_slowairmovement == true){
-				// [RH] allow very limited movement if not on ground.
-				movefactor*=level.aircontrol;
-				bobfactor*=level.aircontrol;
+				// Allow limited movement if not on ground
+
+				//checks should include tiny ledges, resistance is an *enabling* thing
+				double mxsphtbk=maxstepheight;
+				maxstepheight=0;
+
+				double airfactor=level.aircontrol;
+				double reach=height*(barehanded?0.14:0.09);
+
+				if(
+					//any nearby wall to kick off of
+					!CheckMove(pos.xy+(reach,reach))
+					||!CheckMove(pos.xy+(-reach,-reach))
+					||!CheckMove(pos.xy+(reach,-reach))
+					||!CheckMove(pos.xy+(-reach,reach))
+				){
+					airfactor=0.8;
+				}
+
+				movefactor*=airfactor;
+				bobfactor*=airfactor;
+
+				maxstepheight=mxsphtbk;
 			}
 
 			//"override double,double TweakSpeeds()"...
@@ -339,12 +353,26 @@ extend class HDPlayerPawn{
 
 		if(toroll!=-999)A_SetRoll(toroll,SPF_INTERPOLATE);
 
+		//update vel, lastpitch and lastangle relative to pre-teleportation
+		if(teleported){
+			if(abs(realpitch)>90){
+				angle=normalize180(angle+180);
+				teleangle=normalize180(teleangle+180);
+			}
+			lastvel.xy=rotatevector(lastvel.xy,teleangle);
+			vel.xy=rotatevector(vel.xy,teleangle);
+			lastpitch=pitch;
+			lastangle=angle;
+			feetangle=angle;
+			vel+=lastvel;
+		}
 
 		//if done in ticker, fails to show difference during TurnCheck
 		lastvel=vel;
 	}
 	int leaned;
 	int cmdleanmove;
+	double teleangle;
 
 
 
@@ -512,7 +540,35 @@ extend class HDPlayerPawn{
 			fallroll=0;
 		}
 	}
+	//used in ticker
+	int ImpactRoll(
+		int frollamt
+	){
+		int fdmg;
+		double aaa=angle;
+		A_FaceMovementDirection();
+		if(abs(realpitch)>90){
+			aaa=normalize180(aaa+180);
+			angle=normalize180(angle+180);
+		}
+		double ftwist=absangle(aaa,angle);
+		if(ftwist<90){
+			ForwardRoll(frollamt,FROLL_FORCE|FROLL_ADD);
+			fdmg=random(-3,(frollamt>>1));
+		}else{
+			if(!fallroll){
+				ForwardRoll(-frollamt,FROLL_FORCE|FROLL_ADD);
+			}else{
+				A_Incapacitated(HDINCAP_SCREAM,int(max(20,ftwist)));
+			}
+			fdmg=random(1,(frollamt>>1)+(int(ftwist)>>2));
+		}
+		A_StartSound("weapons/smack",CHAN_BODY,CHANF_OVERLAP,volume:min(1.,0.04*frollamt));
+		return fdmg;
+	}
 }
+
+
 
 class HDGrossImmerseCompatHack : Thinker{
 	double pitch;

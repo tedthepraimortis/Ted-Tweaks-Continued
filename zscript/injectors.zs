@@ -223,7 +223,7 @@ class PortableStimpack:HDWeapon{
 				if(helptext)A_WeaponMessage(Stringtable.Localize("$STIMPACK_NOTHINGTOBEDONE"));
 				return resolvestate("nope");
 			}
-			let blockinv=HDWoundFixer.CheckCovered(self,CHECKCOV_ONLYFULL);
+			let blockinv=HDWoundFixer.CheckCovered(c,CHECKCOV_ONLYFULL);
 			if(blockinv){
 				if(helptext)A_WeaponMessage(Stringtable.Localize("$STIMPACK_TAKEOFFOTHER")..blockinv.gettag()..Stringtable.Localize("$STIMPACK_ELIPSES"));
 				return resolvestate("nope");
@@ -559,7 +559,7 @@ class SpentZerk:SpentStim{
 	}
 	states{
 	spawn:
-		SYRB A 0 nodelay A_JumpIf(Wads.CheckNumForName("id",0)==-1,"freed");
+		SYRB A 0 nodelay A_JumpIf(!HDMath.PlayingID(),"freed");
 		goto spawn2;
 	freed:
 		PSTR B 0{scale=getdefaultbytype("PortableBerserkPack").scale;}
