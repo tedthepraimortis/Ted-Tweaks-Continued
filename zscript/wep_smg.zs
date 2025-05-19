@@ -330,7 +330,7 @@ class HDSMG:HDWeapon{
 		#### A 1 offset(10,42);
 		#### B 2 offset(20,46) A_StartSound("weapons/smgmagclick",8);
 		#### B 4 offset(30,52){
-			A_MuzzleClimb(0.3,0.4);
+			A_MuzzleClimb(0.3,0.4,wepdot:false);
 			A_StartSound("weapons/smgmagmove",8,CHANF_OVERLAP);
 		}
 		#### B 0{
@@ -353,7 +353,7 @@ class HDSMG:HDWeapon{
 			}
 		}
 	pocketmag:
-		#### BB 7 offset(34,54) A_MuzzleClimb(frandom(0.2,-0.8),frandom(-0.2,0.4));
+		#### BB 7 offset(34,54) A_MuzzleClimb(frandom(0.2,-0.8),frandom(-0.2,0.4),wepdot:false);
 	magout:
 		#### B 0{
 			if(invoker.weaponstatus[0]&SMGF_JUSTUNLOAD)setweaponstate("reloadend");
@@ -362,8 +362,8 @@ class HDSMG:HDWeapon{
 
 	loadmag:
 		#### B 0 A_StartSound("weapons/pocket",9);
-		#### B 6 offset(34,54) A_MuzzleClimb(frandom(0.2,-0.8),frandom(-0.2,0.4));
-		#### B 7 offset(34,52) A_MuzzleClimb(frandom(0.2,-0.8),frandom(-0.2,0.4));
+		#### B 6 offset(34,54) A_MuzzleClimb(frandom(0.2,-0.8),frandom(-0.2,0.4),wepdot:false);
+		#### B 7 offset(34,52) A_MuzzleClimb(frandom(0.2,-0.8),frandom(-0.2,0.4),wepdot:false);
 		#### B 10 offset(32,50);
 		#### B 3 offset(32,49){
 			let mmm=hdmagammo(findinventory("HD9mMag30"));

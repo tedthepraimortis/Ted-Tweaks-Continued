@@ -343,7 +343,7 @@ class HDAmBox:HDUPK{
 	goodies:
 		---- A 1 A_StartSound("ammobox/open",CHAN_VOICE);
 		---- A 1 A_FaceTarget(0,0);
-		---- A 0 A_JumpIf(Wads.CheckNumForName("id",0)!=-1,2);
+		---- A 0 A_JumpIf(HDMath.PlayingID(),2);
 		AMBX B 0 A_SpawnItemEx("HDFader",xofs:-1,flags:SXF_TRANSFERSPRITEFRAME|SXF_TRANSFERSCALE|SXF_TRANSFERRENDERSTYLE);
 		---- A 0 SpawnContents();
 		stop;

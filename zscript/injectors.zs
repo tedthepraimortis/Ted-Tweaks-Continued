@@ -120,7 +120,7 @@ class PortableStimpack:HDWeapon{
 			return;
 		}
 		if(pitch<55){
-			A_MuzzleClimb(0,8);
+			A_MuzzleClimb(0,8,wepdot:false);
 			A_Refire();
 			return;
 		}
@@ -134,7 +134,7 @@ class PortableStimpack:HDWeapon{
 		let hdp=hdplayerpawn(patient);
 		if(hdp){
 			hdp.A_StartSound(hdp.medsound,CHAN_VOICE);
-			hdp.A_MuzzleClimb((0,2),(0,0),(0,0),(0,0));
+			hdp.A_MuzzleClimb((0,2),(0,0),(0,0),(0,0),wepdot:false);
 		}
 		else patient.A_StartSound(patient.painsound,CHAN_VOICE);
 
@@ -185,7 +185,7 @@ class PortableStimpack:HDWeapon{
 		goto nope;
 	inject:
 		TNT1 A 1 A_InjectorInject(self,self);
-		TNT1 AAAA 1 A_MuzzleClimb(0,-0.5);
+		TNT1 AAAA 1 A_MuzzleClimb(0,-0.5,wepdot:false);
 		TNT1 A 6;
 		goto nope;
 	altfire:
@@ -223,7 +223,7 @@ class PortableStimpack:HDWeapon{
 				if(helptext)A_WeaponMessage(Stringtable.Localize("$STIMPACK_NOTHINGTOBEDONE"));
 				return resolvestate("nope");
 			}
-			let blockinv=HDWoundFixer.CheckCovered(self,CHECKCOV_ONLYFULL);
+			let blockinv=HDWoundFixer.CheckCovered(c,CHECKCOV_ONLYFULL);
 			if(blockinv){
 				if(helptext)A_WeaponMessage(Stringtable.Localize("$STIMPACK_TAKEOFFOTHER")..blockinv.gettag()..Stringtable.Localize("$STIMPACK_ELIPSES"));
 				return resolvestate("nope");
@@ -559,7 +559,7 @@ class SpentZerk:SpentStim{
 	}
 	states{
 	spawn:
-		SYRB A 0 nodelay A_JumpIf(Wads.CheckNumForName("id",0)==-1,"freed");
+		SYRB A 0 nodelay A_JumpIf(!HDMath.PlayingID(),"freed");
 		goto spawn2;
 	freed:
 		PSTR B 0{scale=getdefaultbytype("PortableBerserkPack").scale;}

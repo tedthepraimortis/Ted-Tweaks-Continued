@@ -881,12 +881,12 @@ class LiberatorRifle:AutoReloadingThingy{
 		BRFG A 1 offset(2,36);
 		BRFG B 1 offset(4,40);
 		BRFG B 2 offset(8,42){
-			A_MuzzleClimb(-frandom(0.4,0.8),frandom(0.4,1.4));
-			A_StartSound("weapons/rifleclick2",8);
+			A_MuzzleClimb(-frandom(0.4,0.8),frandom(0.4,1.4),wepdot:false);
+			A_StartSound("weapons/libclick2",8);
 		}
 		BRFG B 4 offset(14,46){
-			A_MuzzleClimb(-frandom(0.4,0.8),frandom(0.4,1.4));
-			A_StartSound ("weapons/rifleunload",8,CHANF_OVERLAP);
+			A_MuzzleClimb(-frandom(0.4,0.8),frandom(0.4,1.4),wepdot:false);
+			A_StartSound ("weapons/libunload",8,CHANF_OVERLAP);
 		}
 		BRFG B 0{
 			int magamt=invoker.weaponstatus[LIBS_MAG];
@@ -911,9 +911,9 @@ class LiberatorRifle:AutoReloadingThingy{
 			}
 		}
 	pocketmag:
-		BRFG B 7 offset(12,52)A_MuzzleClimb(frandom(-0.2,0.8),frandom(-0.2,0.4));
+		BRFG B 7 offset(12,52)A_MuzzleClimb(frandom(-0.2,0.8),frandom(-0.2,0.4),wepdot:false);
 		BRFG B 0 A_StartSound("weapons/pocket",9);
-		BRFG BB 7 offset(14,54)A_MuzzleClimb(frandom(-0.2,0.8),frandom(-0.2,0.4));
+		BRFG BB 7 offset(14,54)A_MuzzleClimb(frandom(-0.2,0.8),frandom(-0.2,0.4),wepdot:false);
 		BRFG B 0{
 		}goto magout;
 	magout:
@@ -926,7 +926,7 @@ class LiberatorRifle:AutoReloadingThingy{
 
 	loadmag:
 		BRFG B 0 A_StartSound("weapons/pocket",9);
-		BRFG BB 7 offset(14,54)A_MuzzleClimb(frandom(-0.2,0.4),frandom(-0.2,0.8));
+		BRFG BB 7 offset(14,54)A_MuzzleClimb(frandom(-0.2,0.4),frandom(-0.2,0.8),wepdot:false);
 		BRFG B 6 offset(12,52){
 			let mmm=hdmagammo(findinventory("HD7mMag"));
 			if(mmm){
@@ -935,11 +935,11 @@ class LiberatorRifle:AutoReloadingThingy{
 				invoker.weaponstatus[LIBS_MAG]=rndcnt;
 				invoker.weaponstatus[LIBS_RECASTS]=clamp(rndcnt-(minput/100),0,rndcnt);
 
-				A_StartSound("weapons/rifleclick",8);
-				A_StartSound("weapons/rifleload",8,CHANF_OVERLAP);
+				A_StartSound("weapons/libclick",8);
+				A_StartSound("weapons/libload",8,CHANF_OVERLAP);
 			}
 		}
-		BRFG B 2 offset(8,46) A_StartSound("weapons/rifleclick2",8,CHANF_OVERLAP);
+		BRFG B 2 offset(8,46) A_StartSound("weapons/libclick2",8,CHANF_OVERLAP);
 		goto reloaddone;
 
 	reloaddone:
@@ -1037,7 +1037,7 @@ firegrenade:
 				){
 					A_GiveInventory("HDRocketAmmo");
 					A_StartSound("weapons/pocket",9);
-					A_MuzzleClimb(frandom(-0.2,0.8),frandom(-0.2,0.4));
+					A_MuzzleClimb(frandom(-0.2,0.8),frandom(-0.2,0.4),wepdot:false);
 					A_SetTics(6);
 				}else A_SpawnItemEx("HDRocketAmmo",
 					cos(pitch)*12,0,gunheight()-2-12*sin(pitch),
@@ -1050,7 +1050,7 @@ firegrenade:
 		BRFG A 0{
 			if(invoker.weaponstatus[0]&LIBF_JUSTUNLOAD)setweaponstate("altreloaddone");
 		}
-		BRFG AA 8 offset(-16,56)A_MuzzleClimb(frandom(-0.2,0.8),frandom(-0.2,0.4));
+		BRFG AA 8 offset(-16,56)A_MuzzleClimb(frandom(-0.2,0.8),frandom(-0.2,0.4),wepdot:false);
 		BRFG A 18 offset(-14,54){
 			if(!countinv("HDRocketAmmo"))return;
 			A_StartSound("weapons/grenreload",8);
@@ -1165,7 +1165,7 @@ firegrenade:
 			lefty>0
 			||(
 				lefty<0
-				&&(Wads.CheckNumForName("id",0)!=-1)
+				&&(HDMath.PlayingID())
 			)
 		)weaponstatus[0]|=LIBF_LEFTY;
 		else weaponstatus[0]&=~LIBF_LEFTY;

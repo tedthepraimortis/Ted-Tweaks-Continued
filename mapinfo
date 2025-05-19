@@ -1,7 +1,6 @@
 GameInfo
 {
 	AddEventHandlers = "KeeperHandler", "HDBlueVulcFixHandler"
-//	AddEventHandlers = "SpicyAirHandler"
 }
 
 adddefaultmap
