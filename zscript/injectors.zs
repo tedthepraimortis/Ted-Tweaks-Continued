@@ -120,7 +120,7 @@ class PortableStimpack:HDWeapon{
 			return;
 		}
 		if(pitch<55){
-			A_MuzzleClimb(0,8);
+			A_MuzzleClimb(0,8,wepdot:false);
 			A_Refire();
 			return;
 		}
@@ -134,7 +134,7 @@ class PortableStimpack:HDWeapon{
 		let hdp=hdplayerpawn(patient);
 		if(hdp){
 			hdp.A_StartSound(hdp.medsound,CHAN_VOICE);
-			hdp.A_MuzzleClimb((0,2),(0,0),(0,0),(0,0));
+			hdp.A_MuzzleClimb((0,2),(0,0),(0,0),(0,0),wepdot:false);
 		}
 		else patient.A_StartSound(patient.painsound,CHAN_VOICE);
 
@@ -185,7 +185,7 @@ class PortableStimpack:HDWeapon{
 		goto nope;
 	inject:
 		TNT1 A 1 A_InjectorInject(self,self);
-		TNT1 AAAA 1 A_MuzzleClimb(0,-0.5);
+		TNT1 AAAA 1 A_MuzzleClimb(0,-0.5,wepdot:false);
 		TNT1 A 6;
 		goto nope;
 	altfire:

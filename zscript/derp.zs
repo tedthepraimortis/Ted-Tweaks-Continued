@@ -749,7 +749,8 @@ class DERPUsable:HDWeapon{
 				frandom(-1.,1.),frandom(-1.,1.),
 				frandom(-1.,1.),frandom(-1.,1.),
 				frandom(-1.,1.),frandom(-1.,1.),
-				frandom(-1.,1.),frandom(0.,1.)
+				frandom(-1.,1.),frandom(0.,1.),
+				wepdot:false
 			);
 		}
 		TNT1 A 0 A_JumpIf(!(invoker.weaponstatus[0]&DERPF_BROKEN),"nope");

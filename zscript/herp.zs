@@ -1018,7 +1018,8 @@ class HERPUsable:HDWeapon{
 			frandom(-1.,1.),frandom(-1.,1.),
 			frandom(-1.,1.),frandom(-1.,1.),
 			frandom(-1.,1.),frandom(-1.,1.),
-			frandom(-1.,1.),frandom(0.,1.)
+			frandom(-1.,1.),frandom(0.,1.),
+			wepdot:false
 		);
 	}
 	bool RepairAttempt(){
