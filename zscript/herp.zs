@@ -1320,7 +1320,7 @@ class HERPController:HDWeapon{
 			herpcam.health<1
 			||herpcam.battery<1
 		)return LWPHELP_DROP..StringTable.Localize("$HERPCWH_DROP");
-		bool connected=(herpcam.bmissileevenmore);
+		bool connected=(herpcam.bnowallbouncesnd);
 		bool turnedon=(herpcam.bnobouncesound);
 		bool staystill=(herpcam.bdontfacetalker);
 		if(connected)return
@@ -1380,7 +1380,7 @@ class HERPController:HDWeapon{
 		if(nobat){
 			hpst1=StringTable.Localize("$HERP_OFF");
 			hpst2=StringTable.Localize("$HERP_ALTFIRE");
-		}else if(herpcam.bmissileevenmore){
+		}else if(herpcam.bnowallbouncesnd){
 			hpst1=StringTable.Localize("$HERP_MANUAL");
 			hpst2=(owner.player.cmd.buttons&BT_FIREMODE)?"":StringTable.Localize("$HERP_FMODE");
 		}
@@ -1430,7 +1430,7 @@ class HERPController:HDWeapon{
 				ddd.herpbeep();
 			}
 			if(
-				ddd.bmissileevenmore
+				ddd.bnowallbouncesnd
 				&&ddd.bnobouncesound
 			){
 				if(justpressed(BT_RELOAD)){
@@ -1508,7 +1508,7 @@ class HERPController:HDWeapon{
 						mo.message(StringTable.Localize("$HERP_NOBATTERY"));
 					}
 					owner.A_Log(StringTable.Localize("$HERP_CONNECT"),true);
-					mo.bmissilemore=false;
+					mo.bnobouncesound=false;
 					if(owner.player)mo.bfriendly=true;else mo.bfriendly=owner.bfriendly;
 					mo.A_StartSound("herp/hacked",69420);
 					updateherps();
