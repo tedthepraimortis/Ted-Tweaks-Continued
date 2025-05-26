@@ -1350,7 +1350,7 @@ class HERPController:HDWeapon{
 		let herpcam=herps[weaponstatus[HERPS_INDEX]];
 		if(!herpcam)return;
 		bool dead=herpcam.health<1;
-		bool nobat=dead||!herpcam.bmissilemore||herpcam.battery<1;
+		bool nobat=dead||!herpcam.bnobouncesound||herpcam.battery<1;
 		int scaledyoffset=46;
 		name ctex=nobat?"HDXHCAM1BLANK":"HDXCAM_HERP";
 		if(!nobat)texman.setcameratotexture(herpcam,ctex,60);
