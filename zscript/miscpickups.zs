@@ -801,6 +801,7 @@ class HDInvuln:InvulnerabilitySphere{
 	default{
 		+inventory.persistentpower
 		Powerup.Duration -90;
+		Powerup.Color "None";
 	}
 }
 //-------------------------------------------------

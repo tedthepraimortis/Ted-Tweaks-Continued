@@ -117,12 +117,12 @@ extend class HDPlayerPawn{
 					muzzleclimb1.x+=frandom(-3,3);
 					muzzleclimb1.y+=frandom(-1,1);
 					if(hd_easierclimbing == true){
-					itt.vel.xy+=(frandom(-0.3,0.3),frandom(-0.3,0.3))
-						+angletovector(angle,frandom(0,0.3));
+						itt.vel.xy+=(frandom(-0.1,0),frandom(-0.1,0.0))
+							+angletovector(angle,frandom(0,0.1));
 					}
 					else
-					itt.vel.xy+=(frandom(-1,1),frandom(-1,1))
-						+angletovector(angle,frandom(0,1));
+						itt.vel.xy+=(frandom(-1,1),frandom(-1,1))
+							+angletovector(angle,frandom(0,1));
 
 					bool friendly=itt.isfriend(self);
 					if(
