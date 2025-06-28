@@ -1,6 +1,5 @@
 version "4.14"
 
-// This holds anything relating to barrel purger. - [Ted]
+// Misc
 #include "zscript/additions/barrelpurger.zsc"
-// This holds anything relating to VulcFixer. - [Ted]
 #include "zscript/additions/VulcFixer.zsc"
