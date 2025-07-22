@@ -1,4 +1,5 @@
-class HDBlueVulcFixHandler : EventHandler {
+extend class TedTweaksHandler
+{
 	Array<vulcanette> vulcs;
 	Array<HDSoulSphere> balls; 
 	bool enabled;

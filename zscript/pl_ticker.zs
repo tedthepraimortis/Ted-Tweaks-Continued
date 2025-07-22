@@ -8,7 +8,10 @@ extend class HDPlayerPawn{
     int lastmisc1,lastmisc2; //for remembering weapon sprite offsets
     bool movehijacked;
     private transient CVar JitterScale;
+    private transient CVar LowHealthEffects;
     override void Tick(){
+
+        if(!LowHealthEffects) LowHealthEffects = CVar.GetCVar('tt_lowhealth_effects', self.player);
 
         if(
             !player||!player.mo||player.mo!=self	//voodoodoll
@@ -204,6 +207,15 @@ extend class HDPlayerPawn{
             muzzleclimb2=muzzleclimb3;
             muzzleclimb3=muzzleclimb4;
             muzzleclimb4=(0,0);
+        }
+
+        if(health < 21)
+        {
+            if (LowHealthEffects.GetBool()) PPShader.SetEnabled("SaturationShader",true);
+        }
+        else
+        {
+			PPShader.SetEnabled("SaturationShader",false);
         }
 
 
