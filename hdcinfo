@@ -1,6 +1,7 @@
 // Weight Changes
 setSpawnTableEntryWeight => { "tableName": "ClipReplaces", "name": "HD355BoxPickup", "weight": "2" }
 setSpawnTableEntryWeight => { "tableName": "ClipBoxReplaces", "name": "HD355BoxPickup", "weight": "2" }
+setSpawnTableEntryWeight => { "tableName": "ChainsawReplaces", "name": "Lumberjack", "weight": "8" }
 
 // New Spawns
 addSpawnTableSingleEntry => { "tableName": "ArmorBonusReplaces", "name": "Yokai", "weight": "1", "chance": "66", "persists": "true" }
