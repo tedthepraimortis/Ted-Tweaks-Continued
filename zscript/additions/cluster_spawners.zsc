@@ -1,0 +1,7 @@
+class MassFragSpawner : ClusterSpawner {
+    default {
+        ClusterSpawner.actorClass 'BFGNecroShard';
+        ClusterSpawner.maxSpawns 5;
+        ClusterSpawner.maxDist 6.0;
+    }
+}
