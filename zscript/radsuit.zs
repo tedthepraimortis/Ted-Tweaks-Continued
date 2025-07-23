@@ -1,6 +1,16 @@
 //-------------------------------------------------
 // Environment/Radiation Suit
 //-------------------------------------------------
+
+class HDPowerIronFeet : PowerIronFeet
+{
+	Default
+	{
+		// Prevents the Radsuit from randomly leaking. - [Ted]
+		Powerup.Mode "Full";
+	}
+}
+
 class WornRadsuit:HDDamageHandler{
 	default{
 		+nointeraction;+noblockmap;
@@ -145,7 +155,7 @@ class WornRadsuit:HDDamageHandler{
 	void DestroyRadsuit(){	
 		destroy();
 		if(owner){
-			owner.A_TakeInventory("PowerIronFeet");
+			owner.A_TakeInventory("HDPowerIronFeet");
 			owner.A_StartSound("radsuit/burst",CHAN_BODY,CHANF_OVERLAP);
 		}
 	}
