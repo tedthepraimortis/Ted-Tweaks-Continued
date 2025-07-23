@@ -1,0 +1,44 @@
+
+class TTInvulnerabilitySphere:HDInvulnerabilitySphere replaces HDInvulnerabilitySphere{
+    override void PostBeginPlay()
+    {
+        if (hd_nonecroghost)
+        {
+            bSHOOTABLE = false;
+            bNODAMAGE = false;
+        }
+        Super.PostBeginPlay();
+    }
+
+    // Same as base HDInvulnerabilitySphere but gives the right class. - [Ted]
+	override void A_HDUPKGive(){
+		if(bnointeraction||health<1||!picktarget)return;
+		bnointeraction=true;
+		if(tt_noinvulncolor)picktarget.A_GiveInventory("TTInvuln");
+        else picktarget.A_GiveInventory("HDInvuln");
+		picktarget.A_Quake(3,26,0,220,"none");
+		blockthingsiterator itt=blockthingsiterator.create(picktarget,256);
+		while(itt.Next()){
+			A_Immolate(itt.thing,picktarget,76);
+		}
+		for(int i=45;i<360;i+=90){
+			picktarget.A_SpawnItemEx("HDExplosion",
+				4,-4,20,picktarget.vel.x,picktarget.vel.y,picktarget.vel.z+1,i,
+				SXF_NOCHECKPOSITION|SXF_TRANSFERPOINTERS|SXF_ABSOLUTEMOMENTUM
+			);
+			picktarget.A_SpawnItemEx("HDSmokeChunk",0,0,0,
+				picktarget.vel.x+frandom(-12,12),
+				picktarget.vel.y+random(-12,12),
+				picktarget.vel.z+frandom(4,16),
+				0,SXF_NOCHECKPOSITION|SXF_ABSOLUTEMOMENTUM
+			);
+		}
+		destroy();
+	}
+}
+
+class TTInvuln:HDInvuln{
+    default{
+        Powerup.Color "None";
+    }
+}

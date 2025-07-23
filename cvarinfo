@@ -10,6 +10,7 @@ server bool hd_liteampflicker = false;
 server float hd_flinchmultiplier = 0.5;
 user bool hdp_lowhealth_jitters = true;
 user bool tt_lowhealth_effects = false;
+server bool tt_noinvulncolor = true;
 server bool hd_easierclimbing = true;
 server bool hd_radsuitoverlay = true;
 server bool hd_incapgrabs = false;
