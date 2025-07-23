@@ -113,16 +113,20 @@ extend class HDPlayerPawn{
 					itt.findstate("see")
 					&&itt.health>0
 				){
-					itt.angle+=frandom(-10,10);
-					muzzleclimb1.x+=frandom(-3,3);
-					muzzleclimb1.y+=frandom(-1,1);
 					if(hd_easierclimbing == true){
-						itt.vel.xy+=(frandom(-0.1,0),frandom(-0.1,0.0))
+						itt.angle+=frandom(-3,3);
+						muzzleclimb1.x+=frandom(-0.5,0.5);
+						muzzleclimb1.y+=frandom(-0.1,0.1);
+						itt.vel.xy+=(frandom(-0.1,0.1),frandom(-0.1,0.1))
 							+angletovector(angle,frandom(0,0.1));
 					}
-					else
+					else{
+						itt.angle+=frandom(-10,10);
+						muzzleclimb1.x+=frandom(-3,3);
+						muzzleclimb1.y+=frandom(-1,1);
 						itt.vel.xy+=(frandom(-1,1),frandom(-1,1))
 							+angletovector(angle,frandom(0,1));
+					}
 
 					bool friendly=itt.isfriend(self);
 					if(
@@ -402,7 +406,7 @@ extend class HDPlayerPawn{
 		else if(!(oldinput&BT_USE))hasgrabbed=false;
 
 		if(hd_incapgrabs==true){PickupGrabber(incapacitated?2:-1);}
-		else{if(incapacitated)return;}
+		else{if(incapacitated&&hd_incapgrabs==false)return;}
 
 		//door kicking
 		if(
