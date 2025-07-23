@@ -15,3 +15,5 @@ addSpawnTableSingleEntry => { "tableName": "HealthBonusReplaces", "name": "MassF
 addSpawnTableSingleEntry => { "tableName": "HealthBonusReplaces", "name": "HDAPK_GarrisonPatch", "weight": "1", "chance": "25", "persists": "true" }
 addSpawnTableSingleEntry => { "tableName": "HealthBonusReplaces", "name": "ShieldCore", "weight": "1", "chance": "35", "persists": "true" }
 addSpawnTableSingleEntry => { "tableName": "HealthBonusReplaces", "name": "SecondBlood", "weight": "1", "chance": "75", "persists": "true" }
+
+addSpawnTableNestedEntry => { "tableName": "ZombieManReplaces", "name": "ChaingunGuyReplaces", "weight": "1", "persists": "true"}
