@@ -12,6 +12,8 @@ class HDStatusBar:DoomStatusBar{
 	string mug;
 	int bigitemyofs;
 	color sbcolour;
+    private transient CVar NewCompass;
+
 	override void Init(){
 		BaseStatusBar.Init();
 		SetSize(0,320,200);
@@ -547,7 +549,9 @@ class HDStatusBar:DoomStatusBar{
 		
 		int wephelpheight=NewSmallFont.GetHeight()*5;
 
-		if (hd_newcompass == true)
+		if(!NewCompass) NewCompass = CVar.GetCVar('hd_newcompass', self.CPlayer);
+
+		if (NewCompass.GetBool() == true)
 		{
 			//compass
 			int STB_COMPRAD=12;vector2 compos=(-STB_COMPRAD,STB_COMPRAD)*2;
@@ -653,7 +657,7 @@ class HDStatusBar:DoomStatusBar{
 				);
 			}
 
-			if (hd_newcompass == false)
+			if (NewCompass.GetBool() == false)
 			{
 				//compass
 				int STB_COMPRAD=12;vector2 compos=(-STB_COMPRAD,STB_COMPRAD)*2;
@@ -703,7 +707,7 @@ class HDStatusBar:DoomStatusBar{
 				DTA_Alpha,0.8
 			);
 
-		if (hd_newcompass == false)
+		if (NewCompass.GetBool() == false)
 		{
  			wephelpheight+=NewSmallFont.GetHeight();
  			screen.DrawText(NewSmallFont,

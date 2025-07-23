@@ -11,9 +11,10 @@ server float hd_flinchmultiplier = 0.5;
 user bool hdp_lowhealth_jitters = true;
 user bool tt_lowhealth_effects = false;
 server bool tt_noinvulncolor = true;
+server bool tt_spawning_overhaul = true;
 server bool hd_easierclimbing = true;
 server bool hd_radsuitoverlay = true;
 server bool hd_incapgrabs = false;
-server bool hd_newcompass = true;
+user bool hd_newcompass = true;
 
 server bool hd_vulcfixer = false;
