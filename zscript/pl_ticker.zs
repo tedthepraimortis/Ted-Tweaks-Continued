@@ -211,11 +211,11 @@ extend class HDPlayerPawn{
 
         if(health < 21)
         {
-            if (LowHealthEffects.GetBool()) PPShader.SetEnabled("SaturationShader",true);
+            if (LowHealthEffects.GetBool()) SetShader("SaturationShader",true);
         }
         else
         {
-			PPShader.SetEnabled("SaturationShader",false);
+			SetShader("SaturationShader",false);
         }
 
 
