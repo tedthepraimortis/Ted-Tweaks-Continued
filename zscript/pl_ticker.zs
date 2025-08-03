@@ -209,9 +209,9 @@ extend class HDPlayerPawn{
             muzzleclimb4=(0,0);
         }
 
-        if(health < 21)
+        if(health < 21 && health > 0 && LowHealthEffects.GetBool())
         {
-            if (LowHealthEffects.GetBool()) if(self && self.player && self.player.mo && self.player==players[consoleplayer]) PPShader.SetEnabled("SaturationShader",true);
+            if(self && self.player && self.player.mo && self.player==players[consoleplayer]) PPShader.SetEnabled("SaturationShader",true);
         }
         else
         {
