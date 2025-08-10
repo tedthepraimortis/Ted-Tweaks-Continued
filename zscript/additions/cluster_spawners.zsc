@@ -5,3 +5,21 @@ class MassFragSpawner : ClusterSpawner {
         ClusterSpawner.maxDist 6.0;
     }
 }
+
+class HealerImpSpawner : ClusterSpawner {
+    default {
+        ClusterSpawner.actorClass 'HealerImp';
+        ClusterSpawner.maxSpawns 3;
+        ClusterSpawner.maxDist 128.0;
+        ClusterSpawner.MaxAttempts 10;
+    }
+}
+
+class GroupedMarineSpawner : ClusterSpawner {
+    default {
+        ClusterSpawner.actorClass 'HDGoon';
+        ClusterSpawner.maxSpawns 5;
+        ClusterSpawner.maxDist 128.0;
+        ClusterSpawner.MaxAttempts 10;
+    }
+}
