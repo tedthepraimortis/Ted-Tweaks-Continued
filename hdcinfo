@@ -25,6 +25,8 @@ addSpawnTableSingleEntry => { "tableName": "HealthBonusReplaces", "name": "Porta
 
 addSpawnTableNestedEntry => { "tableName": "ZombieManReplaces", "name": "ChaingunGuyReplaces", "weight": "1", "persists": "true", "enabled": "#tt_spawning_overhaul"}
 addSpawnTableNestedEntry => { "tableName": "ChaingunGuyReplaces", "name": "HDGoon", "weight": "2", "persists": "true", "enabled": "#tt_spawning_overhaul"}
+addSpawnTableNestedEntry => { "tableName": "DemonReplaces", "name": "BabuinHordeSpawns", "weight": "0.5", "persists": "true", "enabled": "#tt_spawning_overhaul"}
+addSpawnTableNestedEntry => { "tableName": "SpectreReplaces", "name": "BabuinHordeSpawns", "weight": "1", "persists": "true", "enabled": "#tt_spawning_overhaul"}
 addSpawnTableNestedEntry => { "tableName": "ArchVileReplaces", "name": "HealerImpSpawns", "weight": "1", "persists": "true", "enabled": "#tt_spawning_overhaul"}
 addSpawnTableNestedEntry => { "tableName": "ArchVileReplaces", "name": "GroupedMarineSpawns", "weight": "1", "persists": "true", "enabled": "#tt_spawning_overhaul"}
 addSpawnTableNestedEntry => { "tableName": "ArchVileReplaces", "name": "BaronOfHellReplaces", "weight": "1", "persists": "true", "enabled": "#tt_spawning_overhaul"}
@@ -36,5 +38,7 @@ newSpawnTable => { "spawnName": "HealerImpSpawns" }
 addSpawnTableSingleEntry => { "tableName": "HealerImpSpawns", "name": "HealerImpSpawner", "weight": "1", "persists": "true" }
 newSpawnTable => { "spawnName": "GroupedMarineSpawns" }
 addSpawnTableSingleEntry => { "tableName": "GroupedMarineSpawns", "name": "GroupedMarineSpawner", "weight": "1", "persists": "true" }
+newSpawnTable => { "spawnName": "BabuinHordeSpawns" }
+addSpawnTableSingleEntry => { "tableName": "BabuinHordeSpawns", "name": "BabuinHordeSpawner", "weight": "1", "persists": "true" }
 newSpawnTable => { "spawnName": "MassFragSpawns" }
 addSpawnTableSingleEntry => { "tableName": "MassFragSpawns", "name": "MassFragSpawner", "weight": "1", "persists": "true" }
