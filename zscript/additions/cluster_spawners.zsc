@@ -1,0 +1,34 @@
+class MassFragSpawner : ClusterSpawner {
+    default {
+        ClusterSpawner.actorClass 'BFGNecroShard';
+        ClusterSpawner.maxSpawns 5;
+        ClusterSpawner.maxDist 6.0;
+    }
+}
+
+class HealerImpSpawner : ClusterSpawner {
+    default {
+        ClusterSpawner.actorClass 'HealerImp';
+        ClusterSpawner.maxSpawns 3;
+        ClusterSpawner.maxDist 128.0;
+        ClusterSpawner.MaxAttempts 10;
+    }
+}
+
+class GroupedMarineSpawner : ClusterSpawner {
+    default {
+        ClusterSpawner.actorClass 'Rifleman';
+        ClusterSpawner.maxSpawns 5;
+        ClusterSpawner.maxDist 128.0;
+        ClusterSpawner.MaxAttempts 10;
+    }
+}
+
+class BabuinHordeSpawner : ClusterSpawner {
+    default {
+        ClusterSpawner.actorClass 'Babuin';
+        ClusterSpawner.maxSpawns 12;
+        ClusterSpawner.maxDist 256.0;
+        ClusterSpawner.MaxAttempts 22;
+    }
+}

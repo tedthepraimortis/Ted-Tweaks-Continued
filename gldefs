@@ -1,0 +1,5 @@
+HardwareShader PostProcess scene
+{
+    Name "SaturationShader"
+    Shader "Shaders/Saturation.fp" 330
+}

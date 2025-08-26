@@ -9,13 +9,8 @@ class HDDrug:HDDamageHandler{
 		HDPickup.overlaypriority -1;
 	}
 	// The part that removes the drugs. - [Ted]
-    override void PreTravelled(){
-        if (hd_mapdrugremoval == true)
-        {
-            amount=0;
-        }
-    }
-	override void OwnerDied(){amount=0;}
+    override void PreTravelled(){if(hd_mapdrugremoval==true)amount=0;}
+	override void OwnerDied(){if(hd_mapdrugremoval==true)amount=0;}
 	states{
 	spawn:
 		TNT1 A 0;

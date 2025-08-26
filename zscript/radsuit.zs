@@ -1,6 +1,16 @@
 //-------------------------------------------------
 // Environment/Radiation Suit
 //-------------------------------------------------
+
+class HDPowerIronFeet : PowerIronFeet
+{
+	Default
+	{
+		// Prevents the Radsuit from randomly leaking. - [Ted]
+		Powerup.Mode "Full";
+	}
+}
+
 class WornRadsuit:HDDamageHandler{
 	default{
 		+nointeraction;+noblockmap;
@@ -36,16 +46,16 @@ class WornRadsuit:HDDamageHandler{
 		sb.SetSize(0,320,200);
 		sb.BeginHUD(forcescaled:true);
 		if (hd_radsuitoverlay == true){	
-        int MaskHeight = int(Screen.GetHeight() * 2.2);
-        int MaskWidth = int(Screen.GetWidth() * MaskHeight * 1.2) / Screen.GetHeight();
-        int MaskOffX = -((MaskWidth - Screen.GetWidth()) >> 1);
-		int MaskOffY = -((MaskHeight - Screen.GetHeight()) >> 1);
-        Screen.DrawTexture(TexMan.CheckForTexture("DESPMASK"), true, MaskOffX - (int(hpl.wepbob.x * 0.5)), MaskOffY - (int(hpl.wepbob.y * 0.5)), DTA_DestWidth, MaskWidth, DTA_DestHeight, MaskHeight);}
+        	int MaskHeight = int(Screen.GetHeight() * 2.2);
+        	int MaskWidth = int(Screen.GetWidth() * MaskHeight * 1.2) / Screen.GetHeight();
+        	int MaskOffX = -((MaskWidth - Screen.GetWidth()) >> 1);
+			int MaskOffY = -((MaskHeight - Screen.GetHeight()) >> 1);
+        	Screen.DrawTexture(TexMan.CheckForTexture("DESPMASK"), true, MaskOffX - (int(hpl.wepbob.x * 0.5)), MaskOffY - (int(hpl.wepbob.y * 0.5)), DTA_DestWidth, MaskWidth, DTA_DestHeight, MaskHeight);}
 		else{
-		sb.fill(
-			color(sb.blurred?(level.time&(1|2|4))<<2:160,10,40,14),
-			0,0,screen.getwidth(),screen.getheight()
-		);
+			sb.fill(
+				color(sb.blurred?(level.time&(1|2|4))<<2:160,10,40,14),
+				0,0,screen.getwidth(),screen.getheight()
+			);
 		}
 	}
 	override void DrawHudStuff(
@@ -145,7 +155,7 @@ class WornRadsuit:HDDamageHandler{
 	void DestroyRadsuit(){	
 		destroy();
 		if(owner){
-			owner.A_TakeInventory("PowerIronFeet");
+			owner.A_TakeInventory("HDPowerIronFeet");
 			owner.A_StartSound("radsuit/burst",CHAN_BODY,CHANF_OVERLAP);
 		}
 	}
