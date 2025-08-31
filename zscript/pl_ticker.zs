@@ -216,7 +216,7 @@ extend class HDPlayerPawn{
             if(trueself) 
             {
                 PPShader.SetEnabled("SaturationShader",true);
-                let desat = 1 - (health / 100);
+                float desat = clamp(1.0 - (health / 50.0),0.0,1.0);
                 PPShader.SetUniform1f("SaturationShader","u_desat",desat);
             }
         }
