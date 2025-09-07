@@ -209,13 +209,20 @@ extend class HDPlayerPawn{
             muzzleclimb4=(0,0);
         }
 
-        if(health < 21 && health > 0 && LowHealthEffects.GetBool())
+        let trueself = self && self.player && self.player.mo && self.player==players[consoleplayer];
+
+        if(health > 0 && LowHealthEffects.GetBool())
         {
-            if(self && self.player && self.player.mo && self.player==players[consoleplayer]) PPShader.SetEnabled("SaturationShader",true);
+            if(trueself) 
+            {
+                PPShader.SetEnabled("SaturationShader",true);
+                float desat = clamp(1.0 - (health / 50.0),0.0,1.0);
+                PPShader.SetUniform1f("SaturationShader","u_desat",desat);
+            }
         }
         else
         {
-			if(self && self.player && self.player.mo && self.player==players[consoleplayer]) PPShader.SetEnabled("SaturationShader",false);
+			if(trueself) PPShader.SetEnabled("SaturationShader",false);
         }
 
 

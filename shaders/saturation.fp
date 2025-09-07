@@ -7,12 +7,13 @@ vec3 desaturate(vec3 color, float amount)
 
 void main()
 {
+    float desat = u_desat;
     vec3 color = texture(InputTexture, TexCoord).rgb;
     
     //VSO: the final color is an weight sum
     //of (1-amount).color + amount.gray.
     const float greyPart = 0.50;
     // amount was 0.725, reduce it to 0.50 so that the original color has 
-    //more importance.
-    FragColor = vec4(desaturate(color,greyPart), 1.0);
+    // more importance.
+    FragColor = vec4(desaturate(color,greyPart*desat), 1.0);
 }

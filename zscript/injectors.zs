@@ -10,7 +10,7 @@ class HDDrug:HDDamageHandler{
 	}
 	// The part that removes the drugs. - [Ted]
     override void PreTravelled(){if(hd_mapdrugremoval==true)amount=0;}
-	override void OwnerDied(){if(hd_mapdrugremoval==true)amount=0;}
+	override void OwnerDied(){if(hd_mapdrugremoval==true)amount=0;else amount=amount/2;}
 	states{
 	spawn:
 		TNT1 A 0;
