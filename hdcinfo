@@ -5,7 +5,7 @@ setSpawnTableEntryWeight => { "tableName": "ChainsawReplaces", "name": "Lumberja
 setSpawnTableEntryWeight => { "tableName": "ArchVileReplaces", "name": "Necromancer", "weight": "4" }
 
 // New Spawns
-addSpawnTableSingleEntry => { "tableName": "ArmorBonusReplaces", "name": "Yokai", "weight": "1", "chance": "66", "persists": "true", "enabled": "#tt_spawning_overhaul" }
+addSpawnTableSingleEntry => { "tableName": "ArmorBonusReplaces", "name": "YokaiSpawner", "weight": "1", "chance": "66", "persists": "true", "enabled": "#tt_spawning_overhaul" }
 addSpawnTableSingleEntry => { "tableName": "ArmorBonusReplaces", "name": "MassFragSpawns", "weight": "1", "chance": "25", "persists": "true", "enabled": "#tt_spawning_overhaul" }
 addSpawnTableSingleEntry => { "tableName": "ArmorBonusReplaces", "name": "HDAPK_GarrisonPatch", "weight": "4", "chance": "75", "persists": "true", "enabled": "#tt_spawning_overhaul" }
 addSpawnTableSingleEntry => { "tableName": "ArmorBonusReplaces", "name": "HDAPK_BattlePatch", "weight": "2", "chance": "45", "persists": "true", "enabled": "#tt_spawning_overhaul" }
@@ -14,7 +14,7 @@ addSpawnTableSingleEntry => { "tableName": "ArmorBonusReplaces", "name": "HDFrag
 addSpawnTableSingleEntry => { "tableName": "ArmorBonusReplaces", "name": "HDIEDPack", "weight": "1", "chance": "35", "persists": "true", "enabled": "#tt_spawning_overhaul" }
 addSpawnTableSingleEntry => { "tableName": "ArmorBonusReplaces", "name": "PortableLadder", "weight": "1", "chance": "35", "persists": "true", "enabled": "#tt_spawning_overhaul" }
 
-addSpawnTableSingleEntry => { "tableName": "HealthBonusReplaces", "name": "Yokai", "weight": "1", "chance": "66", "persists": "true", "enabled": "#tt_spawning_overhaul" }
+addSpawnTableSingleEntry => { "tableName": "HealthBonusReplaces", "name": "YokaiSpawner", "weight": "1", "chance": "66", "persists": "true", "enabled": "#tt_spawning_overhaul" }
 addSpawnTableSingleEntry => { "tableName": "HealthBonusReplaces", "name": "MassFragSpawns", "weight": "1", "chance": "25", "persists": "true", "enabled": "#tt_spawning_overhaul" }
 addSpawnTableSingleEntry => { "tableName": "HealthBonusReplaces", "name": "HDAPK_GarrisonPatch", "weight": "1", "chance": "25", "persists": "true", "enabled": "#tt_spawning_overhaul" }
 addSpawnTableSingleEntry => { "tableName": "HealthBonusReplaces", "name": "ShieldCore", "weight": "1", "chance": "35", "persists": "true", "enabled": "#tt_spawning_overhaul" }
