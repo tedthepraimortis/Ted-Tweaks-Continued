@@ -16,5 +16,6 @@ server bool hd_easierclimbing = true;
 server bool hd_radsuitoverlay = true;
 server bool hd_incapgrabs = false;
 user bool hd_newcompass = true;
+server bool tt_noskulldamage = false;
 
 server bool hd_vulcfixer = false;

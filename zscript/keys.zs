@@ -176,12 +176,34 @@ class HDRedSkull:HDUPK replaces RedSkull{
 		missiletype "RedSkull";
 		hdupk.pickupmessage "$PICK_REDSKULL";
     }
+    override void PostBeginPlay(){
+        super.PostBeginPlay();
+        actor lite=spawn("HDKeyLight",pos,ALLOW_REPLACE);
+        lite.target=self;
+        if(HDYellowSkull(self)){
+            lite.args[0]=128;
+            lite.args[1]=128;
+            lite.args[2]=0;
+        }else if(HDBlueSkull(self)){
+            lite.args[0]=64;
+            lite.args[1]=64;
+            lite.args[2]=128;
+        }else{
+            lite.args[0]=256;
+            lite.args[0]=64;
+            lite.args[0]=64;
+        }
+    }
 	override void A_HDUPKGive(){
-		picktarget.A_GiveInventory(missilename);
-		picktarget.damagemobj(self,self,1,"balefire");
-		picktarget.A_Log(pickupmessage,true);
-		IsMoving.Give(picktarget,99);
-		setstatelabel("effect");
+	    if(!tt_noskulldamage)
+        {
+		    picktarget.A_GiveInventory(missilename);
+		    picktarget.damagemobj(self,self,1,"balefire");
+		    picktarget.A_GiveInventory("Heat",150);
+        }
+	    picktarget.A_Log(pickupmessage,true);
+	    IsMoving.Give(picktarget,99);
+	    setstatelabel("effect");
 	}
     states{
     spawn:
@@ -199,6 +221,17 @@ class HDBlueSkull:HDRedSkull replaces BlueSkull{
         missiletype "BlueSkull";
 		hdupk.pickupmessage "$PICK_BLUESKULL";
     }
+	override void A_HDUPKGive(){
+	    if(!tt_noskulldamage)
+        {
+            picktarget.A_GiveInventory(missilename);
+	        picktarget.damagemobj(self,self,1,"electrical");
+	        picktarget.A_SpawnItemEx("BeamSpotFlash");
+        }
+	    picktarget.A_Log(pickupmessage,true);
+	    IsMoving.Give(picktarget,99);
+	    setstatelabel("effect");
+    }
     states{
     spawn:
         BSKU AB 1 light("HEALTHPOTION") A_SetTics(random(1,3));
@@ -210,6 +243,19 @@ class HDYellowSkull:HDRedSkull replaces YellowSkull{
         missiletype "YellowSkull";
 		hdupk.pickupmessage "$PICK_YELLOWSKULL";
     }
+	override void A_HDUPKGive(){
+		if(!tt_noskulldamage)
+        {
+		    picktarget.A_GiveInventory(missilename);
+		    picktarget.damagemobj(self,self,1,"balefire");
+		    picktarget.A_SpawnItemEx("BFGNecroShard");
+            picktarget.A_SpawnItemEx("BFGNecroShard");
+		    picktarget.A_SpawnItemEx("BFGNecroShard");
+        }
+	    picktarget.A_Log(pickupmessage,true);
+	    IsMoving.Give(picktarget,99);
+	    setstatelabel("effect");
+	}
     states{
     spawn:
         YSKU AB 1 light("YELLOWKEY") A_SetTics(random(1,3));
