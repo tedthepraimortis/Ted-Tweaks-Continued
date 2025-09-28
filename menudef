@@ -47,6 +47,7 @@ OptionMenu TedTweaks
     StaticText ""
     StaticText "[WIP] Enables/Disables low health jitters.", "white"
     Option "Low Health Jitters: ", "hdp_lowhealth_jitters", "OnOff"
+    Slider "Activation Threshold: ", "tt_lowhealth_int", 1, 100, 1, 0
     SafeCommand "Reset Jitters: ", "resetcvar hdp_lowhealth_jitters"
     StaticText ""
     StaticText "[WIP] Controls whether to use the old FullHud compass or have it on your HUD at all times.", "white"

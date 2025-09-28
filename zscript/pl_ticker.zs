@@ -9,9 +9,11 @@ extend class HDPlayerPawn{
     bool movehijacked;
     private transient CVar JitterScale;
     private transient CVar LowHealthEffects;
+    private transient CVar LowHealthEffectsInt;
     override void Tick(){
 
         if(!LowHealthEffects) LowHealthEffects = CVar.GetCVar('tt_lowhealth_effects', self.player);
+        if(!LowHealthEffectsInt) LowHealthEffectsInt = CVar.GetCVar('tt_lowhealth_int', self.player);
 
         if(
             !player||!player.mo||player.mo!=self	//voodoodoll
@@ -216,7 +218,7 @@ extend class HDPlayerPawn{
             if(trueself) 
             {
                 PPShader.SetEnabled("SaturationShader",true);
-                float desat = clamp(1.0 - (health / 50.0),0.0,1.0);
+                float desat = clamp(1.0 - (health / LowHealthEffectsInt.GetInt()),0.0,1.0);
                 PPShader.SetUniform1f("SaturationShader","u_desat",desat);
             }
         }
