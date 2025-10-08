@@ -1,3 +1,2 @@
-alias keepers_rest_cvars "resetcvar keeper_percent_bleeding; resetcvar keeper_percent_burns; resetcvar keeper_percent_aggro; resetcvar keeper_percent_blood; resetcvar keeper_percent_disease; resetcvar keeper_percent_blues;"
 addmenukey "Hideous Barrel Purge" "summon hdpurgethebarrelsplease"
 alias "hd_barrelpurge" "summon hdpurgethebarrelsplease"

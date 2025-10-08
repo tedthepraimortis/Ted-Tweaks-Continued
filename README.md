@@ -6,37 +6,36 @@ This always targets the latest unstable build of Hideous Destructor from <https:
 Changes:
 
 - Made *ERP repair require holding a button instead of spamming it.
-- Removed Light Amplification Goggles forced FOV.
-- Quieted down the jetpack and decreased its bulk.
+- CVAR to remove the Liteamp Goggles' forced FOV change.
 - Added the compass changes from Cozi's Hideous Helmet fork.
-- Improved Player Climbing.
+- Optional Improved Player Climbing.
 - Cacodemon Corpse volume decreased.
-- Modern Green turned into green instead of cyan.
-- Blursphere no longer hides lite amp overlay.
-- Blursphere now uses blurspheretexts lump again.
+- Modern Green turned into green instead of a strange cyan.
+- Blursphere can no longer hide the liteamp overlay.
+- Blursphere can use the blurspheretexts lump again.
 - Air Supply is now 90 seconds.
-- Invulnerability Sphere now has a CVAR to disable spawning Necromancers, that being **hd_nonecroghost** and it defaults to 'false'.
-- Keeper integration, patched for new wounds also and re-added keeping Blues on death along with a menu for it.
+- Invulnerability Sphere now has a CVAR to disable spawning Necromancers.
 - Light corruption cards support.
-- Light Amplification Goggles no longer flicker.
-- IEDs no longer explode on dormant enemies.
-- Flinching on enemy melee damage is decreased.
-- Adds an unsuppressed variant of the SMG.
+- Option for Liteamp Goggles no longer flicker.
+- CVAR to control flinching on enemy melee damage.
 - Allows the revolver to stay cocked even if it is unselected.
-- Makes the Liberator rifle hinder legs.
-- Makes 7mm Ammunition rarer.
-- Buffs 35mm damage.
-- Makes the BFG expel more frag on attack.
 - Includes a custom startup to show you're using Ted Tweaks.
-- Remove the ledge check for player movement to reduce random slowdowns and make parkour easier.
 - Adds a CVAR to remove all inheritors of HDDrug on mapchange or not.
-- Adds an iron-sight variant to the Liberator rifle.
-- Adds a grenade launcher to the SMG.
+- Adds a low-health desaturation effect to show when you're low on HP.
+- Adds several spawn changes, powered by HDCoreLib.
+- Adds HexaDoken's VulcFixer and BarrelPurger.
+- Changes Baron of Hell fireball damage mildly.
+- Removes Radsuit Leakage from the hd radsuit.
+- Adds unique per-skull key damage effects. Red immolates you, Blue shocks you, Yellow spawns gretchenfrage.
+- Adds in more Ugly as Sin looting items.
+- Adds War Trophies blacklists for hdest items.
+- Cleans up the main menu to allow easy font replacement.
 
 ## Credits
 
-- Ted the Praimortis: Original Mod Author
+- tedthepraimortis: Original Mod Author
 - Undead Zeratul: Maintainer
 - Cryomundas: Various compass related fixes.
 - TwelveEyes: Various compass related fixes.
 - Accensus: No FOV Tweaks Light Amp code, various bug fixes and changes and original Keepers code
+- HexaDoken: Original VulcFixer + BarrelPurger Author
