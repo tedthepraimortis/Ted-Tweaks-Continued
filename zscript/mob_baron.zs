@@ -264,18 +264,22 @@ class BelphBall:FastProjectile{
 		BAL1 A 0 bright A_ScaleVelocity(32);
 	see:
 		BAL1 AB 1{
-			vector3 vv=vel*0.3;
-			vector3 vvv=vv*-0.1;
-			vector3 vvvv=vel.unit();
-			double vl=vel.length();
-			for(int i=0;i<4;i++)A_SpawnParticle(
-				"ef ff db",SPF_FULLBRIGHT,
-				random(10,20),frandom(30,40),
-				0,
-				vvvv.x*frandom(0,-vl),vvvv.y*frandom(0,-vl),vvvv.z*frandom(0,-vl)+4,
-				vv.x+frandom(-1,1),vv.y*0.3+frandom(-1,1),vv.z*0.3+frandom(0.9,1.3),
-				vvv.x,vvv.y,vvv.z+0.01
-			);
+			if(HDF.CheckParticle(Self))for(int i=0;i<4;i++)
+			{
+				vector3 vv=vel*0.3;
+				Vector3 vvrand = (cfrandom(-1,1),cfrandom(-1,1),cfrandom(0.9,1.3));
+				vector3 vvv=vv*-0.1;
+				double vl=vel.length();
+				vector3 vvvv=vel.unit()*frandom(0,-vl);
+				A_SpawnParticle(
+					"ef ff db",SPF_FULLBRIGHT,
+					crandom(10,20),cfrandom(30,40),
+					0,
+					vvvv.x,vvvv.y,vvvv.z+4,
+					vv.x+vvrand.X,vv.y*0.3+vvrand.Y,vv.z*0.3+vvrand.Z,
+					vvv.x,vvv.y,vvv.z+0.01
+				);
+			}
 		}
 		loop;
 	death:
