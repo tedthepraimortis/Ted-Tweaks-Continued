@@ -244,6 +244,7 @@ class PortableLiteAmp:HDMagAmmo replaces Infrared{
 		TNT1 A 0{
 			int cmd=player.cmd.buttons;
 			if(cmd&BT_USE){
+				A_StartSound("lightamp/adjust",CHAN_AUTO);
 				double am=cmd&BT_ZOOM?-5:5;
 				invoker.amplitude=clamp(am+abs(invoker.amplitude),0,NITEVIS_MAX);
 			}else if(cmd&BT_USER3){
@@ -254,10 +255,16 @@ class PortableLiteAmp:HDMagAmmo replaces Infrared{
 				A_SetBlend("01 00 00",0.8,16);
 				if(HDMagAmmo.NothingLoaded(self,"PortableLiteAmp")){
 					A_Log(Stringtable.Localize("$LITEAMP_NOPOWER"),true);
+					A_StartSound("lightamp/deactivate",CHAN_AUTO);
 					invoker.worn=false;
 					return;
 				}
-				if(invoker.worn)invoker.worn=false;else{
+				if(invoker.worn)
+				{
+					A_StartSound("lightamp/deactivate",CHAN_AUTO);
+					invoker.worn=false;
+				}else{
+					A_StartSound("lightamp/activate",CHAN_AUTO);
 					invoker.worn=true;
 					if(!invoker.nozerolight)invoker.nozerolight=PointLight(spawn("visorlight",pos,ALLOW_REPLACE));
 					invoker.nozerolight.target=self;

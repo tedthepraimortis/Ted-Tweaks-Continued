@@ -17,7 +17,7 @@ class HealerImpSpawner : ClusterSpawner {
 
 class GroupedMarineSpawner : ClusterSpawner {
     default {
-        ClusterSpawner.actorClass 'Rifleman';
+        ClusterSpawner.actorClass 'HDGoon';
         ClusterSpawner.maxSpawns 5;
         ClusterSpawner.maxDist 128.0;
         ClusterSpawner.MaxAttempts 10;

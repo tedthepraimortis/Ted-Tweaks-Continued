@@ -3,27 +3,27 @@
 // Ted Tweaks Specific
 MENU_TTOPTIONS = "\c[Cyan]Ⓣ\c- Ted Tweaks";
 
-MENU_TTM_TITLE = "\c[Cyan]----- Ted Tweaks -----\c-";
+MENU_TTM_TITLE = "\c[Cyan]----- \c[White]Ted Tweaks \c[Cyan]-----\c-";
 
 MENU_TTM_MISC = "Misc. Options";
 
-MENU_TTM_MISC_INVUL = "Controls if Invulnerability Spheres can be broken to spawn friendly Necromancers";
-MENU_TTM_MISC_INVULBREAK = "No Invuln. Breaking:";
+MENU_TTM_MISC_INVUL = "Enables/Disables Invulnerability Spheres being broken to spawn friendly Necromancers";
+MENU_TTM_MISC_INVULBREAK = "No Invuln. Breaking: ";
 MENU_TTM_MISC_RESETINVUL = "Reset Invuln. Breaking Option";
 
-MENU_TTM_MISC_MAPDRUGREMOVAL1 = "Controls if going to then next map removes any actors inheriting from HDDrug or not.";
+MENU_TTM_MISC_MAPDRUGREMOVAL1 = "Whether or not HDDrug inheriting classes will be removed on map transition.";
 MENU_TTM_MISC_MAPDRUGREMOVAL2 = "Map Drug Removal: ";
 MENU_TTM_MISC_MAPDRUGREMOVAL3 = "Reset Map Drug Removal";
 
 MENU_TTM_MISC_VULCREP = "Controls if you can repair a vulcanette by tossing it on a soulsphere/megasphere.";
-MENU_TTM_MISC_VULCREP_TEXT = "Vulc Repairer:";
+MENU_TTM_MISC_VULCREP_TEXT = "Vulc Repairer: ";
 MENU_TTM_MISC_VULCREP_RESET = "Reset Vulc Repairer Options";
 
 COMPASS_UP="^";
 
 // Here to show what version it's intended for and that you are, in fact, using Ted-Tweaks. - [Ted]
 STARTUP1="        \cq~ \cr* \cq~";
-STARTUP2=" \cyHideous Destructor \cx4.14.2a \cypre \c[Cyan]Ted Tweaks\c-";
+STARTUP2=" \cyHideous Destructor \cx4.14.2c \cypre \c[Cyan]Ted Tweaks\c-";
 STARTUP3=" Please read the manual.";
 STARTUP4="       Have fun!";
 STARTUP5="        \cq~ \cr* \cq~";

@@ -502,9 +502,13 @@ extend class HDPlayerPawn{
             &&!barehanded
             &&isFocussing
         ){
-            if(abs(anglechange)>0.05){
+            double aac=abs(anglechange);
+			if(aac>0.05){
                 double aad=angle+anglechange+90;
-                trymove(self.pos.xy+(cos(aad),sin(aad))*(-0.3*anglechange),false);
+                vector2 mvec=(cos(aad),sin(aad))*(-0.7*heightmult*anglechange);
+				if(max(abs(mvec.x),abs(mvec.y))>radius){
+					gunbraced=false;
+				}else trymove(self.pos.xy+mvec,false);
             }
         }
 
