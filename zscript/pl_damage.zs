@@ -330,7 +330,7 @@ extend class HDPlayerPawn{
 			)
 		){
 			lastthingthatwoundedyou=source;
-				hdbleedingwound.inflict(self,towound,wwidth,source:source,damagetype:mod,
+			hdbleedingwound.inflict(self,towound,wwidth,source:source,damagetype:mod,
 				hitlocation:!!inflictor?inflictor.pos:!!source?source.pos+HDMath.GetGunPos(source):(0,0,0)
 			);
 		}
@@ -360,6 +360,8 @@ extend class HDPlayerPawn{
 				st
 			));
 		}
+
+
 
 		//flinch
 		if(
@@ -428,9 +430,11 @@ extend class HDPlayerPawn{
 			AddBlackout(128,damage+(bash?32:16),16);
 		}
 
+
 		//brute force a reset in nobleed mode
 		//there are multiple sources of bloodloss
 		if(hd_nobleed)bloodloss=0;
+
 
 		//disintegrator mode keeps things simple
 		if(
@@ -474,6 +478,7 @@ extend class HDPlayerPawn{
 				}
 			}
 		}
+
 
 		//finally call the real one but ignore all armour
 		int finaldmg=super.DamageMobj(
