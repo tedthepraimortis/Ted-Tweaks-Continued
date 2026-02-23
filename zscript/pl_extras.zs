@@ -536,6 +536,8 @@ extend class HDPlayerPawn{
 		){
 			kickee.setstatelabel("falldown");
 		}
+		}
+
 
 		//hold zoom to get some info
 		virtual void ZoomButtonQuery(int input,int time){
@@ -598,7 +600,6 @@ extend class HDPlayerPawn{
 					}else viewstring="";
 				}else viewstring="";
 			}else viewstring="";
-		}
 	}
 }
 extend class HDHandlers{
