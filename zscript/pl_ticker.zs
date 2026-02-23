@@ -658,66 +658,7 @@ extend class HDPlayerPawn{
         UseButtonCheck(input);
 
 
-        //hold zoom to get some info
-        bool forceview=
-            barehanded
-            &&(input&BT_ZOOM)
-            &&!(input&(BT_ATTACK|BT_ALTATTACK))
-        ;
-        if(
-            !incapacitated
-            &&(
-                forceview
-                ||!(time&(1|2|4))
-            )
-            &&!!viewpos
-        ){
-            flinetracedata flt;
-            LineTrace(
-                angle,(input&BT_ZOOM)?HDCONST_ONEMETRE*300:HDCONST_ONEMETRE*50,pitch,
-                flags:TRF_ALLACTORS|TRF_ABSOFFSET,
-                offsetz:viewheight+viewpos.offset.z,
-                offsetforward:viewpos.offset.x,
-                offsetside:viewpos.offset.y,
-                data:flt
-            );
-            let aaa=flt.hitactor;
-            if(
-                !!aaa
-                &&!aaa.binvisible
-                &&!aaa.bspecialfiredamage
-                &&(
-                    !ishostile(aaa)
-                    ||(
-                        !inpain
-                        &&(
-                            aaa.target!=self
-                            ||aaa.health<1
-                            ||(!aaa.bismonster&&!aaa.player)
-                        )
-                    )
-                )
-                &&(
-                    HDWeapon(aaa)
-                    ||HDMobBase(aaa)
-                    ||aaa.gettag()!=aaa.getclassname()
-                )
-            ){
-                let oaa=HDOperator(aaa);
-                if(oaa)oaa.LookMessage(self);
-                if(
-                    forceview
-                    &&flt.distance<128
-                ){
-                    viewstring=aaa.gettag();
-                    if(
-                        !oaa
-                        &&!aaa.player
-                        &&playerpawn(aaa)
-                    )viewstring=viewstring.makelower();
-                }else viewstring="";
-            }else viewstring="";
-        }else viewstring="";
+        ZoomButtonQuery(input,time);
 
 
         UpdateNearbyFriends();
