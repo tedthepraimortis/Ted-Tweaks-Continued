@@ -70,7 +70,7 @@ class HDMobBase: HDActor abstract{
 
         minmissilechance=(minmissilechance*random(4,12))>>3;
 
-        HDF.CheckNoKillCount();
+        KillCountDontAddTotal();
     }
 
     override void Tick(){
