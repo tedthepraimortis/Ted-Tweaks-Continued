@@ -412,13 +412,6 @@ class HDStatusBar:DoomStatusBar{
 		}
 
 
-		//update loadout1 based on old custom
-		//delete once old custom is gone!
-		let lomt=LoadoutMenuHackToken(ThinkerFlag.Find(cplayer.mo,"LoadoutMenuHackToken"));
-		if(lomt)cvar.findcvar("hd_loadout1").setstring(lomt.loadout);
-
-
-
 		//draw the crosshair
 		if(
 			!blurred
