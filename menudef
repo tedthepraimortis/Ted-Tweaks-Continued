@@ -17,8 +17,12 @@ OptionMenu "TedTweaks"
     HDTooltip "Whether or not the Liteamp Goggles will change the player's FOV."
     Option "Liteamp Goggles Flicker: ", "hd_liteampflicker", "OnOff"
     HDTooltip "Whether or not the Liteamp Goggles will flicker at low power."
+    Option "Forced Walking around Ledges: ", "tt_forcedwalk", "OnOff"
+    HDTooltip "Whether or not your character will be forced to walk around ledges to prevent easily falling off."
     Slider "Player Flinch: ", "hd_flinchmultiplier", 0, 2., 0.1, 1
     HDTooltip "Multiplies how much the player flinches when they are hit with a melee attack."
+    Slider "Sprint Speed Coefficient: ", "tt_sprintcoefficient", 0, 5., 0.1, 1
+    HDTooltip "Multiplies how fast the player moves whilst sprinting."
     Option "Easier Climbing: ", "hd_easierclimbing", "OnOff"
     HDTooltip "Whether or not players will flinch more or less when climbed on."
     Option "Radsuit Overlay: ", "hd_radsuitoverlay", "OnOff"
