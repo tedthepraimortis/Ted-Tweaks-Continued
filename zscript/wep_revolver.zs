@@ -18,7 +18,7 @@ class HDRevolver:HDHandgun{
 		obituary "$OB_REVOLVER";
 		inventory.pickupmessage "$PICKUP_REVOLVER";
 		tag "$TAG_REVOLVER";
-		hdweapon.refid HDLD_REVOLVER;
+		hdweapon.refid "rev";
 		hdweapon.barrelsize 20,0.3,0.5; //physically longer than auto but can shoot at contact
 
 		hdweapon.ammo1 "HDRevolverAmmo",6;
@@ -267,6 +267,44 @@ class HDRevolver:HDHandgun{
 		}
 		if(gotany)A_StartSound("weapons/pocket",9);
 	}
+	override void Consolidate(){
+			bool onlyweapon=true;
+			if(
+				owner
+				&&owner.player
+			){
+				let nine=HDPistolAmmo(owner.findinventory("HDPistolAmmo"));
+				if(nine)onlyweapon=nine.HasNoOtherThatUsesThis(owner,getclassname());
+			}
+			for(int i=BUGS_CYL1;i<=BUGS_CYL6;i++){
+				let thischamber=weaponstatus[i];
+				if(
+					thischamber==BUGS_NINEMILSPENT
+					||thischamber==BUGS_MASTERBALLSPENT
+				)weaponstatus[i]=0;
+				else if(thischamber>0)continue;	//don't replace loaded
+	
+				class<inventory> rrr="HDRevolverAmmo";
+				if(
+					!countinv("HDRevolverAmmo")
+					&&owner.countinv("HDPistolAmmo")
+					&&(
+						//take 9mm only if readyweapon or only weapon
+						onlyweapon
+						||(
+							owner
+							&&owner.player
+							&&owner.player.readyweapon==self
+						)
+					)
+				)rrr="HDPistolAmmo";
+				if(owner.countinv(rrr)){
+					owner.A_TakeInventory(rrr,1);
+					if(rrr=="HDRevolverAmmo")weaponstatus[i]=BUGS_MASTERBALL;
+						else weaponstatus[i]=BUGS_NINEMIL;
+				}
+			}
+		}
 	action void A_FireRevolver(){
 		invoker.weaponstatus[0]&=~BUGF_COCKED;
 		int cyl=invoker.weaponstatus[BUGS_CYL1];

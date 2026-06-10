@@ -365,7 +365,7 @@ extend class HDPlayerPawn{
 			!amt
 			||incapacitated
 			||health<1
-			||stunned>TICRATE*5
+			||stunned>TICRATE*7
 			||(
 				flags&FROLL_VOLUNTARY
 				&&(
@@ -373,7 +373,6 @@ extend class HDPlayerPawn{
 					||realpitch>90
 					||realpitch<-90
 					||fatigue>=HDCONST_SPRINTFATIGUE
-					||stunned>40
 				)
 			)
 		)return;
@@ -658,6 +657,9 @@ class DelayedTaunter:Thinker{
 		if(timer<0){
 			target.bspawnsoundsource=true;
 			HDMobAI.HDNoiseAlert(target);
+
+			target.A_AlertMonsters(0,AMF_TARGETEMITTER);
+
 			destroy();
 		}
 	}

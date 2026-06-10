@@ -565,7 +565,7 @@ class HERPUsable:HDWeapon{
 		inventory.pickupsound "misc/w_pkup";
 		inventory.pickupmessage "$PICKUP_HERP";
 		tag "$TAG_HERP";
-		hdweapon.refid HDLD_HERPBOT;
+		hdweapon.refid "hrp";
 		weapon.selectionorder 1015;
 		hdweapon.ammo1 "HD4mMag",1;
 		hdweapon.ammo2 "HDBattery",1;
@@ -985,32 +985,6 @@ class HERPUsable:HDWeapon{
 		..LWPHELP_ZOOM..StringTable.Localize("$HERPWH_ZOOM")
 		;
 	}
-	static int backpackrepairs(actor owner,hdbackpack bp){
-		if(!owner||!bp)return 0;
-		StorageItem si=bp.Storage.Find('herpusable');
-		int fixbonus=0;
-		if (si){
-			for(int i=0;si.Amounts.Size()>0&&i<si.Amounts[0];){
-				if (si.WeaponStatus[HDWEP_STATUSSLOTS*i]&HERPF_BROKEN){
-					if (!random(0,7-fixbonus)){
-						//fix
-						si.WeaponStatus[HDWEP_STATUSSLOTS*i]&=~HERPF_BROKEN;
-						if (fixbonus>0)fixbonus--;
-						owner.A_Log(Stringtable.Localize("$HERP_REPAIRPACK"),true);
-					}else if(!random(0,7)){
-						fixbonus++;
-						//delete and restart
-						bp.Storage.RemoveItem(si,null,null,index:i);
-						i=0;
-						owner.A_Log(Stringtable.Localize("$HERP_REPAIRPACK_FAIL"),true);
-						continue;
-					}
-				}
-				i++;
-			}
-		}
-		return fixbonus;
-	}
 	action void A_RepairAttempt(){
 		if(!invoker.RepairAttempt())return;
 		if(!(invoker.weaponstatus[0]&HERPF_BROKEN))A_SetHelpText();
@@ -1061,7 +1035,6 @@ class HERPUsable:HDWeapon{
 	}
 	override void consolidate(){
 		if(!owner)return;
-		int fixbonus=backpackrepairs(owner,hdbackpack(owner.FindInventory("HDBackpack",true)));
 		let spw=spareweapons(owner.findinventory("spareweapons"));
 		if(spw){
 			for(int i=0;i<spw.weapontype.size();i++){
@@ -1072,30 +1045,19 @@ class HERPUsable:HDWeapon{
 				if(
 					wpstint&HERPF_BROKEN
 				){
-					if(!random(0,max(0,7-fixbonus))){
-						if(fixbonus>0)fixbonus--;
+					if(!random(0,7)){
 						wpstint&=~HERPF_BROKEN;
 						owner.A_Log(Stringtable.Localize("$HERP_REPAIRBROKEN"),true);
 						string newwepstat=spw.weaponstatus[i];
 						newwepstat=wpstint..newwepstat.mid(newwepstat.indexof(","));
 						spw.weaponstatus[i]=newwepstat;
-					}else if(!random(0,7)){
-						//delete
-						fixbonus++;
-						spw.weaponbulk.delete(i);
-						spw.weapontype.delete(i);
-						spw.weaponstatus.delete(i);
-						owner.A_Log(Stringtable.Localize("$HERP_REPAIRBROKEN_FAIL"),true);
-						//go back to start
-						i=0;
-						continue;
 					}
 				}
 			}
 		}
 		if(
 			(weaponstatus[0]&HERPF_BROKEN)
-			&&!random(0,7-fixbonus)
+			&&!random(0,7)
 		){
 			weaponstatus[0]&=~HERPF_BROKEN;
 			owner.A_Log(Stringtable.Localize("$HERP_FIELDREPAIRS"),true);

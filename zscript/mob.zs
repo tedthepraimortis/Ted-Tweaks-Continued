@@ -536,18 +536,20 @@ class HDHumanoid:HDMobBase abstract{
         }
     }
     //give armour
-    hdarmourworn givearmour(double chance=1.,double megachance=0.,double minimum=0.){
-        a_takeinventory("hdarmourworn");
-        if(frandom(0.,1.)>chance)return null;
-        let arw=hdarmourworn(giveinventorytype("hdarmourworn"));
-        int maxdurability;
-            if(frandom(0.,1.)<megachance){
-            arw.mega=true;
-            maxdurability=HDCONST_BATTLEARMOUR;
-        }else maxdurability=HDCONST_GARRISONARMOUR;
-        arw.durability=int(max(1,frandom(min(1.,minimum),1.)*maxdurability));
-        return arw;
-    }
+	hdarmourworn givearmour(double chance=1.,double megachance=0.,double minimum=0.){
+		HDArmourWorn.RemoveAll(self);
+		if(frandom(0.,1.)>chance)return null;
+		let w=hdarmourworn(
+			giveinventorytype(
+				(frandom(0.,1.)<megachance)?
+				"BattleArmourWorn":
+				"GarrisonArmourWorn"
+			)
+		);
+		if(w)w.durability=int(max(1,frandom(min(1.,minimum),1.)*w.durability));
+		return w;
+	}
+
     void A_EjectPistolCasing(){
         HDWeapon.EjectCasing(self,"HDSpent9mm",
             -frandom(89,92),
@@ -572,8 +574,8 @@ class HDHumanoid:HDMobBase abstract{
         int flags,
         double speedmult
     ){
-        let aaa=HDArmourWorn(findinventory("HDArmourWorn"));
-        if(aaa)speed=min(speed,aaa.mega?10:14);
+        let aaa=HDArmourWorn.Find(self);
+        if(aaa)speed-=aaa.thickness;
         super.A_HDChase(meleestate,missilestate,flags,speedmult);
     }
     states{

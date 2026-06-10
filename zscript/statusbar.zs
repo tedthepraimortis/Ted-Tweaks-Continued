@@ -532,6 +532,8 @@ class HDStatusBar:DoomStatusBar{
 		if(cplayer.readyweapon&&cplayer.readyweapon!=WP_NOCHANGE)
 			drawweaponstatus(cplayer.readyweapon);
 
+		beginhud(forcescaled:false);
+
 		//weapon sprite
 		if(
 			hudlevel==2

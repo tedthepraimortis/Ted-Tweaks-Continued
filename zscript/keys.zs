@@ -10,7 +10,7 @@ class KeyLoadoutGiver:HDPickup{
     default{
         -hdpickup.fitsinbackpack
         inventory.maxamount 7;
-        hdpickup.refid HDLD_KEY;
+        hdpickup.refid "key";
         tag "$TAG_KEYS";
     }
     states{
@@ -75,7 +75,10 @@ class HDUPKAlwaysGive:HDActor abstract{
                     &&ppp.isfriend(grabber)  //actually pointless since you have all the keys in DM anyway
                 ){
                     ppp.A_GiveInventory(toallplayers);
-                    if(msgtoall!="")ppp.A_Log(msgtoall,true);
+                    if(
+							i==consoleplayer
+							&&msgtoall!=""
+						)console.printfex(PRINT_LOW,Stringtable.Localize(msgtoall));
                 }
             }
         }

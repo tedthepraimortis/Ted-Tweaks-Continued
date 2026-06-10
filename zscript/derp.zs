@@ -412,8 +412,9 @@ class DERPUsable:HDWeapon{
 		inventory.pickupsound "derp/crawl";
 		translation 0;
 		tag "$TAG_DERP";
-		hdweapon.refid HDLD_DERPBOT;
+		hdweapon.refid "drp";
 		hdweapon.ammo1 "HD9mMag15",1;
+		hdweapon.incapweapon "IncapDERP";
 	}
 	override bool AddSpareWeapon(actor newowner){return AddSpareWeaponRegular(newowner);}
 	override hdweapon GetSpareWeapon(actor newowner,bool reverse,bool doselect){return GetSpareWeaponRegular(newowner,reverse,doselect);}
@@ -511,37 +512,8 @@ class DERPUsable:HDWeapon{
 	action void A_AddOffset(int ofs){
 		invoker.weaponstatus[DERPS_USEOFFS]+=ofs;
 	}
-	static int backpackrepairs(actor owner,hdbackpack bp){
-		if(!owner||!bp)return 0;
-		StorageItem si=bp.Storage.Find('derpusable');
-		int fixbonus=0;
-		if (si){
-			// [Ace] The original implementation had a bug (?) where if you had two DERPS and the first one was destroyed for parts, the second one would be skipped.
-			// Same thing with the H.E.R.P.
-			for(int i=0;si.Amounts.Size()>0&&i<si.Amounts[0];){
-				if (si.WeaponStatus[HDWEP_STATUSSLOTS*i]&DERPF_BROKEN){
-					if (!random(0,6-fixbonus)){
-						//fix
-						si.WeaponStatus[HDWEP_STATUSSLOTS*i]&=~DERPF_BROKEN;
-						if (fixbonus>0)fixbonus--;
-						owner.A_Log(Stringtable.Localize("$DERP_REPAIRPACK"),true);
-					}else if(!random(0,6)){
-						fixbonus++;
-						//delete and restart
-						bp.Storage.RemoveItem(si,null,null,index:i);
-						i=0;
-						owner.A_Log(Stringtable.Localize("$DERP_REPAIRPACK_FAIL"),true);
-						continue;
-					}
-				}
-				i++;
-			}
-		}
-		return fixbonus;
-	}
 	override void consolidate(){
 		if(!owner)return;
-		int fixbonus=backpackrepairs(owner,hdbackpack(owner.FindInventory("HDBackpack",true)));
 		let spw=spareweapons(owner.findinventory("spareweapons"));
 		if(spw){
 			for(int i=0;i<spw.weapontype.size();i++){
@@ -552,30 +524,19 @@ class DERPUsable:HDWeapon{
 				if(
 					wpstint&DERPF_BROKEN
 				){
-					if(!random(0,max(0,6-fixbonus))){
-						if(fixbonus>0)fixbonus--;
+					if(!random(0,7)){
 						wpstint&=~DERPF_BROKEN;
 						owner.A_Log(Stringtable.Localize("$DERP_REPAIR"),true);
 						string newwepstat=spw.weaponstatus[i];
 						newwepstat=wpstint..newwepstat.mid(newwepstat.indexof(","));
 						spw.weaponstatus[i]=newwepstat;
-					}else if(!random(0,6)){
-						//delete
-						fixbonus++;
-						spw.weaponbulk.delete(i);
-						spw.weapontype.delete(i);
-						spw.weaponstatus.delete(i);
-						owner.A_Log(Stringtable.Localize("$DERP_REPAIR_FAIL"),true);
-						//go back to start
-						i=0;
-						continue;
 					}
 				}
 			}
 		}
 		if(
 			(weaponstatus[0]&DERPF_BROKEN)
-			&&!random(0,7-fixbonus)
+			&&!random(0,7)
 		){
 			weaponstatus[0]&=~DERPF_BROKEN;
 			owner.A_Log(Stringtable.Localize("$DERP_FIELDREPAIR"),true);

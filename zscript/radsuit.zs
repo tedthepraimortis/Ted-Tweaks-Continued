@@ -198,7 +198,7 @@ class PortableRadsuit:HDPickup replaces RadSuit{
 		inventory.icon "SUITB0";
 		hdpickup.bulk 20;
 		tag "$TAG_RADSUIT";
-		hdpickup.refid HDLD_RADSUIT;
+		hdpickup.refid "rad";
 	}
 	override void DetachFromOwner(){
 		owner.A_TakeInventory("PortableRadsuit");

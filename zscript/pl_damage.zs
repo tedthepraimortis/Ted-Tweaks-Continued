@@ -29,7 +29,7 @@ extend class HDPlayerPawn{
 			A_TakeInventory("PowerIronFeet");
 		}
 		if(countinv("BasicArmor")){
-			A_GiveInventory("HDArmourWorn");
+			A_GiveInventory("GarrisonArmourWorn");
 			A_TakeInventory("BasicArmor");
 		}
 
@@ -519,7 +519,7 @@ extend class HDPlayerPawn{
 		if(!victim.player)return;
 		let pwep=hdweapon(victim.player.readyweapon);
 		if(!pwep)return;
-		pwep.OnPlayerDrop();
+		pwep.OnPlayerDeathOrIncap();
 		if(
 			pwep
 			&&pwep.owner==victim //onplayerdrop might change this
