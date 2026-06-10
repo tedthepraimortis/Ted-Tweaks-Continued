@@ -11,9 +11,9 @@ class PortableLiteAmp:HDMagAmmo replaces Infrared{
 		inventory.pickupmessage "$PICKUP_LITEAMP";
 		inventory.icon "PVISA0";
 		scale 0.5;
-		hdpickup.bulk ENC_LITEAMP;
+		hdmagammo.magbulk ENC_LITEAMP;
 		tag "$TAG_LITEAMP";
-		hdpickup.refid HDLD_LITEAMP;
+		hdpickup.refid "lit";
 
 		hdmagammo.maxperunit NITEVIS_MAGMAX;
 

@@ -69,7 +69,7 @@ class PortableStimpack:HDWeapon{
 		inventory.pickupmessage "$PICKUP_STIMPACK";
 		inventory.icon "STIMA0";
 		tag "$TAG_STIMPACK";
-		hdweapon.refid HDLD_STIMPAK;
+		hdweapon.refid "stm";
 		+inventory.ishealth
 		+inventory.invbar
 		+weapon.wimpy_weapon
@@ -82,6 +82,11 @@ class PortableStimpack:HDWeapon{
 		portablestimpack.mainhelptext "$STIMPACK_HELPTEXT";
 		portablestimpack.spentinjecttype "SpentStim";
 		portablestimpack.injecttype "InjectStimDummy";
+
+		hdweapon.incapweapon "IncapStims";
+	}
+	override string,double GetPickupSprite(bool usespare){
+			return texman.getname(icon),1.;
 	}
 	states(actor){
 	//don't use a CreateTossable override - we need the throwing stuff
@@ -164,6 +169,7 @@ class PortableStimpack:HDWeapon{
 				DropInventory(invoker);
 				return;
 			}
+			A_StartDeselect();
 		}
 		TNT1 A 5 A_StartSound("weapons/pocket",8,CHANF_OVERLAP,volume:0.5);
 		TNT1 A 0 A_Lower(999);
@@ -290,7 +296,10 @@ class HDStim:HDDrug{
 	}
 	override void OnHeartbeat(hdplayerpawn hdp){
 		if(amount<1)return;
-		int amt=amount;amount--;
+		int amt=amount;
+			if(hd_nobleed){
+				amount-=hdp.health<HDCONST_JITTERHEALTH?20:6;
+			}else amount--;
 
 		if(amt>HDSTIM_MAX){
 
@@ -343,13 +352,15 @@ class PortableBerserkPack:PortableStimpack{
 		inventory.pickupmessage "$PICKUP_ZERKPACK";
 		inventory.icon "PSTRA0";
 		tag "$TAG_ZERKPACK";
-		hdweapon.refid HDLD_BERSERK;
+		hdweapon.refid "zrk";
 
 		weapon.selectionorder 1002;
 
 		portablestimpack.mainhelptext "$ZERKPACK_MAINHELPTEXT";
 		portablestimpack.spentinjecttype "SpentZerk";
 		portablestimpack.injecttype "InjectZerkDummy";
+
+		hdweapon.incapweapon "IncapZerk";
 	}
 	states{
 	spawn2:

@@ -23,7 +23,7 @@ COMPASS_UP="^";
 
 // Here to show what version it's intended for and that you are, in fact, using Ted-Tweaks. - [Ted]
 STARTUP1="        \cq~ \cr* \cq~";
-STARTUP2=" \cyHideous Destructor \cx4.14.2c \cypre \c[Cyan]Ted Tweaks\c-";
+STARTUP2=" \cyHideous Destructor \cx5.0.0a \cypre \c[Cyan]Ted Tweaks\c-";
 STARTUP3=" Please read the manual.";
 STARTUP4="       Have fun!";
 STARTUP5="        \cq~ \cr* \cq~";

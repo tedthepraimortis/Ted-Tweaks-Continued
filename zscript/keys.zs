@@ -10,7 +10,7 @@ class KeyLoadoutGiver:HDPickup{
     default{
         -hdpickup.fitsinbackpack
         inventory.maxamount 7;
-        hdpickup.refid HDLD_KEY;
+        hdpickup.refid "key";
         tag "$TAG_KEYS";
     }
     states{
@@ -75,7 +75,10 @@ class HDUPKAlwaysGive:HDActor abstract{
                     &&ppp.isfriend(grabber)  //actually pointless since you have all the keys in DM anyway
                 ){
                     ppp.A_GiveInventory(toallplayers);
-                    if(msgtoall!="")ppp.A_Log(msgtoall,true);
+                    if(
+							i==consoleplayer
+							&&msgtoall!=""
+						)console.printfex(PRINT_LOW,Stringtable.Localize(msgtoall));
                 }
             }
         }
@@ -195,15 +198,19 @@ class HDRedSkull:HDUPK replaces RedSkull{
         }
     }
 	override void A_HDUPKGive(){
-	    if(!tt_noskulldamage)
+        if(!picktarget.CheckInventory(missilename, 1))
         {
-		    picktarget.A_GiveInventory(missilename);
-		    picktarget.damagemobj(self,self,1,"balefire");
-		    picktarget.A_GiveInventory("Heat",150);
+	        if(!tt_noskulldamage)
+            {
+		        picktarget.A_GiveInventory(missilename);
+		        picktarget.damagemobj(self,self,3,"balefire");
+		        picktarget.damagemobj(self,self,25,"hot");
+		        picktarget.A_GiveInventory("Heat",random(350,550));
+            }
+	        picktarget.A_Log(pickupmessage,true);
+	        IsMoving.Give(picktarget,99);
+	        setstatelabel("effect");
         }
-	    picktarget.A_Log(pickupmessage,true);
-	    IsMoving.Give(picktarget,99);
-	    setstatelabel("effect");
 	}
     states{
     spawn:
@@ -222,15 +229,20 @@ class HDBlueSkull:HDRedSkull replaces BlueSkull{
 		hdupk.pickupmessage "$PICK_BLUESKULL";
     }
 	override void A_HDUPKGive(){
-	    if(!tt_noskulldamage)
+        HDPlayerPawn hdp = HDPlayerPawn(picktarget);
+        if(!picktarget.CheckInventory(missilename, 1))
         {
-            picktarget.A_GiveInventory(missilename);
-	        picktarget.damagemobj(self,self,1,"electrical");
-	        picktarget.A_SpawnItemEx("BeamSpotFlash");
+	        if(!tt_noskulldamage)
+            {
+                picktarget.A_GiveInventory(missilename);
+	            picktarget.damagemobj(self,self,3,"balefire");
+	            picktarget.A_SpawnItemEx("BeamSpotFlash");
+                hdp.fatigue+random(20,30);
+            }
+	        picktarget.A_Log(pickupmessage,true);
+	        IsMoving.Give(picktarget,99);
+	        setstatelabel("effect");
         }
-	    picktarget.A_Log(pickupmessage,true);
-	    IsMoving.Give(picktarget,99);
-	    setstatelabel("effect");
     }
     states{
     spawn:
@@ -244,17 +256,20 @@ class HDYellowSkull:HDRedSkull replaces YellowSkull{
 		hdupk.pickupmessage "$PICK_YELLOWSKULL";
     }
 	override void A_HDUPKGive(){
-		if(!tt_noskulldamage)
+        if(!picktarget.CheckInventory(missilename, 1))
         {
-		    picktarget.A_GiveInventory(missilename);
-		    picktarget.damagemobj(self,self,1,"balefire");
-		    picktarget.A_SpawnItemEx("BFGNecroShard");
-            picktarget.A_SpawnItemEx("BFGNecroShard");
-		    picktarget.A_SpawnItemEx("BFGNecroShard");
+		    if(!tt_noskulldamage)
+            {
+		        picktarget.A_GiveInventory(missilename);
+		        picktarget.damagemobj(self,self,3,"balefire");
+		        A_SpawnItemEx("BFGNecroShard");
+                A_SpawnItemEx("BFGNecroShard");
+		        A_SpawnItemEx("BFGNecroShard");
+            }
+	        picktarget.A_Log(pickupmessage,true);
+	        IsMoving.Give(picktarget,99);
+	        setstatelabel("effect");
         }
-	    picktarget.A_Log(pickupmessage,true);
-	    IsMoving.Give(picktarget,99);
-	    setstatelabel("effect");
 	}
     states{
     spawn:

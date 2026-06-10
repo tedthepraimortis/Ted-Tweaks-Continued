@@ -440,7 +440,8 @@ extend class HDPlayerPawn{
             ||health<25
             ||fatigue>HDCONST_WALKFATIGUE
             ||(
-                !(player.cheats&(CF_NOCLIP2|CF_NOCLIP))
+                tt_forcedwalk
+                &&!(player.cheats&(CF_NOCLIP2|CF_NOCLIP))
                 &&runwalksprint<1
                 &&(fm||sm)
                 &&floorz>=pos.z
@@ -515,7 +516,7 @@ extend class HDPlayerPawn{
         else if(cansprint && runwalksprint>0){
             //sprint
             if(!sm && fm>0){
-                speed=2.;
+                speed=2.*tt_sprintcoefficient;
                 viewbob=max(viewbob,(VB_MAX*0.8));
             }else speed=1.4;
         }
