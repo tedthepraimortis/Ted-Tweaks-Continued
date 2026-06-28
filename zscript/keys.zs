@@ -200,9 +200,9 @@ class HDRedSkull:HDUPK replaces RedSkull{
 	override void A_HDUPKGive(){
         if(!picktarget.CheckInventory(missilename, 1))
         {
+            picktarget.A_GiveInventory(missilename);
 	        if(!tt_noskulldamage)
             {
-		        picktarget.A_GiveInventory(missilename);
 		        picktarget.damagemobj(self,self,3,"balefire");
 		        picktarget.damagemobj(self,self,25,"hot");
 		        picktarget.A_GiveInventory("Heat",random(350,550));
@@ -232,9 +232,9 @@ class HDBlueSkull:HDRedSkull replaces BlueSkull{
         HDPlayerPawn hdp = HDPlayerPawn(picktarget);
         if(!picktarget.CheckInventory(missilename, 1))
         {
+            picktarget.A_GiveInventory(missilename);
 	        if(!tt_noskulldamage)
             {
-                picktarget.A_GiveInventory(missilename);
 	            picktarget.damagemobj(self,self,3,"balefire");
 	            picktarget.A_SpawnItemEx("BeamSpotFlash");
                 hdp.fatigue+random(20,30);
@@ -258,9 +258,9 @@ class HDYellowSkull:HDRedSkull replaces YellowSkull{
 	override void A_HDUPKGive(){
         if(!picktarget.CheckInventory(missilename, 1))
         {
+            picktarget.A_GiveInventory(missilename);
 		    if(!tt_noskulldamage)
             {
-		        picktarget.A_GiveInventory(missilename);
 		        picktarget.damagemobj(self,self,3,"balefire");
 		        A_SpawnItemEx("BFGNecroShard");
                 A_SpawnItemEx("BFGNecroShard");
