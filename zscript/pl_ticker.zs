@@ -203,8 +203,8 @@ extend class HDPlayerPawn{
 
             if(!JitterScale) JitterScale = CVar.GetCVar('hdp_lowhealth_jitters', self.player);
 
-            if(JitterScale.GetBool())A_SetPitch(pitch+muzzleclimb1.x,SPF_INTERPOLATE);
-            if(JitterScale.GetBool())A_SetAngle(angle+muzzleclimb1.y,SPF_INTERPOLATE);
+            if(JitterScale.GetBool())A_SetAngle(angle+muzzleclimb1.x,SPF_INTERPOLATE);
+            if(JitterScale.GetBool())A_SetPitch(pitch+muzzleclimb1.y,SPF_INTERPOLATE);
             muzzleclimb1=muzzleclimb2;
             muzzleclimb2=muzzleclimb3;
             muzzleclimb3=muzzleclimb4;

@@ -348,19 +348,16 @@ class HDMobBase: HDActor abstract{
 
             //check if target is just at caller's feet
             //incap'd players would otherwise be out of a baron's range
-            if(
-                !!target
-                &&target.pos.z>=pos.z
-                &&abs(target.pos.x-pos.x)<meleerange
-                &&abs(target.pos.y-pos.y)<meleerange
-                &&abs(target.pos.z-pos.z)<meleerange*0.3
-            ){
-                scratched=target;
-            }
-
-            if(!scratched){
-                CheckTargetInSight();
-                return;
+            if(target){
+				double mlr=meleerange+target.radius;
+				if(
+					target.pos.z+target.height>=pos.z
+					&&target.pos.z<=pos.z+height
+					&&abs(target.pos.x-pos.x)<mlr
+					&&abs(target.pos.y-pos.y)<mlr
+				){
+					scratched=target;
+				}
             }
         }
 
@@ -411,7 +408,10 @@ class HDMobBase: HDActor abstract{
             scratched.pitch+=app.y;
         }
 
-        if(scratched.mass)scratched.vel-=scratch.hitdir*damageamount/scratched.mass;
+        if(scratched.mass){
+				scratched.vel-=scratch.hitdir*damageamount/scratched.mass;
+				scratched.vel.z+=frandom(-0.005,0.01)*damageamount;
+			}
 
 
         //damage victim
