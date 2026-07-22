@@ -124,11 +124,6 @@ class HDStorageItem:HDWeapon abstract{
 		)DumpItems();
 	}
 
-	override void PostBeginPlay(){
-		super.PostBeginPlay();
-        if(!bvel) bvel = CVar.GetCVar('tt_bvel', owner.player);
-	}
-
 
 	// spawn an item
 	inventory Extract(
@@ -416,6 +411,7 @@ class HDStorageItem:HDWeapon abstract{
 
 	//haphazardly dump shit out
 	void DumpItems(){
+        if(!bvel) bvel = CVar.GetCVar('tt_bvel', owner.player);
 		int i=weaponstatus[SISTAT_SELINDEX];
 		if(selectableitems.size()>i){
 			let iii=selectableitems[i];
