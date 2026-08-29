@@ -344,11 +344,11 @@ class HDMobBase: HDActor abstract{
         );
 
         let scratched=scratch.hitactor;
-        if(!scratched){
+		if(!scratched){
 
-            //check if target is just at caller's feet
-            //incap'd players would otherwise be out of a baron's range
-            if(target){
+			//check if target is just at caller's feet
+			//incap'd players would otherwise be out of a baron's range
+			if(target){
 				double mlr=meleerange+target.radius;
 				if(
 					target.pos.z+target.height>=pos.z
@@ -358,8 +358,14 @@ class HDMobBase: HDActor abstract{
 				){
 					scratched=target;
 				}
-            }
-        }
+			}
+
+			if(!scratched){
+				CheckTargetInSight();
+				return;
+			}
+		}
+
 
         scratched.A_StartSound(scratchsound=="world/explode"?meleesound:scratchsound,CHAN_BODY,CHANF_OVERLAP);
 
