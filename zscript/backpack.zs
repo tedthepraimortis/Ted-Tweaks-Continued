@@ -1218,7 +1218,10 @@ class HDStorageItem:HDWeapon abstract{
 	reload:
 		TNT1 A 2{
 			int i=invoker.weaponstatus[SISTAT_SELINDEX];
-			if(invoker.selectableitems.size()>i){
+			if(
+					i>=0
+					&&invoker.selectableitems.size()>i
+				){
 				let sss=invoker.selectableitems[i];
 				let iii=findinventory(sss);
 				if(!!iii){
@@ -1233,7 +1236,10 @@ class HDStorageItem:HDWeapon abstract{
 	unload:
 		TNT1 A 2{
 			int i=invoker.weaponstatus[SISTAT_SELINDEX];
-			if(invoker.selectableitems.size()>i){
+			if(
+					i>=0
+					&&invoker.selectableitems.size()>i
+				){
 				let iii=invoker.selectableitems[i];
 				let eee=invoker.Extract(invoker.IndexOf(iii),invoker.weaponstatus[SISTAT_HOWMANY]);
 				let p=HDPickup(eee);

@@ -79,6 +79,9 @@ class HDMobBase: HDActor abstract{
 
         if(firefatigue>0)firefatigue--;
 
+        // update target sight
+        PassiveCheckTargetInSight();
+
         //reset reactiontime if teleported
         if(
             abs(lastpos.x-pos.x)>=64
@@ -670,7 +673,7 @@ class HDHumanoid:HDMobBase abstract{
         A_StartSound("weapons/smack",CHAN_WEAPON,CHANF_OVERLAP);
 
         hitheight=mtrace.hitlocation.z-mtrace.hitactor.pos.z;
-        double hitheightproportion=hitheight/mtrace.hitactor.height;
+        double hitheightproportion=mtrace.hitactor.height?hitheight/mtrace.hitactor.height:0.5;
         string hitloc="";
         int dmfl=0;
 
