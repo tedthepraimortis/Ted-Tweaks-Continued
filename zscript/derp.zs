@@ -61,6 +61,18 @@ class DERPBot:HDUPK{
 	override bool cancollidewith(actor other,bool passive){return other.bmissile||HDPickerUpper(other)||DERPBot(other);}
 	bool DerpTargetCheck(bool face=false){
 		if(!target)return false;
+		//mitigate hot starts
+		//8s *should* be enough to handle most wandering???
+		if(
+			target.player
+			&&level.time<(TICRATE<<3)
+		){
+			cmd=DERP_IDLE;
+			setstatelabel("spawn");
+			return false;
+		}
+
+		//don't target friendlies
 		if(
 			target==master
 			||(master&&target.isteammate(master))
@@ -102,8 +114,10 @@ class DERPBot:HDUPK{
 		if(cmd==DERP_IDLE)return;
 		A_LookEx(flags|LOF_NOSOUNDCHECK,label:seestate);
 		if(
-			deathmatch&&bfriendly
-			&&master&&master.player
+			deathmatch
+			&&bfriendly
+			&&master
+			&&master.player
 		){
 			for(int i=0;i<MAXPLAYERS;i++){
 				if(
@@ -120,7 +134,12 @@ class DERPBot:HDUPK{
 				}
 			}
 		}
-		if(flags&LOF_NOJUMP&&target&&target.health>0&&checksight(target))setstatelabel("missile");
+		if(
+				flags&LOF_NOJUMP
+				&&target
+				&&target.health>0
+				&&checksight(target)
+			)setstatelabel("missile");
 	}
 	int movestamina;
 	double goalangle;
@@ -338,7 +357,6 @@ class DERPBot:HDUPK{
 			A_StartSound("derp/crawl",CHAN_BODY);
 			angle+=randompick(1,-1)*random(2,8)*10;
 			pitch-=random(10,20);
-			vel.z+=2;
 		}
 	missile:
 	ready:

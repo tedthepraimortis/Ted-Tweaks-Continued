@@ -12,21 +12,57 @@ extend class HDPlayerPawn{
     private transient CVar LowHealthEffectsInt;
     override void Tick(){
 
-        if(!LowHealthEffects) LowHealthEffects = CVar.GetCVar('tt_lowhealth_effects', self.player);
-        if(!LowHealthEffectsInt) LowHealthEffectsInt = CVar.GetCVar('tt_lowhealth_int', self.player);
+		let player=self.player;
 
         if(
-            !player||!player.mo||player.mo!=self	//voodoodoll
-            ||(player.cheats & CF_PREDICTING)		//predicting
+            !player
+			||!player.mo
+			||(player.cheats & CF_PREDICTING)
         ){
             super.tick();
             return;
         }
 
-        let player=self.player;
+        //voodoo doll
+		if(player.mo!=self){
+			super.tick();
+			if(lastpos!=pos||vel!=(0,0,0)){  //only while doll being moved
+				if(
+					!(level.time&(1|2|4))
+					&&health>0
+				){
+					actor aaa=null;
+
+					//let voodoo dolls pick up objects they're brought into contact with
+					blockthingsiterator bbb=blockthingsiterator.create(self,34);
+					while(bbb.Next()){
+						aaa=bbb.thing;
+						if(
+							aaa.pos.z+aaa.height<pos.z
+							||pos.z+height<aaa.pos.z
+							||abs(aaa.pos.x-pos.x)>32
+							||abs(aaa.pos.y-pos.y)>32
+						)continue;
+						let aag=HDUPKAlwaysGive(aaa);
+						if(
+							!!aag
+							&&!player.mo.countinv(aag.toallplayers)
+						)aag.OnGrab(self);
+						else if(HDUPK(aaa)||HDPickup(aaa)||HDWeapon(aaa)){
+							GrabThinker.Grab(player.mo,aaa);
+						}
+					}
+				}
+			}
+			lastpos=pos;
+			return;
+		}
 
         //cache cvars as necessary
         if(!hd_nozoomlean)cachecvars();
+
+        if(!LowHealthEffects) LowHealthEffects = CVar.GetCVar('tt_lowhealth_effects', self.player);
+        if(!LowHealthEffectsInt) LowHealthEffectsInt = CVar.GetCVar('tt_lowhealth_int', self.player);
 
         //check some cvars that are used to pass string commands
         CheckGiveCheat();
@@ -203,8 +239,8 @@ extend class HDPlayerPawn{
 
             if(!JitterScale) JitterScale = CVar.GetCVar('hdp_lowhealth_jitters', self.player);
 
-            if(JitterScale.GetBool())A_SetPitch(pitch+muzzleclimb1.x,SPF_INTERPOLATE);
-            if(JitterScale.GetBool())A_SetAngle(angle+muzzleclimb1.y,SPF_INTERPOLATE);
+            if(JitterScale.GetBool())A_SetAngle(angle+muzzleclimb1.x,SPF_INTERPOLATE);
+            if(JitterScale.GetBool())A_SetPitch(pitch+muzzleclimb1.y,SPF_INTERPOLATE);
             muzzleclimb1=muzzleclimb2;
             muzzleclimb2=muzzleclimb3;
             muzzleclimb3=muzzleclimb4;
@@ -516,7 +552,7 @@ extend class HDPlayerPawn{
         else if(cansprint && runwalksprint>0){
             //sprint
             if(!sm && fm>0){
-                speed=2.*tt_sprintcoefficient;
+                speed=2.;
                 viewbob=max(viewbob,(VB_MAX*0.8));
             }else speed=1.4;
         }

@@ -79,6 +79,9 @@ class HDMobBase: HDActor abstract{
 
         if(firefatigue>0)firefatigue--;
 
+        // update target sight
+        PassiveCheckTargetInSight();
+
         //reset reactiontime if teleported
         if(
             abs(lastpos.x-pos.x)>=64
@@ -344,25 +347,28 @@ class HDMobBase: HDActor abstract{
         );
 
         let scratched=scratch.hitactor;
-        if(!scratched){
+		if(!scratched){
 
-            //check if target is just at caller's feet
-            //incap'd players would otherwise be out of a baron's range
-            if(
-                !!target
-                &&target.pos.z>=pos.z
-                &&abs(target.pos.x-pos.x)<meleerange
-                &&abs(target.pos.y-pos.y)<meleerange
-                &&abs(target.pos.z-pos.z)<meleerange*0.3
-            ){
-                scratched=target;
-            }
+			//check if target is just at caller's feet
+			//incap'd players would otherwise be out of a baron's range
+			if(target){
+				double mlr=meleerange+target.radius;
+				if(
+					target.pos.z+target.height>=pos.z
+					&&target.pos.z<=pos.z+height
+					&&abs(target.pos.x-pos.x)<mlr
+					&&abs(target.pos.y-pos.y)<mlr
+				){
+					scratched=target;
+				}
+			}
 
-            if(!scratched){
-                CheckTargetInSight();
-                return;
-            }
-        }
+			if(!scratched){
+				CheckTargetInSight();
+				return;
+			}
+		}
+
 
         scratched.A_StartSound(scratchsound=="world/explode"?meleesound:scratchsound,CHAN_BODY,CHANF_OVERLAP);
 
@@ -411,7 +417,10 @@ class HDMobBase: HDActor abstract{
             scratched.pitch+=app.y;
         }
 
-        if(scratched.mass)scratched.vel-=scratch.hitdir*damageamount/scratched.mass;
+        if(scratched.mass){
+				scratched.vel-=scratch.hitdir*damageamount/scratched.mass;
+				scratched.vel.z+=frandom(-0.005,0.01)*damageamount;
+			}
 
 
         //damage victim
@@ -664,7 +673,7 @@ class HDHumanoid:HDMobBase abstract{
         A_StartSound("weapons/smack",CHAN_WEAPON,CHANF_OVERLAP);
 
         hitheight=mtrace.hitlocation.z-mtrace.hitactor.pos.z;
-        double hitheightproportion=hitheight/mtrace.hitactor.height;
+        double hitheightproportion=mtrace.hitactor.height?hitheight/mtrace.hitactor.height:0.5;
         string hitloc="";
         int dmfl=0;
 

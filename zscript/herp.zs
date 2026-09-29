@@ -67,7 +67,6 @@ class HERPBot:HDUPK{
 		+ismonster +noblockmonst +friendly +standstill +nofear
 		+shootable +ghost +noblood +dontgib
 		+nobouncesound //on/off
-		+nobouncesound
 		height 9;radius 7;mass 400;health 200;
 		damagefactor "hot",0.7;
 		damagefactor "cold",0.7;
@@ -251,6 +250,17 @@ class HERPBot:HDUPK{
 				&&hitactor.health>random((hitactor.vel==(0,0,0))?0:-10,5)
 				&&hitactor.checksight(self)
 			){
+				//mitigate hot starts
+				//if player acquired within 8 seconds of level start, shut down instead
+				//a bit long but needed to deal with player spawn on right edge of scan
+				if(
+					hitactor.player
+					&&level.time<(TICRATE<<3)
+				){
+					bnobouncesound=false;
+					setstatelabel("nopower");  //simpler than "off"
+					return;
+				}
 				target=hitactor;
 				setstatelabel("ready");
 				message(Stringtable.Localize("$HERP_ENEMY"));
@@ -810,11 +820,11 @@ class HERPUsable:HDWeapon{
 		}
 	}
 	action void A_UnloadMag(){
-		bool unsafe=(player.cmd.buttons&BT_USE)||(player.cmd.buttons&BT_ZOOM);
+		bool unloadused=(player.cmd.buttons&BT_USE)||(player.cmd.buttons&BT_ZOOM);
 		for(int i=3;i>0;i--){
 			int thismag=invoker.weaponstatus[i];
 			if(thismag<0)continue;
-			if(unsafe||!thismag||thismag>50){
+			if(unloadused||!thismag||thismag>50){
 				invoker.weaponstatus[i]=-1;
 				if(thismag>100)thismag%=100;
 				if(thismag>51)thismag%=50;

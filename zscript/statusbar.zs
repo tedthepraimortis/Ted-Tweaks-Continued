@@ -250,6 +250,12 @@ class HDStatusBar:DoomStatusBar{
 			}
 		}
 
+		//heat
+		double heatamt=Heat.GetAmount(hpl);
+			if(heatamt>3)fill(color(
+				crandom(0,5)+clamp(int(heatamt),0,64)
+		,160,100,40),0,0,screen.getwidth(),screen.getheight());
+
 		//blacking out
 		if(hpl.blackout>0)fill(
 			color(hpl.blackout,6,2,0),0,0,screen.getwidth(),screen.getheight()
