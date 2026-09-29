@@ -21,14 +21,14 @@ OptionMenu "TedTweaks"
     HDTooltip "Whether or not your character will be forced to walk around ledges to prevent easily falling off."
     Slider "Player Flinch: ", "hd_flinchmultiplier", 0, 2., 0.1, 1
     HDTooltip "Multiplies how much the player flinches when they are hit with a melee attack."
-    Slider "Sprint Speed Coefficient: ", "tt_sprintcoefficient", 0, 5., 0.1, 1
-    HDTooltip "Multiplies how fast the player moves whilst sprinting."
     Option "Easier Climbing: ", "hd_easierclimbing", "OnOff"
     HDTooltip "Whether or not players will flinch more or less when climbed on."
     Option "Radsuit Overlay: ", "hd_radsuitoverlay", "OnOff"
     HDTooltip "Whether the Radsuit will use a screen overlay or a screen tint, like vanilla."
     Option "Incap Grabs: ", "hd_incapgrabs", "OnOff"
     HDTooltip "Whether or not the player can grab items whilst incapped."
+    Slider "Bloodbag Multiplier: ", "tt_bloodbagmult", 1, 8, 1, 0
+    HDTooltip "How much to multiply the speed of which a bloodbag gives the player blood. Keeps the amount of blood per pack the same as vanilla."
     Option "Low Health Jitters: ", "hdp_lowhealth_jitters", "OnOff"
     HDTooltip "\c[Red][WIP]\c- Enables/Disables the low health screen jitters."
     Option "Low Health Screen Desat: ", "tt_lowhealth_effects", "OnOff"
